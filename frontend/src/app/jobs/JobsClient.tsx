@@ -44,6 +44,7 @@ export function JobsClient() {
                     {open === j.id ? "Hide" : "Details"}
                   </button>
                   <Link href={`/analyze?job=${encodeURIComponent(j.id)}`} className="btn-primary">Check my fit</Link>
+                  <Link href={`/resume?job=${encodeURIComponent(j.id)}`} className="btn-ghost">Tune resume</Link>
                   {j.apply_url && <a href={j.apply_url} target="_blank" rel="noopener noreferrer" className="btn-ghost">Apply ↗</a>}
                 </div>
               </div>

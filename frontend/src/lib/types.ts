@@ -134,3 +134,93 @@ export interface SkillInfo {
   name: string;
   category: string;
 }
+
+// ---------- resume tuner ----------
+
+export interface ChatTurn {
+  question_id: string;
+  skill_id?: string | null;
+  question: string;
+  answer: string;
+}
+
+export interface ChatQuestion {
+  id: string;
+  kind: "gap" | "followup" | "general";
+  skill_id?: string | null;
+  skill_name?: string | null;
+  status?: GapStatus | null;
+  question: string;
+  why: string;
+}
+
+export interface AnswerFinding {
+  question_id: string;
+  skill_id: string;
+  name: string;
+  level: number;
+  evidence: string;
+}
+
+export interface ChatResponse {
+  question: ChatQuestion | null;
+  done: boolean;
+  asked: number;
+  planned: number;
+  findings: AnswerFinding[];
+  mode: "scripted" | "claude";
+}
+
+export interface ResumeLine {
+  id: string;
+  text: string;
+  source: "resume" | "answer" | "added";
+  original?: string | null;
+  skills: string[];
+  relevance: number;
+}
+
+export interface ResumeEntry {
+  heading: ResumeLine[];
+  bullets: ResumeLine[];
+  relevance: number;
+}
+
+export interface ResumeSection {
+  key: string;
+  title: string;
+  entries: ResumeEntry[];
+}
+
+export interface GuardrailNote {
+  line_id: string;
+  action: "reverted" | "dropped";
+  reason: string;
+}
+
+export interface KeywordGap {
+  skill_id: string;
+  name: string;
+  importance: Importance;
+}
+
+export interface TailoredResume {
+  job_title?: string | null;
+  company?: string | null;
+  header: string[];
+  sections: ResumeSection[];
+  mode: "rules" | "claude";
+  keywords_matched: string[];
+  keywords_missing: KeywordGap[];
+  coverage_before: number;
+  coverage_after: number;
+  guardrail: GuardrailNote[];
+  notes: string[];
+  text: string;
+}
+
+/** A target job: one of the stored postings, or pasted text. */
+export interface JobRef {
+  job_id?: string;
+  job_text?: string;
+}

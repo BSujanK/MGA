@@ -278,3 +278,18 @@ def test_answer_level_separates_learning_from_use(answer, level):
 @pytest.mark.parametrize("answer", ["Only heard of it", "Not really", "nope", "I haven't", "skip", ""])
 def test_negative_answers_add_nothing(answer):
     assert tuner.findings([ChatTurn(question_id="gap:docker", skill_id="docker", question="?", answer=answer)]) == []
+
+
+def test_partial_question_names_where_the_skill_appears():
+    from app.models import Evidence, GapStatus, Importance, SkillGap
+    g = SkillGap(skill_id="dbms", name="DBMS Concepts", category="cs_fundamentals", importance=Importance.must,
+                 required_level=3.5, candidate_level=2, effective_level=2, gap=1.5, status=GapStatus.partial,
+                 est_hours=10, candidate_evidence=[Evidence(text="NPTEL: DBMS", section="certifications")])
+    q, _ = tuner._gap_question(g, TAX)
+    assert "only in your certifications" in q
+
+
+def test_added_keywords_line_stays_last_in_skills():
+    t = client.post("/resume/tailor", json={"resume_text": RESUME, "job_id": "sde1-kestrel"}).json()
+    skills = next(s for s in t["sections"] if s["key"] == "skills")
+    assert skills["entries"][-1]["heading"][0]["source"] == "added"

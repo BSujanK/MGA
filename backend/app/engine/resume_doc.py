@@ -150,7 +150,8 @@ def tailor_sections(sections: list[ResumeSection], job: JobProfile, tax: Taxonom
         movable = s.key in REORDER_ENTRIES or s.key == "skills" or (
             s.key == "experience" and not any(e.heading for e in s.entries))
         if movable:
-            s.entries.sort(key=lambda e: -e.relevance)
+            # Lines MGA added (keywords) stay last so the candidate's own lines lead.
+            s.entries.sort(key=lambda e: (any(ln.source == "added" for ln in e.heading), -e.relevance))
         out.append(s)
     return out
 

@@ -16,6 +16,9 @@ Every analysis endpoint accepts `use_llm` (`true` / `false` / omitted). If omitt
 | GET | `/jobs/{id}` | One posting |
 | POST | `/jobs/import?source=greenhouse\|lever&board=` | Pull a company's public job board |
 | GET | `/learn/{skill_id}?level=&limit=` | Resources for a skill, matched to level |
+| POST | `/resume/chat` | Next interview question about the candidate's gaps for a job, plus findings from their answers |
+| POST | `/resume/tailor` | Resume reordered (and, with AI, reworded) for one job, using only the resume and answers |
+| POST | `/resume/export/docx` | ATS-friendly DOCX of a (possibly edited) tailored resume |
 
 ## POST /gap
 
@@ -66,6 +69,39 @@ Returns:
 - `skills`: frequency, must-have rate and average level across matching postings.
 - `candidate_gaps` (when a resume or overrides are given): ranked by how much of the market each gap unlocks.
 - `market_readiness`.
+
+## POST /resume/chat
+
+Stateless: the client sends the whole conversation each time.
+
+```json
+{
+  "resume_text": "…", "job_id": "sde1-kestrel",           // or "job_text"
+  "turns": [{"question_id": "gap:os", "skill_id": "os", "question": "…", "answer": "No, only in class"}],
+  "max_questions": 6
+}
+```
+
+Returns `{question, done, asked, planned, findings, mode}`.
+- **What gets asked:** the engine picks the questions. It asks about open gaps, must-haves first, then two general questions (`gen:impact`, `gen:hidden`). An affirmative answer with no detail or no result gets one follow-up (`gap:<skill>:more`).
+- **Answers:** an empty answer means skipped. An answer starting with "no", "not yet", "never" and similar adds nothing.
+- **Wording:** Claude words the question when enabled; otherwise the script is used.
+- **`findings`:** skills the answers give evidence for. Level 3 for real use, 2 for coursework or tutorials. Negated clauses ("but never used Kubernetes") are ignored.
+
+## POST /resume/tailor
+
+`{resume_text, job_id | job_text, turns}` → `TailoredResume`:
+- `header` and `sections[].entries[]`, each with `heading` and `bullets` lines. Each line has a `source`: `resume`, `answer` or `added`. `original` is set when a line was reworded.
+- **Ordering:** skills and bullets are sorted by job relevance. Section order and the chronological order of roles are kept.
+- **Answer bullets:** answers become bullets in "Additional Projects & Experience".
+- **Added keywords:** job skills the candidate has shown but never named (MySQL ⇒ SQL, or from an answer) are added on one "Additional:" skills line, and `notes` says why.
+- **Guardrail:** with AI on, Claude rewords lines, and every rewrite is re-extracted. A rewrite is reverted (`guardrail[]`) if it names a skill or a number its source line doesn't have, drops a job skill the line named, or grows a lot.
+- `keywords_missing`: job skills with no evidence anywhere. They are never added; they go to the learning plan.
+- `coverage_before` / `coverage_after`: weighted share of the job's skills named in the text.
+
+## POST /resume/export/docx
+
+`{header, sections, filename}` → `.docx`: one column, standard headings, real bullet lists, no tables or images.
 
 ## Levels
 

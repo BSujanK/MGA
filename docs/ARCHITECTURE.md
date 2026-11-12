@@ -30,6 +30,9 @@ backend/app/
     gap.py             gap scoring, statuses, readiness, priorities
     market.py          aggregate postings into market demand
     learning.py        resource recommendations
+    resume_doc.py      resume structure, relevance ordering, rewrite guardrail, keyword coverage
+  tuner.py             resume interview (questions from gaps) + tailoring orchestration
+  export.py            ATS-friendly DOCX writer
   jobs/
     store.py           job store + role search
     sources.py         Greenhouse / Lever public job board fetchers
@@ -102,6 +105,16 @@ priority    = w · gap/r · (1 + market_frequency) + status boost
 - Resources are matched to the candidate's current level: below 2 → beginner, 2–3 → intermediate, above 3 → advanced.
 - Free resources rank first.
 - Only curated URLs are used.
+
+## 6. Resume tuner (`tuner.py`, `engine/resume_doc.py`)
+
+- **Interview:** the engine picks the questions from the gap report (open gaps, must-haves first, then impact and hidden-experience questions). Claude only words them.
+- **Answers:** answers become findings and bullets. Negative answers and negated clauses add nothing.
+- **Tailoring:**
+  - The resume is parsed into sections, entries (title lines) and bullets.
+  - Lines are scored by the job weights of the skills they name; implied skills count half.
+  - Skills, project entries and bullets are sorted by that score. Section order and role chronology are kept.
+- **Guardrail:** every AI rewrite is re-extracted. It is reverted if it brings in a skill (beyond the implied closure of its source), a number, or a large growth in length, or if it drops a job skill the line named. Job skills with no evidence are never added; they are listed for the learning plan.
 
 ## Rules the code must keep
 

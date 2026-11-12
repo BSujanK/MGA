@@ -27,10 +27,10 @@ Small, usable slices. Each phase ends with something a real candidate can use.
 - [ ] Gap % shown in the job list; "jobs you're closest to"
 - [ ] Taxonomy growth loop from `unmapped` phrases; ESCO/Lightcast ID mapping
 
-## Phase 3: resume tuner
-- [ ] Interview chat (Claude) that surfaces hidden skills and achievements
-- [ ] Rewrite and reorder for a target posting, with no fabrication; diff view
-- [ ] ATS-friendly PDF/DOCX export
+## Phase 3: resume tuner ✅ (v0.2)
+- [x] Interview chat that surfaces hidden skills and achievements (scripted from the gap report; Claude words questions when enabled)
+- [x] Rewrite and reorder for a target posting, with no fabrication (re-extraction guardrail); diff view; inline edits
+- [x] ATS-friendly DOCX export; PDF via the browser's print view
 
 ## Phase 4: prep kits and calendar
 - [ ] Company/role prep kit: DSA plan, OA patterns, aptitude, culture questions, gap-closing project

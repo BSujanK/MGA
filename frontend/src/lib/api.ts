@@ -1,5 +1,6 @@
 import type {
-  CandidateProfile, GapReport, JobPosting, JobProfile, MarketReport, Resource, SkillInfo, SkillOverride,
+  CandidateProfile, ChatResponse, ChatTurn, GapReport, JobPosting, JobProfile, JobRef, MarketReport, Resource,
+  ResumeSection, SkillInfo, SkillOverride, TailoredResume,
 } from "./types";
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -10,7 +11,7 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function send(path: string, init?: RequestInit): Promise<Response> {
   let res: Response;
   try {
     res = await fetch(`${API_URL}${path}`, init);
@@ -25,7 +26,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     } catch {}
     throw new ApiError(detail, res.status);
   }
-  return res.json() as Promise<T>;
+  return res;
+}
+
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  return (await send(path, init)).json() as Promise<T>;
 }
 
 function post<T>(path: string, body: unknown): Promise<T> {
@@ -56,4 +61,16 @@ export const api = {
   market: (body: { role: string; location?: string; resume_text?: string; overrides?: SkillOverride[]; top?: number }) =>
     post<MarketReport>("/market", body),
   learn: (skillId: string, level = 0) => request<Resource[]>(`/learn/${skillId}?level=${level}`),
+  resumeChat: (body: JobRef & { resume_text?: string; overrides?: SkillOverride[]; turns: ChatTurn[]; max_questions?: number }) =>
+    post<ChatResponse>("/resume/chat", body),
+  resumeTailor: (body: JobRef & { resume_text: string; overrides?: SkillOverride[]; turns: ChatTurn[] }) =>
+    post<TailoredResume>("/resume/tailor", body),
+  exportDocx: async (body: { header: string[]; sections: ResumeSection[]; filename?: string }) => {
+    const res = await send("/resume/export/docx", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    return res.blob();
+  },
 };

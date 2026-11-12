@@ -80,9 +80,13 @@ def _gap_question(g, tax) -> tuple[str, str]:
                 f"If yes, what did you do with it?",
                 f"The job lists {g.name} as {imp}{quote}. Your {rel} experience gives partial credit.")
     if g.status is GapStatus.partial:
-        listed = all((e.section or "") in ("skills", "certifications", "education", "summary", "implied")
-                     for e in g.candidate_evidence)
-        where = " only in your skills list" if listed else ""
+        secs = {e.section or "" for e in g.candidate_evidence}
+        names = {"skills": "skills list", "certifications": "certifications", "education": "education",
+                 "summary": "summary"}
+        where = ""
+        if secs and secs <= set(names) | {"implied"}:
+            listed = [names[x] for x in ("skills", "certifications", "education", "summary") if x in secs]
+            where = f" only in your {' and '.join(listed)}" if listed else ""
         return (f"Your resume mentions {g.name}{where}. What's the most substantial thing you've built or done "
                 f"with {g.name}, and what was the result?",
                 f"The job asks for {_level_name(g.required_level)}-level {g.name}{quote}. Your resume shows "
