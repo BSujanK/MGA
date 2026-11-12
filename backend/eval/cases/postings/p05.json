@@ -1,0 +1,54 @@
+{
+ "id": "p05",
+ "title": "Machine Learning Engineer I",
+ "company": "Saras Health AI (fictional)",
+ "text": "About the team\nWe build triage models that help 300 rural clinics prioritise patients.\n\nThe role\n- Train and evaluate deep learning models in PyTorch\n- Build NLP pipelines for doctor notes in English and Hindi\n- Prepare datasets with pandas and SQL\n\nMust have\n- Python (proficient)\n- Solid machine learning fundamentals: bias/variance, metrics, validation\n- Experience with deep learning frameworks\n\nPreferred\n- MLOps: model versioning, monitoring in production\n- Docker\n- AWS or GCP",
+ "skills": {
+  "deep_learning": {
+   "importance": "must",
+   "level": 3
+  },
+  "nlp": {
+   "importance": "must",
+   "level": 3
+  },
+  "pandas": {
+   "importance": "must",
+   "level": 3
+  },
+  "sql": {
+   "importance": "must",
+   "level": 3
+  },
+  "python": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "ml": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "mlops": {
+   "importance": "nice",
+   "level": 2
+  },
+  "docker": {
+   "importance": "nice",
+   "level": 2
+  },
+  "aws": {
+   "importance": "nice",
+   "level": 2,
+   "alts": [
+    "gcp"
+   ]
+  },
+  "gcp": {
+   "importance": "nice",
+   "level": 2,
+   "alts": [
+    "aws"
+   ]
+  }
+ }
+}

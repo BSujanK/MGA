@@ -1,0 +1,38 @@
+{
+ "id": "p08",
+ "title": "Android Developer I",
+ "company": "Koel Mobility (fictional)",
+ "text": "Koel Mobility builds the app 2 lakh auto-rickshaw drivers use to find rides.\n\nWhat you'll do\n- Build features in Kotlin for our Android app\n- Integrate REST APIs and handle offline sync\n- Write unit tests for business logic\n\nRequirements\n- Kotlin (Java is acceptable if you're willing to switch)\n- Android SDK and Jetpack libraries\n- Git\n\nPlus points\n- Jetpack Compose\n- Experience publishing an app on the Play Store",
+ "skills": {
+  "kotlin": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "java"
+   ]
+  },
+  "java": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "kotlin"
+   ]
+  },
+  "android": {
+   "importance": "must",
+   "level": 3
+  },
+  "rest_api": {
+   "importance": "must",
+   "level": 3
+  },
+  "unit_testing": {
+   "importance": "must",
+   "level": 3
+  },
+  "git": {
+   "importance": "must",
+   "level": 3
+  }
+ }
+}

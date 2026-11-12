@@ -1,0 +1,40 @@
+{
+ "id": "p10",
+ "title": "Data Engineer I",
+ "company": "Ganga Analytics (fictional)",
+ "text": "Requirements:\n- Python and SQL (strong)\n- Experience building ETL pipelines with Airflow or similar\n- Apache Spark for large datasets\n- Data modelling for analytics (star schema)\n- AWS (S3, Glue, Redshift) or equivalent\n\nPreferred:\n- Kafka for streaming\n- Docker\n\nAbout us: we process 2 TB of agricultural market data daily.",
+ "skills": {
+  "python": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "sql": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "etl": {
+   "importance": "must",
+   "level": 3
+  },
+  "spark": {
+   "importance": "must",
+   "level": 3
+  },
+  "db_design": {
+   "importance": "must",
+   "level": 3
+  },
+  "aws": {
+   "importance": "must",
+   "level": 3
+  },
+  "kafka": {
+   "importance": "nice",
+   "level": 2
+  },
+  "docker": {
+   "importance": "nice",
+   "level": 2
+  }
+ }
+}

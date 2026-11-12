@@ -1,0 +1,21 @@
+{
+ "id": "r01",
+ "description": "Java backend fresher",
+ "text": "Rohan Kulkarni (synthetic)\nB.E. Information Technology, 2026, Pune\n\nSkills\nJava, Spring Boot, MySQL, REST APIs, Git, Docker, HTML\n\nProjects\n- Library Management API: built a REST API in Spring Boot with MySQL, JWT login and 40 JUnit tests\n- Hostel Complaint Portal: developed backend services in Java and Spring Boot, deployed on a college server\n- Solved 300+ data structures and algorithms problems on LeetCode\n\nCoursework\nObject Oriented Programming, Database Management Systems, Operating Systems",
+ "skills": {
+  "java": 3.5,
+  "spring": 3.5,
+  "mysql": 3,
+  "sql": 3,
+  "rest_api": 3,
+  "git": 2,
+  "docker": 2,
+  "html": 2,
+  "auth": 3,
+  "unit_testing": 3,
+  "dsa": 3,
+  "oop": 2,
+  "dbms": 2,
+  "os": 2
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "id": "r06",
+ "description": "DevOps intern",
+ "text": "Kavya Reddy (synthetic)\nB.Tech ECE, 2026 - Hyderabad\n\nInternship: DevOps Intern, Tidewater Software (May-Aug 2025)\n- Wrote Bash scripts to rotate logs on 30 Linux servers\n- Set up Jenkins CI/CD pipelines that run tests and build Docker images on every commit\n- Deployed staging apps to AWS EC2\n\nCertifications: AWS Certified Cloud Practitioner; HashiCorp Terraform course (in progress)\nSkills: Linux, Bash, Docker, Jenkins, AWS, Git, Python basics",
+ "skills": {
+  "bash": 3,
+  "linux": 3,
+  "ci_cd": 3,
+  "docker": 3,
+  "aws": 3,
+  "terraform": 2,
+  "git": 2,
+  "python": 2
+ }
+}

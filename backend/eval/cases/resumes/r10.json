@@ -1,0 +1,14 @@
+{
+ "id": "r10",
+ "description": "Data engineering intern",
+ "text": "Harsh Agarwal (synthetic)\nB.Tech IT, 2026\n\nExperience\nData Engineering Intern, Brookline Insights (Jun-Dec 2025)\n- Built Airflow ETL pipelines in Python that load 20 GB a day from S3 into Redshift\n- Wrote SQL transformations and data-quality checks\n\nProjects\n- Processed 10 years of rainfall data with PySpark on a college cluster\n\nSkills\nPython, SQL, Apache Spark, Airflow, AWS (S3, Redshift), Kafka (basics), Docker",
+ "skills": {
+  "python": 3,
+  "etl": 3,
+  "aws": 3,
+  "sql": 3,
+  "spark": 3,
+  "kafka": 2,
+  "docker": 2
+ }
+}

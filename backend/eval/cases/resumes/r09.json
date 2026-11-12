@@ -1,0 +1,16 @@
+{
+ "id": "r09",
+ "description": "MERN bootcamp graduate",
+ "text": "Pooja Verma (synthetic)\nFull-stack bootcamp graduate, 2025\n\nI completed a 24-week MERN bootcamp and built three full-stack apps. My capstone, a clinic appointment system, uses React on the front end and Node.js with Express on the back end, with MongoDB for storage and a REST API between them. I deployed it on Render and wrote the API docs. Before the bootcamp I worked two years in customer support, where I learned to explain technical issues to customers.\n\nSkills: JavaScript, React, Node.js, Express, MongoDB, HTML, CSS, Git",
+ "skills": {
+  "react": 3,
+  "nodejs": 3,
+  "express": 3,
+  "mongodb": 3,
+  "rest_api": 3,
+  "javascript": 3,
+  "html": 2,
+  "css": 2,
+  "git": 2
+ }
+}

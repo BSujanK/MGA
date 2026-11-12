@@ -1,0 +1,44 @@
+{
+ "id": "p04",
+ "title": "Backend Engineer (Go)",
+ "company": "Kingfisher Freight (fictional)",
+ "text": "Kingfisher Freight tracks 50,000 trucks a day across India. Be the go-to engineer for our dispatch platform.\n\nWhat you'll need\n- Strong Go skills; you have written production services in it\n- PostgreSQL schema design and query tuning\n- Redis for caching and rate limiting\n- Containers (Docker) and Linux basics\n- 1+ years building backend services\n\nBonus points\n- gRPC\n- Kubernetes\n- Prometheus or Grafana monitoring",
+ "skills": {
+  "go": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "postgresql": {
+   "importance": "must",
+   "level": 3
+  },
+  "db_design": {
+   "importance": "must",
+   "level": 3
+  },
+  "redis": {
+   "importance": "must",
+   "level": 3
+  },
+  "docker": {
+   "importance": "must",
+   "level": 3
+  },
+  "linux": {
+   "importance": "must",
+   "level": 2
+  },
+  "grpc": {
+   "importance": "nice",
+   "level": 2
+  },
+  "kubernetes": {
+   "importance": "nice",
+   "level": 2
+  },
+  "monitoring": {
+   "importance": "nice",
+   "level": 2
+  }
+ }
+}

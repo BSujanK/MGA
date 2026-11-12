@@ -1,0 +1,17 @@
+{
+ "id": "r11",
+ "description": "Competitive programmer",
+ "text": "Aditya Banerjee (synthetic)\nB.Tech CSE, NIT, 2026\n\nAchievements\n- Codeforces Expert (max rating 1780); ICPC Asia regionalist 2025\n- 900+ problems solved across platforms\n\nProjects\n- Built a mini shell in C++ supporting pipes and job control on Linux\n- Implemented a B+ tree index in C++ for a DBMS course project\n\nSkills\nC++, Python, Java (basic), Linux, Git\nCoursework: Operating Systems, DBMS, Computer Networks, OOP",
+ "skills": {
+  "dsa": 4,
+  "cpp": 3.5,
+  "linux": 3,
+  "os": 3,
+  "dbms": 3,
+  "python": 2,
+  "java": 2,
+  "git": 2,
+  "networking": 2,
+  "oop": 2
+ }
+}

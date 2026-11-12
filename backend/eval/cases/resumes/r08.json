@@ -1,0 +1,14 @@
+{
+ "id": "r08",
+ "description": "Android student",
+ "text": "Siddharth Nair (synthetic), Kochi\nB.Tech CSE 2026\n\nProjects\n- Bus Pass app: built an Android app in Kotlin with Firebase auth and a REST backend; 500 downloads on the Play Store\n- Expense notes: Android app with Room database and unit tests for the sync logic\n\nSkills\nKotlin, Java, Android, Jetpack Compose, REST, Git",
+ "skills": {
+  "kotlin": 3.5,
+  "android": 3.5,
+  "rest_api": 3,
+  "auth": 3,
+  "unit_testing": 3,
+  "java": 2,
+  "git": 2
+ }
+}

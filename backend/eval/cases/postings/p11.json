@@ -1,0 +1,60 @@
+{
+ "id": "p11",
+ "title": "AI Engineer - Generative AI",
+ "company": "Bodhi Assist (fictional)",
+ "text": "What you'll do\n- Build LLM-powered assistants for customer support teams\n- Design prompts, retrieval and evaluation for RAG systems\n- Ship Python APIs with FastAPI\n\nWhat you'll need\n- Python (strong)\n- Hands-on experience with large language models\n- NLP basics: tokenisation, embeddings\n- REST API design\n- Docker\n\nNice to have\n- MLOps or LLMOps experience\n- A cloud platform (AWS, GCP or Azure)",
+ "skills": {
+  "llm": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "python": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "fastapi": {
+   "importance": "must",
+   "level": 3
+  },
+  "nlp": {
+   "importance": "must",
+   "level": 2
+  },
+  "rest_api": {
+   "importance": "must",
+   "level": 3
+  },
+  "docker": {
+   "importance": "must",
+   "level": 3
+  },
+  "mlops": {
+   "importance": "nice",
+   "level": 2
+  },
+  "aws": {
+   "importance": "nice",
+   "level": 2,
+   "alts": [
+    "gcp",
+    "azure"
+   ]
+  },
+  "gcp": {
+   "importance": "nice",
+   "level": 2,
+   "alts": [
+    "aws",
+    "azure"
+   ]
+  },
+  "azure": {
+   "importance": "nice",
+   "level": 2,
+   "alts": [
+    "aws",
+    "gcp"
+   ]
+  }
+ }
+}

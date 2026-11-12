@@ -1,0 +1,17 @@
+{
+ "id": "r04",
+ "description": "Go backend, 1 year",
+ "text": "Vikram Rao (synthetic)\nSoftware Engineer, 1.5 years | Bengaluru\n\nExperience\nSoftware Engineer, Quillpost Logistics (Jul 2024 - present)\n- Built and maintained 4 microservices in Go handling 2M requests a day\n- Designed PostgreSQL schemas and cut a slow report query from 9s to 400ms with indexes\n- Added Redis caching for route lookups\n- Packaged services with Docker and debugged them on Linux servers\n\nSkills\nGo, PostgreSQL, Redis, Docker, Linux, gRPC, Git\n\nEducation\nB.Tech Computer Science, 2024",
+ "skills": {
+  "go": 4,
+  "microservices": 3,
+  "postgresql": 3.5,
+  "sql": 3.5,
+  "db_design": 3,
+  "redis": 3,
+  "docker": 3,
+  "linux": 3,
+  "grpc": 2,
+  "git": 2
+ }
+}

@@ -1,0 +1,11 @@
+{
+ "id": "r12",
+ "description": "Career switcher",
+ "text": "Meera Pillai (synthetic)\nMechanical engineer, 3 years, moving into data analysis\n\nExperience\nProduction Planner, Sahyadri Castings (2022-2025)\n- Tracked output for 4 production lines in Excel and built the monthly MIS report\n- Reduced scrap reporting time by 30% with Excel macros\n\nLearning\n- Python for Everybody (online course, completed)\n- SQL basics on an online course\n- Basic HTML from a weekend workshop\n\nSkills: Excel, Python (beginner), SQL (beginner)",
+ "skills": {
+  "excel": 4,
+  "python": 2,
+  "sql": 2,
+  "html": 2
+ }
+}

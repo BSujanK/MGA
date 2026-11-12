@@ -1,0 +1,50 @@
+{
+ "id": "p07",
+ "title": "QA Automation Engineer - Fresher",
+ "company": "Lotus Testworks (fictional)",
+ "text": "Responsibilities\n- Write and maintain automated UI tests with Selenium\n- Design manual test cases for new features and log defects\n- Test REST APIs with Postman and automated scripts\n- Work in two-week Agile sprints\n\nEligibility\n- B.E./B.Tech 2025 or 2026 graduates\n- Programming in Java or Python\n- SQL basics to verify data\n- Familiarity with Git\n\nNice to have\n- CI/CD experience (running tests in a pipeline)",
+ "skills": {
+  "automation_testing": {
+   "importance": "must",
+   "level": 3
+  },
+  "manual_testing": {
+   "importance": "must",
+   "level": 3
+  },
+  "rest_api": {
+   "importance": "must",
+   "level": 3
+  },
+  "agile": {
+   "importance": "must",
+   "level": 3
+  },
+  "java": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "python"
+   ]
+  },
+  "python": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "java"
+   ]
+  },
+  "sql": {
+   "importance": "must",
+   "level": 2
+  },
+  "git": {
+   "importance": "must",
+   "level": 2
+  },
+  "ci_cd": {
+   "importance": "nice",
+   "level": 2
+  }
+ }
+}

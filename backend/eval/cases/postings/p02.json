@@ -1,0 +1,50 @@
+{
+ "id": "p02",
+ "title": "Frontend Developer Intern",
+ "company": "Peacock Studio (fictional)",
+ "text": "Peacock Studio designs booking apps for clinics in Pune and Nagpur.\n\nRole overview\nYou will build user interfaces with React and TypeScript, turning Figma designs into accessible, responsive pages.\n\nWhat we're looking for\n- Solid HTML and CSS, including flexbox and grid\n- Hands-on React (hooks, state, effects)\n- TypeScript or modern JavaScript\n- Basic Git workflow\n\nGood to have\n- Next.js\n- Tailwind CSS\n- Writing component tests",
+ "skills": {
+  "react": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "typescript": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "javascript"
+   ]
+  },
+  "javascript": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "typescript"
+   ]
+  },
+  "html": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "css": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "git": {
+   "importance": "must",
+   "level": 2
+  },
+  "nextjs": {
+   "importance": "nice",
+   "level": 2
+  },
+  "tailwind": {
+   "importance": "nice",
+   "level": 2
+  },
+  "unit_testing": {
+   "importance": "nice",
+   "level": 2
+  }
+ }
+}

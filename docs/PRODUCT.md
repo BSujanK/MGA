@@ -36,12 +36,13 @@ Each line shows the evidence on both sides (the sentence in the posting, the lin
 - **Never** let AI invent links. Every URL comes from the curated catalog and is checked by `backend/scripts/check_links.py`.
 - Next: progress tracking (mark a resource done → take a short check → level goes up → gap report updates).
 
-### 3. Resume tuner (next)
+### 3. Resume tuner (built: v0.2)
 - A chat that interviews the candidate to surface skills and achievements their resume leaves out.
-- Then rewrites and reorders the resume for one target posting. ATS-friendly PDF/DOCX export.
+- Then rewrites and reorders the resume for one target posting, with a diff view and inline edits. ATS-friendly DOCX export, PDF via print.
+- Every AI rewrite is re-extracted, and any line that adds a skill, tool or number its source doesn't have is reverted.
 - **Hard rule: never fabricate.** Only real experience gets emphasized and reworded. Gaps are flagged and sent to the learning plan, never papered over.
 
-### 4. Beginner prep kit (later)
+### 4. Beginner prep kit (built: v0.2)
 For a target company and role:
 - DSA practice plan
 - Online assessment (OA) patterns
@@ -56,9 +57,9 @@ Questions are original or link to the source. Never copy LeetCode or GeeksforGee
 - **Never scrape sites whose terms forbid it** (LinkedIn, Naukri, Indeed).
 - Every posting gets pre-analyzed, so the gap % shows right in the job list.
 
-### 6. Calendar (later)
+### 6. Calendar (built: v0.2, browser-only)
 - Applications, interview dates, OA deadlines and hiring drives, with reminders.
-- Google Calendar sync and `.ics` export.
+- `.ics` export with reminders and add-to-Google-Calendar links. Two-way sync comes with accounts.
 
 ### 7. Employer side (later)
 - Companies see candidates with explained, skill-level gaps.
@@ -74,7 +75,7 @@ Candidates come first; they are the supply that brings employers. Options to dec
 
 ## Accuracy is the product
 
-- Build a labeled evaluation set: about 100 posting/resume pairs with hand-checked skills and levels.
+- Build a labeled evaluation set: about 100 posting/resume pairs with hand-checked skills and levels. v1 (30 pairs) is in `backend/eval/`; see its README for numbers and caveats.
 - Track extraction precision/recall and gap-status agreement.
 - Every change to the engine has to hold or improve those numbers.
 - Make no "most accurate" claims until the numbers exist.

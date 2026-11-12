@@ -1,0 +1,15 @@
+{
+ "id": "r03",
+ "description": "Data analyst fresher",
+ "text": "Fatima Shaikh (synthetic)\nB.Com (Hons), 2025 | Mumbai\n\nSummary\nCommerce graduate who moved into analytics. I enjoy turning messy sales data into decisions.\n\nExperience\nAnalytics Intern, Ramesh Traders (Jan-Jun 2025)\n- Automated weekly sales reports in Excel with pivot tables and XLOOKUP, saving 6 hours a week\n- Wrote SQL queries to reconcile 18 months of invoices\n- Built a Power BI dashboard used by the owner every Monday\n\nProjects\n- Zomato-style restaurant analysis: cleaned 50k rows with Python and pandas, visualised trends\n\nSkills\nSQL, Excel, Power BI, Python, Pandas, Statistics (coursework), Communication",
+ "skills": {
+  "excel": 3,
+  "sql": 3,
+  "powerbi": 3,
+  "data_viz": 3,
+  "python": 3,
+  "pandas": 3,
+  "statistics": 2,
+  "communication": 2
+ }
+}

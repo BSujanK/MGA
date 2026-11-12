@@ -17,7 +17,9 @@ Small, usable slices. Each phase ends with something a real candidate can use.
 - [x] Resume file parsing (PDF/DOCX → text)
 - [x] Market page: "SDE in Bengaluru" demand chart plus your top gaps
 - [x] My skills page: candidate confirms or corrects levels (uses `overrides`); a quiz-based skill check comes later
-- [ ] Evaluation set v1: 30 hand-labeled posting/resume pairs, plus a script that reports precision/recall
+- [x] Evaluation set v1: 12 postings + 12 resumes (synthetic, hand-labeled) in 30 pairs; `python -m eval.run` reports precision/recall, level error and gap-status agreement; regression test against a baseline
+- [ ] Held-out eval set written and labeled by people other than the builder; grow to ~100 pairs; measure labeler agreement
+- [ ] Run `python -m eval.run --llm` with an API key and record rules+Claude numbers
 - [ ] Run `scripts/check_links.py` locally and fix any dead links
 
 ## Phase 2: accounts, data, live jobs

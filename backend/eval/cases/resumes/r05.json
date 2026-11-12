@@ -1,0 +1,15 @@
+{
+ "id": "r05",
+ "description": "ML student",
+ "text": "Arjun Menon (synthetic)\nM.Tech Artificial Intelligence, IIIT (2026)\n\nProjects\n- Hindi news classifier: fine-tuned a transformer with PyTorch for NLP topic classification, 89% accuracy\n- Crop yield prediction: trained gradient boosting models with scikit-learn and pandas\n- Kaggle: top 15% in a tabular machine learning competition\n\nSkills\nPython (advanced), PyTorch, scikit-learn, Pandas, NumPy, SQL, Git\nCoursework: Deep Learning, Statistics, Linear Algebra",
+ "skills": {
+  "python": 3.5,
+  "deep_learning": 3,
+  "ml": 3.5,
+  "nlp": 3,
+  "pandas": 3,
+  "sql": 2,
+  "git": 2,
+  "statistics": 2
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "id": "p06",
+ "title": "Associate DevOps Engineer",
+ "company": "Banyan Cloudworks (fictional)",
+ "text": "Banyan Cloudworks manages infrastructure for clients ranging from C-suite analytics teams to R&D labs.\n\nMust have: Linux administration, Bash scripting, Docker\nMust have: CI/CD pipelines with Jenkins or GitHub Actions\nMust have: one cloud provider (AWS or Azure)\nGood to have: Kubernetes, Terraform, Prometheus/Grafana monitoring\nGood to have: basic networking (DNS, load balancers, subnets)\n\nDay to day\n- Automate deployments and keep pipelines green\n- Respond to alerts and write post-incident notes",
+ "skills": {
+  "linux": {
+   "importance": "must",
+   "level": 3
+  },
+  "bash": {
+   "importance": "must",
+   "level": 3
+  },
+  "docker": {
+   "importance": "must",
+   "level": 3
+  },
+  "ci_cd": {
+   "importance": "must",
+   "level": 3
+  },
+  "aws": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "azure"
+   ]
+  },
+  "azure": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "aws"
+   ]
+  },
+  "kubernetes": {
+   "importance": "nice",
+   "level": 2
+  },
+  "terraform": {
+   "importance": "nice",
+   "level": 2
+  },
+  "monitoring": {
+   "importance": "nice",
+   "level": 2
+  },
+  "networking": {
+   "importance": "nice",
+   "level": 2
+  }
+ }
+}

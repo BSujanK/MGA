@@ -1,0 +1,52 @@
+{
+ "id": "p09",
+ "title": "Full Stack Developer (Fresher)",
+ "company": "Neem Labs (fictional)",
+ "text": "Neem Labs is hiring freshers to work on our inventory platform for small pharmacies. You will build features across the stack using MongoDB, Express, React and Node.js, writing JavaScript every day. You should be comfortable designing REST APIs and using Git in a team. Experience with AWS is a plus, and so is any exposure to TypeScript. We value people who can express ideas clearly and take ownership of what they ship.",
+ "skills": {
+  "mongodb": {
+   "importance": "must",
+   "level": 3
+  },
+  "express": {
+   "importance": "must",
+   "level": 3
+  },
+  "react": {
+   "importance": "must",
+   "level": 3
+  },
+  "nodejs": {
+   "importance": "must",
+   "level": 3
+  },
+  "javascript": {
+   "importance": "must",
+   "level": 3
+  },
+  "rest_api": {
+   "importance": "must",
+   "level": 3
+  },
+  "git": {
+   "importance": "must",
+   "level": 3
+  },
+  "aws": {
+   "importance": "nice",
+   "level": 3
+  },
+  "typescript": {
+   "importance": "nice",
+   "level": 2
+  },
+  "communication": {
+   "importance": "must",
+   "level": 3
+  },
+  "ownership": {
+   "importance": "must",
+   "level": 3
+  }
+ }
+}

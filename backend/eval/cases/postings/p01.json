@@ -1,0 +1,58 @@
+{
+ "id": "p01",
+ "title": "Software Engineer I - Payments",
+ "company": "Tamarind Ledger (fictional)",
+ "text": "About Tamarind Ledger\nWe run reconciliation software for 400 co-operative banks. Our stack includes Scala and Elixir services that you will not need to touch.\n\nWhat you'll do\n- Build and maintain payment APIs in Java using Spring Boot\n- Write REST endpoints, unit tests and clear documentation\n- Debug production issues with senior engineers\n\nRequirements\n- Strong fundamentals in data structures and algorithms\n- Good understanding of object-oriented design\n- Working knowledge of a relational database (MySQL or PostgreSQL)\n- Comfortable with Git\n\nNice to have\n- Exposure to Kafka or any message queue\n- Docker basics",
+ "skills": {
+  "java": {
+   "importance": "must",
+   "level": 3
+  },
+  "spring": {
+   "importance": "must",
+   "level": 3
+  },
+  "rest_api": {
+   "importance": "must",
+   "level": 3
+  },
+  "unit_testing": {
+   "importance": "must",
+   "level": 3
+  },
+  "dsa": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "oop": {
+   "importance": "must",
+   "level": 3
+  },
+  "mysql": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "postgresql"
+   ]
+  },
+  "postgresql": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "mysql"
+   ]
+  },
+  "git": {
+   "importance": "must",
+   "level": 3
+  },
+  "kafka": {
+   "importance": "nice",
+   "level": 2
+  },
+  "docker": {
+   "importance": "nice",
+   "level": 2
+  }
+ }
+}

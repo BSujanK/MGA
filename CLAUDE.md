@@ -3,8 +3,8 @@
 MGA is a startup product, built by the founder with Claude. Read `docs/PRODUCT.md`, `docs/ARCHITECTURE.md` and `docs/ROADMAP.md` before changing code. Take the next unchecked item in the roadmap unless the founder asks for something else.
 
 ## Layout
-- `backend/`: FastAPI + engine (Python). Run tests with `cd backend && python -m pytest -q`.
-- `frontend/`: Next.js web app (not started yet).
+- `backend/`: FastAPI + engine (Python). Run tests with `cd backend && python -m pytest -q`; score accuracy with `python -m eval.run` (see `backend/eval/README.md`).
+- `frontend/`: Next.js web app. Check with `npm run build` and `npx eslint src`.
 - `docs/`: product, architecture, API, roadmap. Update them when behavior changes.
 
 ## Product rules (non-negotiable)

@@ -1,0 +1,154 @@
+{
+ "pairs": [
+  {
+   "id": "r01-p01",
+   "resume": "r01",
+   "posting": "p01"
+  },
+  {
+   "id": "r02-p02",
+   "resume": "r02",
+   "posting": "p02"
+  },
+  {
+   "id": "r03-p03",
+   "resume": "r03",
+   "posting": "p03"
+  },
+  {
+   "id": "r04-p04",
+   "resume": "r04",
+   "posting": "p04"
+  },
+  {
+   "id": "r05-p05",
+   "resume": "r05",
+   "posting": "p05"
+  },
+  {
+   "id": "r06-p06",
+   "resume": "r06",
+   "posting": "p06"
+  },
+  {
+   "id": "r07-p07",
+   "resume": "r07",
+   "posting": "p07"
+  },
+  {
+   "id": "r08-p08",
+   "resume": "r08",
+   "posting": "p08"
+  },
+  {
+   "id": "r09-p09",
+   "resume": "r09",
+   "posting": "p09"
+  },
+  {
+   "id": "r10-p10",
+   "resume": "r10",
+   "posting": "p10"
+  },
+  {
+   "id": "r11-p12",
+   "resume": "r11",
+   "posting": "p12"
+  },
+  {
+   "id": "r12-p03",
+   "resume": "r12",
+   "posting": "p03"
+  },
+  {
+   "id": "r01-p12",
+   "resume": "r01",
+   "posting": "p12"
+  },
+  {
+   "id": "r01-p09",
+   "resume": "r01",
+   "posting": "p09"
+  },
+  {
+   "id": "r01-p04",
+   "resume": "r01",
+   "posting": "p04"
+  },
+  {
+   "id": "r02-p09",
+   "resume": "r02",
+   "posting": "p09"
+  },
+  {
+   "id": "r03-p10",
+   "resume": "r03",
+   "posting": "p10"
+  },
+  {
+   "id": "r04-p01",
+   "resume": "r04",
+   "posting": "p01"
+  },
+  {
+   "id": "r04-p06",
+   "resume": "r04",
+   "posting": "p06"
+  },
+  {
+   "id": "r05-p11",
+   "resume": "r05",
+   "posting": "p11"
+  },
+  {
+   "id": "r05-p03",
+   "resume": "r05",
+   "posting": "p03"
+  },
+  {
+   "id": "r06-p04",
+   "resume": "r06",
+   "posting": "p04"
+  },
+  {
+   "id": "r07-p01",
+   "resume": "r07",
+   "posting": "p01"
+  },
+  {
+   "id": "r08-p01",
+   "resume": "r08",
+   "posting": "p01"
+  },
+  {
+   "id": "r09-p02",
+   "resume": "r09",
+   "posting": "p02"
+  },
+  {
+   "id": "r10-p03",
+   "resume": "r10",
+   "posting": "p03"
+  },
+  {
+   "id": "r10-p05",
+   "resume": "r10",
+   "posting": "p05"
+  },
+  {
+   "id": "r11-p01",
+   "resume": "r11",
+   "posting": "p01"
+  },
+  {
+   "id": "r12-p07",
+   "resume": "r12",
+   "posting": "p07"
+  },
+  {
+   "id": "r11-p04",
+   "resume": "r11",
+   "posting": "p04"
+  }
+ ]
+}

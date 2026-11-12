@@ -1,0 +1,11 @@
+{
+ "posting_extraction.f1": 0.991,
+ "posting_extraction.precision": 0.991,
+ "posting_extraction.recall": 0.991,
+ "posting_extraction.importance_accuracy": 0.991,
+ "resume_extraction.f1": 0.979,
+ "resume_extraction.precision": 0.989,
+ "resume_extraction.recall": 0.969,
+ "gap_status.agreement": 0.92,
+ "gap_status.must_have_agreement": 0.898
+}

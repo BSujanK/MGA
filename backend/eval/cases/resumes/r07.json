@@ -1,0 +1,12 @@
+{
+ "id": "r07",
+ "description": "Manual tester moving to automation",
+ "text": "Neha Joshi (synthetic)\nQA Engineer, 1 year of experience\n\nWork experience\nJunior QA Engineer, Brightpath Edtech (2024-2025)\n- Wrote and executed 600+ manual test cases for web and mobile releases\n- Logged and tracked defects in JIRA; worked in Agile sprints with 3 developers\n- Verified data with SQL queries on staging databases\n\nLearning\n- Selenium WebDriver with Java (online course, building a practice suite)\n\nSkills: Manual Testing, SQL, JIRA, Agile, Java (basic), Postman",
+ "skills": {
+  "manual_testing": 4,
+  "agile": 3,
+  "sql": 3,
+  "automation_testing": 2,
+  "java": 2
+ }
+}

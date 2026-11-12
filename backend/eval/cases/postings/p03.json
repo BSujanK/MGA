@@ -1,0 +1,50 @@
+{
+ "id": "p03",
+ "title": "Graduate Data Analyst",
+ "company": "Monsoon Retail (fictional)",
+ "text": "Who we are\nMonsoon Retail runs 120 grocery stores across Karnataka.\n\nResponsibilities\n- Pull and clean sales data with SQL every week\n- Build dashboards in Power BI or Tableau for store managers\n- Run simple statistical tests on promotions and explain the results\n- Excel at explaining numbers to non-technical people\n\nRequirements\n- Strong SQL: joins, aggregations, window functions\n- Advanced Excel (pivot tables, lookups)\n- Clear written and verbal communication\n\nGood to have\n- Python with pandas\n- A basic understanding of statistics beyond averages",
+ "skills": {
+  "sql": {
+   "importance": "must",
+   "level": 3.5
+  },
+  "powerbi": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "tableau"
+   ]
+  },
+  "tableau": {
+   "importance": "must",
+   "level": 3,
+   "alts": [
+    "powerbi"
+   ]
+  },
+  "statistics": {
+   "importance": "must",
+   "level": 3
+  },
+  "excel": {
+   "importance": "must",
+   "level": 4
+  },
+  "communication": {
+   "importance": "must",
+   "level": 3
+  },
+  "python": {
+   "importance": "nice",
+   "level": 2
+  },
+  "pandas": {
+   "importance": "nice",
+   "level": 2
+  },
+  "data_viz": {
+   "importance": "must",
+   "level": 3
+  }
+ }
+}
