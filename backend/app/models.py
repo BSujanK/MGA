@@ -294,3 +294,108 @@ class ExportRequest(BaseModel):
     header: list[str] = []
     sections: list[ResumeSection]
     filename: Optional[str] = Field(default=None, max_length=80)
+
+
+# ---------- prep kit ----------
+
+class PrepTopic(BaseModel):
+    id: str
+    name: str
+    hours: float
+    review: bool = Field(default=False, description="Quick review only: the candidate's level already covers it")
+    patterns: list[str] = []
+    checklist: list[str] = Field(default=[], description="Original practice tasks: 'can you do this?'")
+
+
+class DSAPlan(BaseModel):
+    included: bool
+    reason: str
+    candidate_level: float = 0
+    target_level: float = 0
+    topics: list[PrepTopic] = []
+    resources: list[Resource] = []
+
+
+class CoreSubject(BaseModel):
+    skill_id: str
+    name: str
+    status: Optional[GapStatus] = None
+    required_level: float
+    candidate_level: float
+    hours: float
+    topics: list[str]
+    resources: list[Resource] = []
+
+
+class OAFormat(BaseModel):
+    id: str
+    name: str
+    what: str
+    prepare: list[str]
+    relevant: bool = Field(description="Whether this posting points to this format")
+    reason: Optional[str] = None
+
+
+class AptitudeArea(BaseModel):
+    area: str
+    hours: float
+    topics: list[str]
+
+
+class PrepQuestion(BaseModel):
+    question: str
+    theme: str
+    source: str = Field(description="bank (original MGA question) | posting (built from a quoted line) | ai (Claude, grounded in a quoted line)")
+    quote: Optional[str] = Field(default=None, description="Exact text from the posting this question is based on")
+
+
+class ProjectIdea(BaseModel):
+    id: str
+    title: str
+    pitch: str
+    hours: float
+    covers: list[str] = Field(description="Your gaps for this job that the project closes")
+    builds_on: list[str] = Field(description="Skills you already have that the project uses")
+    milestones: list[str]
+    stretch: list[str] = []
+    score: float
+
+
+class WeekItem(BaseModel):
+    kind: str = Field(description="dsa | core | aptitude | project")
+    ref: str
+    title: str
+    hours: float
+
+
+class PrepWeek(BaseModel):
+    week: int
+    hours: float
+    items: list[WeekItem]
+
+
+class PrepRequest(JobRef):
+    resume_text: Optional[str] = None
+    overrides: list[SkillOverride] = []
+    hours_per_week: float = Field(default=10, ge=2, le=60)
+    use_llm: Optional[bool] = None
+
+
+class PrepKit(BaseModel):
+    job_title: Optional[str] = None
+    company: Optional[str] = None
+    readiness: float
+    dsa: DSAPlan
+    core: list[CoreSubject] = []
+    oa_formats: list[OAFormat] = []
+    posting_process: list[str] = Field(default=[], description="Lines from the posting about the hiring process, quoted verbatim")
+    aptitude: list[AptitudeArea] = []
+    aptitude_note: str = ""
+    behavioral: list[PrepQuestion] = []
+    company_questions: list[PrepQuestion] = []
+    star_tip: str = ""
+    projects: list[ProjectIdea] = []
+    schedule: list[PrepWeek] = []
+    hours_per_week: float
+    total_hours: float
+    mode: str = Field(description="rules | claude (company questions)")

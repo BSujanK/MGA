@@ -8,13 +8,13 @@ from typing import Optional
 from fastapi import FastAPI, File, Form, HTTPException, Query, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import export, llm, parsing, service, tuner
+from . import export, llm, parsing, prepkit, service, tuner
 from .engine.learning import recommend
 from .jobs import sources
 from .jobs.store import get_store
 from .models import (
     CandidateProfile, ChatRequest, ChatResponse, ExportRequest, GapReport, GapRequest, JobPosting, JobProfile,
-    MarketReport, MarketRequest, Resource, TailoredResume, TailorRequest, TextIn,
+    MarketReport, MarketRequest, PrepKit, PrepRequest, Resource, TailoredResume, TailorRequest, TextIn,
 )
 
 app = FastAPI(
@@ -162,3 +162,16 @@ def resume_export_docx(body: ExportRequest) -> Response:
         name += ".docx"
     return Response(content=data, media_type=export.DOCX_MIME,
                     headers={"Content-Disposition": f'attachment; filename="{name}"'})
+
+
+# ---------- prep kit ----------
+
+@app.post("/prep", response_model=PrepKit)
+def prep_kit(body: PrepRequest) -> PrepKit:
+    """DSA plan, core subjects, OA formats, aptitude, interview questions, a gap-closing project and a weekly plan."""
+    try:
+        return prepkit.prep_kit(body)
+    except KeyError:
+        raise HTTPException(404, f"Unknown job_id {body.job_id}")
+    except ValueError as e:
+        raise HTTPException(422, str(e))

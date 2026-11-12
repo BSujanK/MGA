@@ -193,3 +193,30 @@ def phrase_question(context: str) -> str:
 
 def rewrite_lines(payload: str) -> LLMRewrite:
     return _parse(REWRITE_SYSTEM, payload, LLMRewrite, wrap=False)  # type: ignore[return-value]
+
+
+# ---------- prep kit ----------
+
+class LLMPrepQuestion(BaseModel):
+    question: str
+    theme: str
+    quote: str
+
+
+class LLMPrepQuestions(BaseModel):
+    questions: list[LLMPrepQuestion]
+
+
+PREP_SYSTEM = """You write practice interview questions for an early-career tech candidate in India, based ONLY on one job posting.
+
+Rules:
+- Write up to 8 original questions an interviewer for this role could plausibly ask: about the work described, the skills required, and the candidate's motivation.
+- Every question must be grounded in the posting: put the exact sentence or phrase it is based on in "quote", copied character for character. Questions whose quote is not in the posting are discarded.
+- Never claim the company asks these questions, and never state facts about the company that are not in the posting.
+- Do not copy questions from LeetCode, GeeksforGeeks or other question banks. No coding puzzles.
+- theme: a short label such as the skill name, "Role" or "Company".
+- Keep each question to 1-2 sentences, plain English."""
+
+
+def prep_questions(job_text: str) -> LLMPrepQuestions:
+    return _parse(PREP_SYSTEM, job_text, LLMPrepQuestions)  # type: ignore[return-value]

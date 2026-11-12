@@ -1,0 +1,807 @@
+{
+ "version": "0.1",
+ "note": "Original prep content written for MGA. No questions are copied from LeetCode, GeeksforGeeks or any company. Links come only from resources.json.",
+ "dsa_topics": [
+  {
+   "id": "arrays_strings",
+   "name": "Arrays and strings",
+   "tier": 1,
+   "hours": 8,
+   "patterns": [
+    "Single pass with running state (max, min, count)",
+    "Prefix sums for range totals",
+    "In-place rearrangement (partition, reverse, rotate)",
+    "String building and character counting"
+   ],
+   "checklist": [
+    "Find the second-largest value in one pass",
+    "Answer many 'sum of a range' queries quickly",
+    "Check whether two strings are anagrams"
+   ]
+  },
+  {
+   "id": "hashing",
+   "name": "Hashing (maps and sets)",
+   "tier": 1,
+   "hours": 5,
+   "patterns": [
+    "Frequency maps",
+    "Seen-set to detect duplicates",
+    "Complement lookup (find a pair with a target sum)",
+    "Grouping by a computed key"
+   ],
+   "checklist": [
+    "Find the first non-repeating character",
+    "Group words that are anagrams of each other",
+    "Explain average vs worst-case hash map cost"
+   ]
+  },
+  {
+   "id": "two_pointers",
+   "name": "Two pointers and sliding window",
+   "tier": 1,
+   "hours": 6,
+   "patterns": [
+    "Opposite-end pointers on sorted data",
+    "Fast and slow pointers",
+    "Fixed-size window",
+    "Variable window that grows and shrinks with a condition"
+   ],
+   "checklist": [
+    "Longest substring with at most K distinct characters",
+    "Remove duplicates from a sorted array in place",
+    "Max sum of any K consecutive elements"
+   ]
+  },
+  {
+   "id": "sorting_search",
+   "name": "Sorting and binary search",
+   "tier": 1,
+   "hours": 6,
+   "patterns": [
+    "Know merge sort and quicksort and their costs",
+    "Sort first, then scan",
+    "Binary search on an index",
+    "Binary search on the answer (smallest X that works)"
+   ],
+   "checklist": [
+    "Find the first and last position of a value in sorted data",
+    "Find the minimum capacity to ship packages in D days",
+    "Explain why binary search needs a monotonic condition"
+   ]
+  },
+  {
+   "id": "linked_lists",
+   "name": "Linked lists",
+   "tier": 1,
+   "hours": 4,
+   "patterns": [
+    "Dummy head node",
+    "Reverse in place",
+    "Detect a cycle with fast/slow pointers",
+    "Merge two sorted lists"
+   ],
+   "checklist": [
+    "Reverse a list iteratively and recursively",
+    "Find the middle node in one pass",
+    "Remove the N-th node from the end"
+   ]
+  },
+  {
+   "id": "stacks_queues",
+   "name": "Stacks and queues",
+   "tier": 2,
+   "hours": 5,
+   "patterns": [
+    "Matching brackets",
+    "Monotonic stack (next greater element)",
+    "Queue for level-by-level processing",
+    "Deque for sliding window max"
+   ],
+   "checklist": [
+    "Validate a bracket string",
+    "For each day, find days until a warmer temperature",
+    "Implement a queue using two stacks"
+   ]
+  },
+  {
+   "id": "recursion",
+   "name": "Recursion and backtracking",
+   "tier": 2,
+   "hours": 8,
+   "patterns": [
+    "Base case and smaller subproblem",
+    "Choose / explore / un-choose",
+    "Generate subsets, permutations, combinations",
+    "Prune early when a partial answer can't work"
+   ],
+   "checklist": [
+    "Generate all subsets of a set",
+    "Place N queens on a board",
+    "Explain the call stack and its space cost"
+   ]
+  },
+  {
+   "id": "trees",
+   "name": "Binary trees and BSTs",
+   "tier": 2,
+   "hours": 8,
+   "patterns": [
+    "DFS: pre-, in- and post-order",
+    "BFS level order",
+    "Return values up the tree (height, diameter)",
+    "BST property for search and validation"
+   ],
+   "checklist": [
+    "Compute the height and diameter of a tree",
+    "Check whether a tree is a valid BST",
+    "Find the lowest common ancestor of two nodes"
+   ]
+  },
+  {
+   "id": "heaps",
+   "name": "Heaps and priority queues",
+   "tier": 2,
+   "hours": 4,
+   "patterns": [
+    "Top-K with a size-K heap",
+    "Merge K sorted streams",
+    "Two heaps for a running median"
+   ],
+   "checklist": [
+    "Find the K most frequent words",
+    "Merge K sorted lists",
+    "Explain heap push/pop cost"
+   ]
+  },
+  {
+   "id": "graphs",
+   "name": "Graphs: BFS, DFS, topological sort",
+   "tier": 2,
+   "hours": 10,
+   "patterns": [
+    "Adjacency list representation",
+    "BFS for shortest path in unweighted graphs",
+    "DFS for connected components and cycle detection",
+    "Topological order for dependencies"
+   ],
+   "checklist": [
+    "Count islands in a grid",
+    "Order courses given prerequisites",
+    "Find the shortest number of moves in a grid maze"
+   ]
+  },
+  {
+   "id": "greedy",
+   "name": "Greedy algorithms",
+   "tier": 2,
+   "hours": 4,
+   "patterns": [
+    "Sort by end time (interval scheduling)",
+    "Take the locally best choice and argue why it's safe",
+    "Exchange argument to prove correctness"
+   ],
+   "checklist": [
+    "Pick the maximum number of non-overlapping meetings",
+    "Find the minimum number of platforms for trains",
+    "Explain when greedy fails and DP is needed"
+   ]
+  },
+  {
+   "id": "dp",
+   "name": "Dynamic programming",
+   "tier": 3,
+   "hours": 14,
+   "patterns": [
+    "Define the state and the transition",
+    "Top-down memoisation, then bottom-up tables",
+    "1-D (climbing stairs, house robber style)",
+    "2-D (grid paths, edit distance, LCS)",
+    "Knapsack-style choices"
+   ],
+   "checklist": [
+    "Count ways to climb N steps taking 1 or 2 at a time",
+    "Longest common subsequence of two strings",
+    "0/1 knapsack and its space optimisation"
+   ]
+  },
+  {
+   "id": "advanced_graphs",
+   "name": "Shortest paths, union-find, MST",
+   "tier": 3,
+   "hours": 8,
+   "patterns": [
+    "Dijkstra with a priority queue",
+    "Union-find with path compression",
+    "Kruskal / Prim for minimum spanning trees"
+   ],
+   "checklist": [
+    "Cheapest route between two cities with weighted roads",
+    "Detect whether adding an edge creates a cycle",
+    "Explain why Dijkstra fails with negative edges"
+   ]
+  },
+  {
+   "id": "tries_bits",
+   "name": "Tries and bit manipulation",
+   "tier": 3,
+   "hours": 4,
+   "patterns": [
+    "Prefix tree for word search and autocomplete",
+    "XOR tricks",
+    "Bitmasks for subsets"
+   ],
+   "checklist": [
+    "Implement insert/search/startsWith on a trie",
+    "Find the single number that appears once when others appear twice",
+    "Count set bits in an integer"
+   ]
+  }
+ ],
+ "core_subjects": {
+  "oop": [
+   "Classes, objects, constructors",
+   "Encapsulation, inheritance, polymorphism, abstraction with a code example each",
+   "Interfaces vs abstract classes",
+   "Composition over inheritance",
+   "SOLID principles in plain words",
+   "Common patterns: singleton, factory, strategy, observer"
+  ],
+  "os": [
+   "Processes vs threads",
+   "CPU scheduling (FCFS, SJF, round robin)",
+   "Synchronisation: mutex, semaphore, race conditions",
+   "Deadlock: conditions, prevention, detection",
+   "Memory: paging, segmentation, virtual memory, page replacement",
+   "File systems and I/O basics"
+  ],
+  "dbms": [
+   "ER model and relational schema",
+   "Keys: primary, foreign, candidate",
+   "Normalisation (1NF to BCNF) with an example",
+   "Transactions and ACID",
+   "Isolation levels and concurrency problems",
+   "Indexing: B-trees and when an index helps"
+  ],
+  "networking": [
+   "OSI vs TCP/IP layers",
+   "TCP vs UDP, three-way handshake",
+   "What happens when you type a URL",
+   "HTTP methods, status codes, HTTPS/TLS basics",
+   "DNS, IP addressing, subnets",
+   "Sockets and ports"
+  ],
+  "system_design": [
+   "Requirements and back-of-envelope estimates",
+   "Load balancers and horizontal scaling",
+   "Caching and cache invalidation",
+   "SQL vs NoSQL trade-offs",
+   "Queues for async work",
+   "Design a URL shortener end to end"
+  ],
+  "sql": [
+   "SELECT, WHERE, ORDER BY, LIMIT",
+   "JOINs: inner, left, self-join",
+   "GROUP BY and HAVING",
+   "Subqueries and CTEs",
+   "Window functions: ROW_NUMBER, RANK, running totals",
+   "Indexes and reading a query plan"
+  ]
+ },
+ "aptitude": [
+  {
+   "area": "Quantitative",
+   "hours": 6,
+   "topics": [
+    "Percentages, ratios and averages",
+    "Profit and loss, simple and compound interest",
+    "Time, speed and distance",
+    "Time and work",
+    "Permutations, combinations and probability",
+    "Number systems and divisibility"
+   ]
+  },
+  {
+   "area": "Logical reasoning",
+   "hours": 4,
+   "topics": [
+    "Number and letter series",
+    "Seating arrangements and puzzles",
+    "Syllogisms",
+    "Blood relations and directions",
+    "Coding-decoding",
+    "Data sufficiency"
+   ]
+  },
+  {
+   "area": "Verbal",
+   "hours": 2,
+   "topics": [
+    "Reading comprehension",
+    "Sentence correction and grammar",
+    "Para jumbles",
+    "Vocabulary in context"
+   ]
+  }
+ ],
+ "aptitude_note": "Many campus and off-campus online assessments for freshers in India include an aptitude section, but not all do. Check the posting or the test invite.",
+ "oa_formats": [
+  {
+   "id": "coding",
+   "name": "Coding round",
+   "what": "Usually 2 to 4 problems in 60 to 120 minutes on an online judge. Hidden test cases decide the score, and partial credit for passing some cases is common.",
+   "prepare": [
+    "Practise with a timer: about 25 minutes per medium problem",
+    "Read the constraints first; they tell you the complexity you need",
+    "Write the brute force, then optimise",
+    "Test edge cases: empty input, one element, duplicates, large values"
+   ]
+  },
+  {
+   "id": "cs_mcq",
+   "name": "CS fundamentals MCQs",
+   "what": "Multiple-choice questions on OOP, OS, DBMS, networks and predicting the output of short programs.",
+   "prepare": [
+    "Revise one core subject per day using the topic lists below",
+    "Practise output-prediction questions in your main language",
+    "Watch out for negative marking"
+   ]
+  },
+  {
+   "id": "aptitude",
+   "name": "Aptitude and reasoning",
+   "what": "Timed quantitative, logical and verbal sections, often with a fixed time per section.",
+   "prepare": [
+    "Learn the standard formulas, then do timed sets",
+    "Skip and return: don't spend 3 minutes on one question",
+    "Track accuracy, not just attempts"
+   ]
+  },
+  {
+   "id": "sql",
+   "name": "SQL round",
+   "what": "Write queries against a given schema: joins, aggregation and sometimes window functions. Common for data and backend roles.",
+   "prepare": [
+    "Practise joins and GROUP BY until they're automatic",
+    "Learn ROW_NUMBER / RANK for 'top N per group' questions",
+    "Say your assumptions about NULLs and duplicates"
+   ]
+  },
+  {
+   "id": "debugging",
+   "name": "Debugging or code-reading round",
+   "what": "Find and fix bugs in given code, or explain what it does.",
+   "prepare": [
+    "Read code top-down before changing anything",
+    "Check off-by-one errors, null handling and integer overflow first",
+    "Explain your fix and how you'd test it"
+   ]
+  },
+  {
+   "id": "take_home",
+   "name": "Take-home assignment",
+   "what": "A small project to finish in 2 to 7 days. More common at startups.",
+   "prepare": [
+    "Clarify scope and deadline in writing",
+    "Ship a working core before extras",
+    "Add a README with setup steps, decisions and trade-offs, plus a few tests"
+   ]
+  }
+ ],
+ "behavioral": [
+  {
+   "theme": "Teamwork",
+   "questions": [
+    "Tell me about a team project where one member wasn't contributing. What did you do?",
+    "Describe a time you helped a teammate get unstuck."
+   ]
+  },
+  {
+   "theme": "Ownership",
+   "questions": [
+    "Tell me about something you built end to end. Which decisions were yours?",
+    "Describe a time you noticed a problem nobody asked you to fix. What happened?"
+   ]
+  },
+  {
+   "theme": "Learning",
+   "questions": [
+    "Tell me about a technology you had to learn quickly for a project. How did you go about it?",
+    "What's something you learned recently outside your coursework?"
+   ]
+  },
+  {
+   "theme": "Setbacks",
+   "questions": [
+    "Tell me about a project that didn't go as planned. What would you do differently?",
+    "Describe a bug that took you a long time to find. How did you find it?"
+   ]
+  },
+  {
+   "theme": "Disagreement",
+   "questions": [
+    "Describe a time you disagreed with a teammate about how to build something. How was it resolved?"
+   ]
+  },
+  {
+   "theme": "Motivation",
+   "questions": [
+    "Why this role, and why now?",
+    "Where do you want to be in two years, and how does this job help?"
+   ]
+  }
+ ],
+ "star_tip": "Answer with STAR: the Situation, your Task, the Actions you took (say 'I', not 'we'), and the Result, with a number if you have one.",
+ "projects": [
+  {
+   "id": "url_shortener",
+   "title": "URL shortener with click analytics",
+   "hours": 30,
+   "pitch": "A service that turns long links into short codes, redirects fast and shows click counts per day.",
+   "skills": [
+    "rest_api",
+    "db_design",
+    "sql",
+    "redis",
+    "docker",
+    "unit_testing",
+    "system_design"
+   ],
+   "milestones": [
+    "Design the schema and short-code generation; write down how you avoid collisions",
+    "Build create/redirect endpoints with input validation",
+    "Add a cache for hot links and measure redirect latency before and after",
+    "Record clicks and expose a daily-stats endpoint",
+    "Write unit and API tests; package with Docker",
+    "Write a README with an architecture diagram and the trade-offs you made"
+   ],
+   "stretch": [
+    "Rate limiting per user",
+    "Custom aliases and expiry dates"
+   ]
+  },
+  {
+   "id": "realtime_chat",
+   "title": "Real-time team chat",
+   "hours": 35,
+   "pitch": "Rooms, messages and online presence, with login and message history.",
+   "skills": [
+    "nodejs",
+    "express",
+    "react",
+    "auth",
+    "mongodb",
+    "redis",
+    "docker"
+   ],
+   "milestones": [
+    "Sign-up and login with hashed passwords and sessions or tokens",
+    "Create rooms and send messages over WebSockets",
+    "Store and page through message history",
+    "Show who is online using a fast key-value store",
+    "Build the React UI with loading and error states",
+    "Deploy with Docker and document how to run it"
+   ],
+   "stretch": [
+    "Typing indicators",
+    "Unread counts per room"
+   ]
+  },
+  {
+   "id": "job_queue",
+   "title": "Background job processor",
+   "hours": 35,
+   "pitch": "An API accepts jobs (for example, resizing images); workers process them from a queue and report status.",
+   "skills": [
+    "kafka",
+    "microservices",
+    "postgresql",
+    "docker",
+    "monitoring",
+    "go",
+    "java"
+   ],
+   "milestones": [
+    "Define the job API and a status table",
+    "Publish jobs to a message queue; build a worker that consumes them",
+    "Add retries with backoff and a dead-letter queue",
+    "Expose metrics (jobs processed, failures, latency) and a simple dashboard",
+    "Run producer, workers and database with Docker Compose",
+    "Load-test with 1,000 jobs and write up what broke and how you fixed it"
+   ],
+   "stretch": [
+    "Priority queues",
+    "Horizontal scaling of workers"
+   ]
+  },
+  {
+   "id": "k8s_deploy",
+   "title": "Ship a 3-service app with CI/CD on Kubernetes",
+   "hours": 30,
+   "pitch": "Take a small app (frontend, API, database) and deploy it the way a real team would.",
+   "skills": [
+    "docker",
+    "kubernetes",
+    "ci_cd",
+    "terraform",
+    "aws",
+    "monitoring",
+    "linux"
+   ],
+   "milestones": [
+    "Containerise each service with small images",
+    "Write Kubernetes manifests: deployments, services, config and secrets",
+    "Set up a pipeline that tests, builds and deploys on every push",
+    "Provision the cluster or VM with infrastructure-as-code",
+    "Add health checks, logs and basic alerts",
+    "Document a rollback and practise it once"
+   ],
+   "stretch": [
+    "Blue-green or canary deploys",
+    "Autoscaling on CPU"
+   ]
+  },
+  {
+   "id": "catalog_spa",
+   "title": "Product catalog web app",
+   "hours": 25,
+   "pitch": "Search, filter and paginate a product list from a public API, with a cart and good performance.",
+   "skills": [
+    "react",
+    "typescript",
+    "nextjs",
+    "redux",
+    "tailwind",
+    "rest_api",
+    "unit_testing"
+   ],
+   "milestones": [
+    "Set up a typed project and fetch products from a public API",
+    "Build search, filters and pagination that sync to the URL",
+    "Add a cart with state management and persistence",
+    "Handle loading, empty and error states; make it accessible",
+    "Write component tests",
+    "Measure and improve load performance; note the numbers in the README"
+   ],
+   "stretch": [
+    "Server-side rendering for product pages",
+    "Offline support"
+   ]
+  },
+  {
+   "id": "sales_dashboard",
+   "title": "Sales analytics dashboard",
+   "hours": 20,
+   "pitch": "Take a public retail dataset, model it, and build a dashboard that answers 5 business questions.",
+   "skills": [
+    "sql",
+    "excel",
+    "powerbi",
+    "tableau",
+    "data_viz",
+    "statistics",
+    "pandas"
+   ],
+   "milestones": [
+    "Pick a public dataset and write down 5 business questions",
+    "Clean the data and document every assumption",
+    "Write SQL for each question: joins, aggregation, window functions",
+    "Build the dashboard with filters and clear chart titles",
+    "Add one statistical check (for example, is a difference significant?)",
+    "Write a one-page summary of findings with recommendations"
+   ],
+   "stretch": [
+    "Automate the refresh",
+    "A cohort or retention analysis"
+   ]
+  },
+  {
+   "id": "etl_pipeline",
+   "title": "Daily ETL pipeline for public data",
+   "hours": 25,
+   "pitch": "Pull a public dataset on a schedule, clean it, load it into a warehouse table and track data quality.",
+   "skills": [
+    "python",
+    "pandas",
+    "etl",
+    "spark",
+    "sql",
+    "postgresql",
+    "aws"
+   ],
+   "milestones": [
+    "Choose a public source that allows reuse and note its licence",
+    "Extract and store raw files by date",
+    "Transform with clear, tested cleaning steps",
+    "Load into a database with idempotent upserts",
+    "Add data-quality checks and a failure alert",
+    "Schedule it and write a README with the data flow"
+   ],
+   "stretch": [
+    "Rewrite the transform in a distributed engine",
+    "Incremental loads"
+   ]
+  },
+  {
+   "id": "text_classifier",
+   "title": "Text classifier with an API",
+   "hours": 30,
+   "pitch": "Train a model to classify short texts (for example, support tickets by topic) and serve it behind an API.",
+   "skills": [
+    "ml",
+    "nlp",
+    "python",
+    "pandas",
+    "fastapi",
+    "mlops",
+    "docker"
+   ],
+   "milestones": [
+    "Pick a labelled public dataset and set a baseline",
+    "Train and compare two models; report precision and recall",
+    "Analyse errors and improve one thing",
+    "Serve the model with an API and input validation",
+    "Track experiments and version the model",
+    "Containerise and document how to reproduce the results"
+   ],
+   "stretch": [
+    "Monitor prediction drift",
+    "A small UI for labelling new data"
+   ]
+  },
+  {
+   "id": "doc_qa",
+   "title": "Question answering over your own documents",
+   "hours": 30,
+   "pitch": "Upload documents and ask questions; answers quote the passage they came from.",
+   "skills": [
+    "llm",
+    "python",
+    "nlp",
+    "fastapi",
+    "rest_api",
+    "docker"
+   ],
+   "milestones": [
+    "Split documents into passages and index them for search",
+    "Retrieve the best passages for a question",
+    "Generate an answer that cites the passage, and refuse when nothing matches",
+    "Build an evaluation set of 30 questions and measure accuracy",
+    "Serve it behind an API with rate limits",
+    "Write up cost, latency and failure cases"
+   ],
+   "stretch": [
+    "Hybrid keyword + semantic search",
+    "Streaming answers"
+   ]
+  },
+  {
+   "id": "android_tracker",
+   "title": "Habit tracker Android app",
+   "hours": 30,
+   "pitch": "Track daily habits with reminders, streaks and offline storage.",
+   "skills": [
+    "android",
+    "kotlin",
+    "rest_api",
+    "unit_testing",
+    "git"
+   ],
+   "milestones": [
+    "Design screens and the data model",
+    "Store habits locally and show streaks",
+    "Add reminders with notifications",
+    "Sync to a small backend API",
+    "Write unit tests for streak logic",
+    "Publish a test build and record a demo video"
+   ],
+   "stretch": [
+    "Home-screen widget",
+    "Charts of weekly progress"
+   ]
+  },
+  {
+   "id": "cross_platform_app",
+   "title": "Cross-platform expense splitter app",
+   "hours": 30,
+   "pitch": "Split bills in a group, track who owes whom and settle up, on Android and iOS from one codebase.",
+   "skills": [
+    "flutter",
+    "react_native",
+    "rest_api",
+    "auth",
+    "unit_testing"
+   ],
+   "milestones": [
+    "Model groups, expenses and balances",
+    "Build the add-expense and balances screens",
+    "Add login and sync to a backend",
+    "Write tests for the balance-settling logic",
+    "Handle offline edits and conflicts",
+    "Ship a test build and write the README"
+   ],
+   "stretch": [
+    "Receipt photo upload",
+    "Multi-currency support"
+   ]
+  },
+  {
+   "id": "test_automation",
+   "title": "Test automation suite for a public demo app",
+   "hours": 20,
+   "pitch": "Write a test plan and an automated UI + API test suite for a public practice web app, running in CI.",
+   "skills": [
+    "automation_testing",
+    "manual_testing",
+    "unit_testing",
+    "ci_cd",
+    "python",
+    "java"
+   ],
+   "milestones": [
+    "Write a test plan with cases for the main flows",
+    "Automate 10 UI tests with a page-object structure",
+    "Automate API tests with assertions on status and schema",
+    "Run everything in CI on every push",
+    "Report flaky tests and fix their causes",
+    "Publish an HTML report and a README"
+   ],
+   "stretch": [
+    "Parallel test runs",
+    "Visual regression checks"
+   ]
+  },
+  {
+   "id": "auth_service",
+   "title": "Authentication service with roles",
+   "hours": 25,
+   "pitch": "Sign-up, login, token refresh and role-based access, built carefully and tested.",
+   "skills": [
+    "auth",
+    "security",
+    "rest_api",
+    "postgresql",
+    "redis",
+    "unit_testing",
+    "docker"
+   ],
+   "milestones": [
+    "Store users with salted password hashes",
+    "Issue short-lived access tokens and refresh tokens",
+    "Add roles and protect endpoints by role",
+    "Rate-limit login attempts and log security events",
+    "Write tests for every auth path, including failures",
+    "Document the threat model and what you'd add next"
+   ],
+   "stretch": [
+    "Two-factor login",
+    "OAuth sign-in"
+   ]
+  },
+  {
+   "id": "graphql_api",
+   "title": "GraphQL API for a course catalog",
+   "hours": 20,
+   "pitch": "Courses, instructors and reviews exposed through a typed GraphQL API with pagination.",
+   "skills": [
+    "graphql",
+    "nodejs",
+    "typescript",
+    "postgresql",
+    "unit_testing"
+   ],
+   "milestones": [
+    "Design the schema and database tables",
+    "Implement queries with cursor pagination",
+    "Add mutations with validation",
+    "Fix N+1 queries with batching and measure the difference",
+    "Write resolver tests",
+    "Document example queries in the README"
+   ],
+   "stretch": [
+    "Subscriptions for new reviews",
+    "Query cost limits"
+   ]
+  }
+ ]
+}
