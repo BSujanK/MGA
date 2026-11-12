@@ -31,6 +31,17 @@ curl -s localhost:8000/gap -H 'content-type: application/json' \
 
 **AI extraction is optional.** Set `ANTHROPIC_API_KEY` (see `backend/.env.example`) to let Claude read postings and resumes with more context. Without a key, the rule engine runs alone and everything still works.
 
+## Run the web app
+
+```bash
+cd frontend
+npm install
+cp .env.example .env.local   # points at http://localhost:8000
+npm run dev
+```
+
+Open http://localhost:3000. The backend must be running.
+
 ## Test
 
 ```bash
@@ -39,4 +50,4 @@ cd backend && python -m pytest -q
 
 ## Status
 
-v0.1 is the core engine and API, with sample data. The web app is next. See the [roadmap](docs/ROADMAP.md).
+Core engine, API and web app (job fit, market, jobs, my skills) work with sample data. The resume tuner, prep kits and calendar are next. See the [roadmap](docs/ROADMAP.md) and [docs/HANDOFF.md](docs/HANDOFF.md).

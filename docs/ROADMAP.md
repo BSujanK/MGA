@@ -13,10 +13,10 @@ Small, usable slices. Each phase ends with something a real candidate can use.
 - [x] FastAPI endpoints, 35 tests
 
 ## Phase 1: usable web MVP (next)
-- [ ] Next.js frontend: upload/paste resume → pick a job or paste a posting → gap report → learning plan
-- [ ] Resume file parsing (PDF/DOCX → text)
-- [ ] Market page: "SDE in Bengaluru" demand chart plus your top gaps
-- [ ] Skill self-check: candidate confirms or corrects levels (uses `overrides`)
+- [x] Next.js frontend: upload/paste resume → pick a job or paste a posting → gap report → learning plan
+- [x] Resume file parsing (PDF/DOCX → text)
+- [x] Market page: "SDE in Bengaluru" demand chart plus your top gaps
+- [x] My skills page: candidate confirms or corrects levels (uses `overrides`); a quiz-based skill check comes later
 - [ ] Evaluation set v1: 30 hand-labeled posting/resume pairs, plus a script that reports precision/recall
 - [ ] Run `scripts/check_links.py` locally and fix any dead links
 
