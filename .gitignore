@@ -13,3 +13,4 @@ dist/
 mga-dev.db
 *.db-journal
 backend/eval/last.json
+.claude/worktrees/
