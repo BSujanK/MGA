@@ -1,22 +1,25 @@
 """MGA API. Run: uvicorn app.main:app --reload (from backend/). Docs at /docs."""
 from __future__ import annotations
 
+import hmac
 import os
 import re
 from typing import Optional
 
-from fastapi import FastAPI, File, Form, HTTPException, Query, Response, UploadFile
+from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Query, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import export, llm, parsing, prepkit, service, tuner
+from . import crypto, export, ingest, llm, parsing, prepkit, service, tuner
+from .auth import optional_user
+from .db import get_db
+from .db.models import Profile
 from .config import settings
 from .routes import auth as auth_routes
 from .routes import me as me_routes
 from .engine.learning import recommend
-from .jobs import sources
 from .jobs.store import get_store
 from .models import (
-    CandidateProfile, ChatRequest, ChatResponse, ExportRequest, GapReport, GapRequest, JobPosting, JobProfile,
+    CandidateProfile, ChatRequest, JobFitRequest, JobFitResponse, SkillOverride, ChatResponse, ExportRequest, GapReport, GapRequest, JobPosting, JobProfile,
     MarketReport, MarketRequest, PrepKit, PrepRequest, Resource, TailoredResume, TailorRequest, TextIn,
 )
 
@@ -114,16 +117,30 @@ def job(job_id: str) -> JobPosting:
 
 
 @app.post("/jobs/import", response_model=list[JobPosting])
-def import_jobs(source: str = Query(pattern="^(greenhouse|lever)$"), board: str = Query(min_length=1, max_length=80)) -> list[JobPosting]:
-    """Pull a company's public job board (Greenhouse board token or Lever slug) into the store."""
-    try:
-        fetched = sources.fetch_greenhouse(board) if source == "greenhouse" else sources.fetch_lever(board)
-    except Exception as e:
-        raise HTTPException(502, f"Could not fetch {source} board '{board}': {e}")
-    store = get_store()
-    for j in fetched:
-        store.add(j, board=board)
-    return fetched
+def import_jobs(source: str = Query(pattern="^(greenhouse|lever)$"), board: str = Query(min_length=1, max_length=80, pattern=r"^[A-Za-z0-9_-]+$"),
+                company: Optional[str] = Query(None, max_length=200), x_admin_token: Optional[str] = Header(None)) -> list[JobPosting]:
+    """Admin only: pull one company's public job board now (scheduled runs use `python -m app.ingest`)."""
+    token = settings().admin_token
+    if not token or not x_admin_token or not hmac.compare_digest(token, x_admin_token):
+        raise HTTPException(403, "Admin token required")
+    run = ingest.ingest_board(source, board, company)
+    if run.error:
+        raise HTTPException(502, f"Could not fetch {source} board '{board}': {run.error}")
+    return get_store().search(q=None, limit=200, board=board)
+
+
+@app.post("/jobs/fit", response_model=JobFitResponse)
+def jobs_fit(body: JobFitRequest, user=Depends(optional_user), db=Depends(get_db)) -> JobFitResponse:
+    """Postings ranked by how close you already are: 'jobs you're closest to'."""
+    resume, overrides, used_saved = body.resume_text, body.overrides, False
+    if not resume and not overrides and user is not None:
+        prof = db.get(Profile, user.id)
+        if prof is not None:
+            resume, overrides, used_saved = crypto.decrypt(prof.resume_enc), [SkillOverride(**o) for o in prof.overrides or []], True
+    if not resume and not overrides:
+        raise HTTPException(422, "Provide resume_text or overrides, or sign in with a saved resume")
+    fits, considered = service.job_fits(resume, overrides, body.role, body.location, body.q, body.limit)
+    return JobFitResponse(jobs=fits, considered=considered, used_saved_profile=used_saved)
 
 
 @app.get("/learn/{skill_id}", response_model=list[Resource])

@@ -399,3 +399,40 @@ class PrepKit(BaseModel):
     hours_per_week: float
     total_hours: float
     mode: str = Field(description="rules | claude (company questions)")
+
+
+# ---------- job fit ----------
+
+class JobFitRequest(BaseModel):
+    resume_text: Optional[str] = Field(default=None, description="Omit when signed in to use your saved resume")
+    overrides: list[SkillOverride] = []
+    role: Optional[str] = None
+    location: Optional[str] = None
+    q: Optional[str] = None
+    limit: int = Field(default=20, ge=1, le=100)
+
+
+class JobCard(BaseModel):
+    id: str
+    title: str
+    company: str
+    location: str
+    experience: Optional[str] = None
+    employment_type: Optional[str] = None
+    apply_url: Optional[str] = None
+    posted_at: Optional[str] = None
+    source: str
+
+
+class JobFit(BaseModel):
+    job: JobCard
+    readiness: float
+    must_have_coverage: float
+    open_must: list[str] = Field(description="Must-have skills not yet at the level asked, highest priority first")
+    est_hours: float
+
+
+class JobFitResponse(BaseModel):
+    jobs: list[JobFit] = Field(description="Closest first")
+    considered: int
+    used_saved_profile: bool

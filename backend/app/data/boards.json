@@ -1,0 +1,8 @@
+{
+ "note": "Public job boards to ingest on a schedule (python -m app.ingest). Add only companies whose Greenhouse board token or Lever slug you have checked on their careers page. source: greenhouse | lever. company: display name.",
+ "boards": [],
+ "adzuna": [
+  {"what": "software engineer fresher", "where": "Bengaluru", "pages": 2},
+  {"what": "data analyst", "where": "India", "pages": 1}
+ ]
+}

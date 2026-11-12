@@ -26,6 +26,7 @@ class Settings:
     resend_api_key: str | None = field(default_factory=lambda: os.getenv("RESEND_API_KEY") or None)
     seed_samples: bool = field(default_factory=lambda: _bool("MGA_SEED_SAMPLES", True))
     auto_create_tables: bool = field(default_factory=lambda: _bool("MGA_AUTO_CREATE", os.getenv("MGA_ENV", "development") != "production"))
+    admin_token: str | None = field(default_factory=lambda: os.getenv("MGA_ADMIN_TOKEN") or None)
     trust_proxy: bool = field(default_factory=lambda: _bool("MGA_TRUST_PROXY", False))  # behind a load balancer
     adzuna_app_id: str | None = field(default_factory=lambda: os.getenv("ADZUNA_APP_ID") or None)
     adzuna_app_key: str | None = field(default_factory=lambda: os.getenv("ADZUNA_APP_KEY") or None)

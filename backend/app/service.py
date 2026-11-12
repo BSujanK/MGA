@@ -178,3 +178,31 @@ def market_report(role: str, location: str | None = None, resume_text: str | Non
     report = build_report(role, location, profiles, tax(), candidate=cand, top=top)
     _attach_resources(report.candidate_gaps)
     return report
+
+
+# ---------- job fit ----------
+
+FIT_MAX_POSTINGS = 500
+
+
+def job_fits(resume_text: str | None, overrides: list[SkillOverride] | None, role: str | None, location: str | None,
+             q: str | None, limit: int) -> tuple[list, int]:
+    """Score the candidate against many stored postings at once. Rules only, so the ranking is stable and cheap."""
+    from .models import JobCard, JobFit
+    store = get_store()
+    postings = store.search(role=role, location=location, q=q, limit=FIT_MAX_POSTINGS)
+    profiles = store.profiles([p.id for p in postings])
+    cand = analyze_resume(resume_text, use_llm=False, overrides=overrides)
+    t = tax()
+    out = []
+    for p in postings:
+        job = profiles.get(p.id)
+        if job is None or not job.skills:
+            continue
+        rep = compute_gap(job, cand, t)
+        open_must = [g.name for g in rep.gaps if g.importance is Importance.must and g.status is not GapStatus.strong]
+        out.append(JobFit(job=JobCard(**p.model_dump(exclude={"description"})), readiness=rep.summary.readiness,
+                          must_have_coverage=rep.summary.must_have_coverage, open_must=open_must[:5],
+                          est_hours=rep.summary.est_hours_to_close))
+    out.sort(key=lambda f: (-f.readiness, -f.must_have_coverage, f.est_hours))
+    return out[:limit], len(postings)

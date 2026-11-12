@@ -153,9 +153,11 @@ class JobStore:
             return db.scalar(select(func.count()).select_from(JobPostingRow).where(JobPostingRow.active.is_(True))) or 0
 
     def search(self, role: str | None = None, location: str | None = None, q: str | None = None,
-               limit: int | None = 50, offset: int = 0) -> list[JobPosting]:
+               limit: int | None = 50, offset: int = 0, board: str | None = None) -> list[JobPosting]:
         from ..db.models import JobPostingRow
         stmt = select(JobPostingRow).where(JobPostingRow.active.is_(True))
+        if board:
+            stmt = stmt.where(JobPostingRow.board == board)
         terms: list[str] = []
         if role:
             terms = ROLE_SYNONYMS.get(role.strip().lower(), [role.strip().lower()])
