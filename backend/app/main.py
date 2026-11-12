@@ -4,10 +4,10 @@ from __future__ import annotations
 import os
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import llm, service
+from . import llm, parsing, service
 from .engine.learning import recommend
 from .jobs import sources
 from .jobs.store import get_store
@@ -49,6 +49,27 @@ def analyze_job(body: TextIn) -> JobProfile:
 @app.post("/analyze/resume", response_model=CandidateProfile)
 def analyze_resume(body: TextIn) -> CandidateProfile:
     return service.analyze_resume(body.text, use_llm=body.use_llm)
+
+
+@app.post("/resume/parse")
+async def parse_resume(file: UploadFile = File(...)) -> dict:
+    """Upload a resume file; returns its text so the user can review it before analysis."""
+    data = await file.read()
+    try:
+        text = parsing.file_to_text(file.filename or "", data)
+    except parsing.UnsupportedFile as e:
+        raise HTTPException(422, str(e))
+    return {"filename": file.filename, "text": text, "chars": len(text)}
+
+
+@app.post("/analyze/resume/file", response_model=CandidateProfile)
+async def analyze_resume_file(file: UploadFile = File(...), use_llm: Optional[bool] = Form(None)) -> CandidateProfile:
+    data = await file.read()
+    try:
+        text = parsing.file_to_text(file.filename or "", data)
+    except parsing.UnsupportedFile as e:
+        raise HTTPException(422, str(e))
+    return service.analyze_resume(text, use_llm=use_llm)
 
 
 @app.post("/gap", response_model=GapReport)
