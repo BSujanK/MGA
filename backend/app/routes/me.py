@@ -11,12 +11,12 @@ from typing import Any, Literal, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import BaseModel, Field, field_validator
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, select, update
 from sqlalchemy.orm import Session as DB
 
 from .. import auth, crypto
 from ..db import get_db
-from ..db.models import CalendarEvent, Consent, Document, Profile, SavedReport, Session, User
+from ..db.models import AuditLog, CalendarEvent, Consent, Document, LoginCode, Profile, SavedReport, Session, User
 from ..models import SkillOverride
 from .auth import UserOut, user_out
 
@@ -26,6 +26,8 @@ DOC_KINDS = {"tuner", "prep"}
 MAX_DOC_BYTES = 200_000
 MAX_REPORT_BYTES = 2_000_000
 MAX_EVENTS = 2000
+MAX_DOCS = 1000      # per user, tuner + prep
+MAX_REPORTS = 200    # per user
 
 
 # ---------- schemas ----------
@@ -63,7 +65,14 @@ class EventIn(BaseModel):
     def _http_only(cls, v: Optional[str]) -> Optional[str]:
         if v and not v.lower().startswith(("http://", "https://")):
             raise ValueError("Links must start with http:// or https://")
+        if v and any(ord(ch) < 33 or ord(ch) == 127 for ch in v):
+            raise ValueError("Links can't contain spaces or control characters")
         return v or None
+
+    @field_validator("title", "company", "jobId")
+    @classmethod
+    def _one_line(cls, v: Optional[str]) -> Optional[str]:
+        return " ".join(v.split()) if v else v  # no CR/LF: these end up in .ics files and emails
 
 
 class ReportIn(BaseModel):
@@ -124,7 +133,11 @@ def _put_doc(db: DB, user_id: str, kind: str, key: str, data: Any) -> None:
     raw = json.dumps(data, ensure_ascii=False)
     if len(raw.encode()) > MAX_DOC_BYTES:
         raise HTTPException(413, "This document is too large")
-    row = db.get(Document, (user_id, kind, key)) or Document(user_id=user_id, kind=kind, key=key)
+    row = db.get(Document, (user_id, kind, key))
+    if row is None:
+        if (db.scalar(select(func.count()).select_from(Document).where(Document.user_id == user_id)) or 0) >= MAX_DOCS:
+            raise HTTPException(413, "Too many saved documents. Delete some first.")
+        row = Document(user_id=user_id, kind=kind, key=key)
     row.data_enc = crypto.encrypt(raw)
     db.add(row)
 
@@ -161,11 +174,14 @@ def put_settings(body: SettingsIO, user: User = Depends(auth.current_user), db: 
 @router.delete("")
 def delete_me(response: Response, user: User = Depends(auth.current_user), db: DB = Depends(get_db)) -> dict:
     """Delete the account and everything in it. Cannot be undone."""
-    uid = user.id
+    uid, email = user.id, user.email
     for model in (Document, CalendarEvent, SavedReport, Profile, Consent, Session):
         db.execute(delete(model).where(model.user_id == uid))  # explicit, so it works without DB cascades too
+    db.execute(delete(LoginCode).where(LoginCode.email == email))
+    # Keep the security log's events but cut every link to the person.
+    db.execute(update(AuditLog).where(AuditLog.user_id == uid).values(user_id=None))
     db.delete(user)
-    auth.audit(db, "account_deleted", uid)  # random id only: no email or other personal data is kept
+    auth.audit(db, "account_deleted", None)
     db.commit()
     auth.clear_cookie(response)
     return {"deleted": True}
@@ -190,6 +206,8 @@ def export(user: User = Depends(auth.current_user), db: DB = Depends(get_db)) ->
                     for r in db.scalars(select(SavedReport).where(SavedReport.user_id == user.id))],
         "sessions": [{"created_at": s.created_at.isoformat(), "last_seen_at": s.last_seen_at.isoformat(), "user_agent": s.user_agent}
                      for s in db.scalars(select(Session).where(Session.user_id == user.id))],
+        "activity": [{"action": a.action, "at": a.at.isoformat(), "detail": a.detail}
+                     for a in db.scalars(select(AuditLog).where(AuditLog.user_id == user.id).order_by(AuditLog.at))],
     }
     auth.audit(db, "data_exported", user.id)
     db.commit()
@@ -287,7 +305,10 @@ def save_report(body: ReportIn, user: User = Depends(auth.current_user), db: DB 
     raw = json.dumps(body.data, ensure_ascii=False)
     if len(raw.encode()) > MAX_REPORT_BYTES:
         raise HTTPException(413, "This report is too large to save")
-    summary = {k: v for k, v in body.summary.items() if isinstance(v, (int, float, str)) and len(str(v)) < 200}
+    if (db.scalar(select(func.count()).select_from(SavedReport).where(SavedReport.user_id == user.id)) or 0) >= MAX_REPORTS:
+        raise HTTPException(413, "You have saved the maximum number of reports. Delete some first.")
+    summary = {k: v for k, v in list(body.summary.items())[:20]
+               if isinstance(v, (int, float, str)) and len(str(v)) < 200 and len(k) < 40}
     r = SavedReport(user_id=user.id, kind=body.kind, title=body.title, job_id=body.job_id, summary=summary,
                     data_enc=crypto.encrypt(raw))
     db.add(r)

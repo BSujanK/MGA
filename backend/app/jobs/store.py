@@ -42,6 +42,11 @@ ROLE_SYNONYMS = {
 _ENGINE_FILES = ["data/skills.json", "engine/extractor.py", "engine/taxonomy.py"]
 
 
+def _escape_like(s: str) -> str:
+    """User text is a literal substring, not a LIKE pattern."""
+    return s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+
+
 @lru_cache(maxsize=1)
 def engine_version() -> str:
     """Changes whenever the taxonomy or extractor changes, so stored profiles get refreshed."""
@@ -163,13 +168,16 @@ class JobStore:
             terms = ROLE_SYNONYMS.get(role.strip().lower(), [role.strip().lower()])
             stmt = stmt.where(or_(*[JobPostingRow.title.ilike(f"%{t}%") for t in terms]))
         if location:
-            loc = location.strip().lower()
-            stmt = stmt.where(or_(JobPostingRow.location.ilike(f"%{loc}%"), JobPostingRow.location.ilike("%remote%")))
+            loc = _escape_like(location.strip().lower())
+            stmt = stmt.where(or_(JobPostingRow.location.ilike(f"%{loc}%", escape="\\"), JobPostingRow.location.ilike("%remote%")))
         if q:
-            like = f"%{q.strip()}%"
-            stmt = stmt.where(or_(JobPostingRow.title.ilike(like), JobPostingRow.company.ilike(like),
-                                  JobPostingRow.description.ilike(like)))
+            like = f"%{_escape_like(q.strip())}%"
+            stmt = stmt.where(or_(JobPostingRow.title.ilike(like, escape="\\"), JobPostingRow.company.ilike(like, escape="\\"),
+                                  JobPostingRow.description.ilike(like, escape="\\")))
         stmt = stmt.order_by(JobPostingRow.posted_at.desc().nulls_last(), JobPostingRow.id)
+        if limit is not None:
+            # Role terms are refined in Python below, so fetch some headroom; otherwise limit in SQL.
+            stmt = stmt.limit((offset + limit) * (5 if terms else 1))
         with self._session() as db:
             rows = db.scalars(stmt).all()
         jobs = [_to_posting(r) for r in rows]

@@ -49,7 +49,18 @@ Create a Postgres 16 database. Copy its connection string; either `postgresql+ps
 ### 2.3 Reminder emails cron
 Create a second cron job from the same image with command `python -m app.reminders` and schedule `30 2 * * *` (08:00 India time). Same environment as the API, including the email provider. It sends one email per user listing their due events, marks them only after the provider accepts the email, and exits 1 if any send failed (so the platform can alert). It is safe to run on two hosts at once on Postgres (`SELECT ... FOR UPDATE SKIP LOCKED`). Users switch reminders off with `PUT /me/settings {"reminder_emails": false}`. `python -m app.reminders --dry-run` counts what would be sent.
 
-### 2.4 Ingestion cron
+### 2.4 Housekeeping cron
+A daily job running `python -m app.maintenance` deletes sign-in codes older than a day (they contain email addresses), expired sessions, and audit-log rows of deleted accounts older than `MGA_AUDIT_DAYS` (default 365).
+
+### 2.5 Security settings to know
+- `MGA_ENV` must be exactly `production`, `development` or `test`. A missing or mistyped value is treated as production (fail closed): the API refuses to start without `MGA_DATA_KEY`, Postgres and an email provider.
+- Sign-in codes are returned in API responses only in development with no email provider, and only to localhost or when `MGA_DEV_ECHO_CODES=1`.
+- Behind a load balancer set `MGA_TRUST_PROXY=1` and `MGA_PROXY_HOPS` to the number of proxies that append to `X-Forwarded-For` (usually 1), so per-IP rate limits use the address your proxy saw.
+- Claude runs only for signed-in users unless `MGA_LLM_PUBLIC=1`.
+- `MGA_ADMIN_TOKEN` must be at least 24 characters, or `POST /jobs/import` stays disabled.
+- Request bodies are capped at 2.5 MB (6 MB for resume uploads); expensive endpoints allow 30 requests per minute per IP per instance.
+
+### 2.6 Ingestion cron
 Create a cron job from the same image with command `python -m app.ingest` and schedule `0 */6 * * *`. Give it the same `DATABASE_URL`, `MGA_DATA_KEY`, `MGA_ENV=production`, an email provider variable (the production check runs on import), and `ADZUNA_APP_ID`/`ADZUNA_APP_KEY` if you use Adzuna. It is safe to run from several places at once: postings are upserted by id, and each board's run is recorded in `ingest_runs`. The board list is `backend/app/data/boards.json`. Other forms:
 
 ```bash
@@ -170,6 +181,8 @@ Use the managed Postgres provider's backups and point-in-time restore. Test a re
 - [ ] `alembic upgrade head` is the release command; the API health check uses `/health/ready`
 - [ ] Ingestion cron scheduled and a run visible in `ingest_runs`
 - [ ] Reminder cron scheduled (`python -m app.reminders --dry-run` first)
+- [ ] Housekeeping cron scheduled (`python -m app.maintenance`)
+- [ ] `MGA_ENV=production` set exactly; `MGA_ADMIN_TOKEN` ≥ 24 characters
 - [ ] `MGA_ADMIN_TOKEN` set only if you need `/jobs/import`; kept secret
 - [ ] Google origin added if Google sign-in is enabled; "Jobs by Adzuna" shown if Adzuna is enabled
 - [ ] Database backups on and a restore tested

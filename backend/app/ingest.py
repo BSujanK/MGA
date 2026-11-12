@@ -44,7 +44,11 @@ def ingest_board(source: str, board: str, company: str | None = None, client=Non
             status = store.add(j, board=board, external_id=j.id)
             run.created += status == "created"
             run.updated += status == "updated"
-        run.closed = store.close_missing(source, board, {j.id for j in jobs})
+        if jobs:
+            run.closed = store.close_missing(source, board, {j.id for j in jobs})
+        else:
+            # An empty answer is more often an outage or a renamed board than every job closing at once.
+            log.warning("ingest %s/%s returned no postings; not closing existing ones", source, board)
     except Exception as e:  # one bad board must not stop the others
         run.error = f"{type(e).__name__}: {e}"[:2000]
         log.warning("ingest %s/%s failed: %s", source, board, run.error)

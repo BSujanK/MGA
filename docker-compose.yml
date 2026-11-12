@@ -21,6 +21,9 @@
 
 x-api-env: &api-env
   MGA_ENV: ${MGA_ENV:-development}
+  # Local stack only: return sign-in codes in the API response (there is no email provider).
+  # Ignored when MGA_ENV=production.
+  MGA_DEV_ECHO_CODES: ${MGA_DEV_ECHO_CODES:-1}
   DATABASE_URL: postgresql+psycopg://mga:${POSTGRES_PASSWORD:-mga}@db:5432/mga
   MGA_CORS_ORIGINS: ${MGA_CORS_ORIGINS:-http://localhost:3000}
   PORT: "8000"
@@ -29,6 +32,9 @@ x-api-env: &api-env
   # Forwarded from .env / the shell only if set (an empty value would override defaults).
   MGA_DATA_KEY:
   MGA_ADMIN_TOKEN:
+  MGA_HMAC_KEY:
+  MGA_PROXY_HOPS:
+  MGA_LLM_PUBLIC:
   MGA_SESSION_DAYS:
   MGA_COOKIE_DOMAIN:
   MGA_COOKIE_SECURE:
@@ -131,6 +137,18 @@ services:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
+
+  # Daily housekeeping (old login codes, expired sessions): docker compose --profile tools run --rm maintenance
+  maintenance:
+    build: ./backend
+    image: mga-api
+    profiles: ["tools"]
+    command: ["python", "-m", "app.maintenance"]
+    environment:
+      <<: *api-env
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   mga-db:

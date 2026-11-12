@@ -63,7 +63,7 @@ def test_company_questions_quote_the_posting():
     assert any(q["theme"] == "Company" for q in qs)
 
 
-def test_ai_questions_must_be_grounded(monkeypatch):
+def test_ai_questions_must_be_grounded(monkeypatch, llm_on):
     def no_extract(text):
         raise llm.LLMUnavailable("off")
 
@@ -82,7 +82,7 @@ def test_ai_questions_must_be_grounded(monkeypatch):
     assert k["mode"] == "claude" and len(ai) == 1 and "idempotent" in ai[0]["question"]
 
 
-def test_ai_questions_fall_back(monkeypatch):
+def test_ai_questions_fall_back(monkeypatch, llm_on):
     def down(text):
         raise llm.LLMUnavailable("down")
     for name in ("extract_job", "extract_resume", "prep_questions"):

@@ -54,7 +54,7 @@ Read this first in any new session, then `CLAUDE.md`, `docs/PRODUCT.md`, `docs/A
 
 ## How to run
 ```bash
-cd backend && python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && uvicorn app.main:app --reload
+cd backend && python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && MGA_ENV=development uvicorn app.main:app --reload
 ```
 ```bash
 cd frontend && npm install && npm run dev

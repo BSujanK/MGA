@@ -41,7 +41,10 @@ def send(to: str, subject: str, text: str) -> None:
     if s.smtp_url:
         u = urlparse(s.smtp_url)
         msg = EmailMessage()
-        msg["From"], msg["To"], msg["Subject"] = s.email_from, to, subject
+        try:
+            msg["From"], msg["To"], msg["Subject"] = s.email_from, to, subject
+        except ValueError as e:  # header injection attempts are rejected by the email library
+            raise MailError(f"Invalid email header: {e}") from e
         msg.set_content(text)
         try:
             if u.scheme == "smtps":
@@ -58,4 +61,4 @@ def send(to: str, subject: str, text: str) -> None:
         return
     if s.production:
         raise MailError("No email provider configured")
-    log.warning("DEV EMAIL to %s: %s\n%s", to, subject, text)
+    log.warning("Development: email to %s not sent (no provider configured)", to)

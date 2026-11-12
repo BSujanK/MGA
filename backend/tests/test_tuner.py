@@ -196,6 +196,10 @@ def test_tailor_validation():
 
 
 def _fake_claude(monkeypatch, rewrite):
+    from app import limits
+    from app.config import Settings
+    monkeypatch.setattr(llm, "enabled", lambda: True)
+    monkeypatch.setattr(limits, "settings", lambda: Settings(llm_public=True))
     def no_extract(text):
         raise llm.LLMUnavailable("off in tests")
     monkeypatch.setattr(llm, "extract_job", no_extract)

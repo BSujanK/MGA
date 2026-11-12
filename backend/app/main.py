@@ -9,7 +9,7 @@ from typing import Optional
 from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Query, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import crypto, export, ingest, llm, parsing, prepkit, service, tuner
+from . import crypto, export, ingest, limits, llm, parsing, prepkit, service, tuner
 from .auth import optional_user
 from .db import get_db
 from .db.models import Profile
@@ -27,7 +27,9 @@ app = FastAPI(
     title="MGA - Market Gap Analysis API",
     version="0.1.0",
     description="Skill-by-skill gap analysis between candidates, job postings and the job market.",
+    dependencies=[Depends(limits.llm_gate)],
 )
+app.add_middleware(limits.BodySizeLimit)
 settings().check()
 app.add_middleware(
     CORSMiddleware,
@@ -65,17 +67,17 @@ def list_skills(category: Optional[str] = None) -> list[dict]:
     return [s for s in out if not category or s["category"] == category]
 
 
-@app.post("/analyze/job", response_model=JobProfile)
+@app.post("/analyze/job", response_model=JobProfile, dependencies=[Depends(limits.throttle)])
 def analyze_job(body: TextIn) -> JobProfile:
     return service.analyze_job(body.text, use_llm=body.use_llm)
 
 
-@app.post("/analyze/resume", response_model=CandidateProfile)
+@app.post("/analyze/resume", response_model=CandidateProfile, dependencies=[Depends(limits.throttle)])
 def analyze_resume(body: TextIn) -> CandidateProfile:
     return service.analyze_resume(body.text, use_llm=body.use_llm)
 
 
-@app.post("/resume/parse")
+@app.post("/resume/parse", dependencies=[Depends(limits.throttle)])
 async def parse_resume(file: UploadFile = File(...)) -> dict:
     """Upload a resume file; returns its text so the user can review it before analysis."""
     data = await file.read()
@@ -86,7 +88,7 @@ async def parse_resume(file: UploadFile = File(...)) -> dict:
     return {"filename": file.filename, "text": text, "chars": len(text)}
 
 
-@app.post("/analyze/resume/file", response_model=CandidateProfile)
+@app.post("/analyze/resume/file", response_model=CandidateProfile, dependencies=[Depends(limits.throttle)])
 async def analyze_resume_file(file: UploadFile = File(...), use_llm: Optional[bool] = Form(None)) -> CandidateProfile:
     data = await file.read()
     try:
@@ -96,7 +98,7 @@ async def analyze_resume_file(file: UploadFile = File(...), use_llm: Optional[bo
     return service.analyze_resume(text, use_llm=use_llm)
 
 
-@app.post("/gap", response_model=GapReport)
+@app.post("/gap", response_model=GapReport, dependencies=[Depends(limits.throttle)])
 def gap(body: GapRequest) -> GapReport:
     if not body.resume_text and not body.overrides:
         raise HTTPException(422, "Provide resume_text or overrides")
@@ -110,7 +112,7 @@ def gap(body: GapRequest) -> GapReport:
         raise HTTPException(422, str(e))
 
 
-@app.post("/market", response_model=MarketReport)
+@app.post("/market", response_model=MarketReport, dependencies=[Depends(limits.throttle)])
 def market(body: MarketRequest) -> MarketReport:
     return service.market_report(body.role, body.location, body.resume_text, body.overrides, body.use_llm, body.top)
 
@@ -134,15 +136,16 @@ def import_jobs(source: str = Query(pattern="^(greenhouse|lever)$"), board: str 
                 company: Optional[str] = Query(None, max_length=200), x_admin_token: Optional[str] = Header(None)) -> list[JobPosting]:
     """Admin only: pull one company's public job board now (scheduled runs use `python -m app.ingest`)."""
     token = settings().admin_token
-    if not token or not x_admin_token or not hmac.compare_digest(token, x_admin_token):
-        raise HTTPException(403, "Admin token required")
+    if not token or len(token) < 24 or not x_admin_token or \
+            not hmac.compare_digest(token.encode(), x_admin_token.encode("utf-8", "replace")):
+        raise HTTPException(403, "Admin token required (MGA_ADMIN_TOKEN, at least 24 characters)")
     run = ingest.ingest_board(source, board, company)
     if run.error:
         raise HTTPException(502, f"Could not fetch {source} board '{board}': {run.error}")
     return get_store().search(q=None, limit=200, board=board)
 
 
-@app.post("/jobs/fit", response_model=JobFitResponse)
+@app.post("/jobs/fit", response_model=JobFitResponse, dependencies=[Depends(limits.throttle)])
 def jobs_fit(body: JobFitRequest, user=Depends(optional_user), db=Depends(get_db)) -> JobFitResponse:
     """Postings ranked by how close you already are: 'jobs you're closest to'."""
     resume, overrides, used_saved = body.resume_text, body.overrides, False
@@ -165,7 +168,7 @@ def learn(skill_id: str, level: float = Query(0, ge=0, le=5), limit: int = Query
 
 # ---------- resume tuner ----------
 
-@app.post("/resume/chat", response_model=ChatResponse)
+@app.post("/resume/chat", response_model=ChatResponse, dependencies=[Depends(limits.throttle)])
 def resume_chat(body: ChatRequest) -> ChatResponse:
     """Next interview question about the candidate's gaps for a job, plus what their answers show so far."""
     if not body.resume_text and not body.overrides:
@@ -178,7 +181,7 @@ def resume_chat(body: ChatRequest) -> ChatResponse:
         raise HTTPException(422, str(e))
 
 
-@app.post("/resume/tailor", response_model=TailoredResume)
+@app.post("/resume/tailor", response_model=TailoredResume, dependencies=[Depends(limits.throttle)])
 def resume_tailor(body: TailorRequest) -> TailoredResume:
     """Reorder and (optionally) reword the resume for one job, using only the resume and the candidate's answers."""
     try:
@@ -189,7 +192,7 @@ def resume_tailor(body: TailorRequest) -> TailoredResume:
         raise HTTPException(422, str(e))
 
 
-@app.post("/resume/export/docx")
+@app.post("/resume/export/docx", dependencies=[Depends(limits.throttle)])
 def resume_export_docx(body: ExportRequest) -> Response:
     """ATS-friendly DOCX: one column, standard headings, plain bullets, no tables or images."""
     data = export.resume_docx(body.header, body.sections)
@@ -200,7 +203,7 @@ def resume_export_docx(body: ExportRequest) -> Response:
                     headers={"Content-Disposition": f'attachment; filename="{name}"'})
 
 
-@app.post("/resume/export/pdf")
+@app.post("/resume/export/pdf", dependencies=[Depends(limits.throttle)])
 def resume_export_pdf(body: ExportRequest) -> Response:
     """ATS-friendly PDF: one column, real selectable text, text bullets, no tables or images."""
     data = export.resume_pdf(body.header, body.sections)
@@ -213,7 +216,7 @@ def resume_export_pdf(body: ExportRequest) -> Response:
 
 # ---------- prep kit ----------
 
-@app.post("/prep", response_model=PrepKit)
+@app.post("/prep", response_model=PrepKit, dependencies=[Depends(limits.throttle)])
 def prep_kit(body: PrepRequest) -> PrepKit:
     """DSA plan, core subjects, OA formats, aptitude, interview questions, a gap-closing project and a weekly plan."""
     try:

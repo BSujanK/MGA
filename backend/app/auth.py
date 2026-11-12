@@ -16,7 +16,7 @@ import secrets
 from datetime import datetime, timedelta, timezone
 
 from fastapi import Depends, HTTPException, Request, Response
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, select, update
 from sqlalchemy.orm import Session as DB
 
 from . import crypto
@@ -31,7 +31,9 @@ CODES_PER_IP_PER_HOUR = 30
 TERMS_VERSION = "2026-11"
 CSRF_HEADER = "x-requested-with"
 SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
-EMAIL_RE = re.compile(r"^[^@\s]{1,64}@[^@\s]+\.[A-Za-z]{2,}$")
+EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+'-]{1,64}@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$")
+BAD_CODE = "That code isn't right or has expired. Check the latest email or request a new code."
+LOOPBACK = {"127.0.0.1", "::1", "localhost", "testclient"}
 
 
 def utcnow() -> datetime:
@@ -53,7 +55,10 @@ def client_ip(request: Request) -> str:
     if settings().trust_proxy:
         fwd = request.headers.get("x-forwarded-for")
         if fwd:
-            return fwd.split(",")[0].strip()
+            # The rightmost entries are added by our own proxies; anything to their left is client-controlled.
+            hops = [p.strip() for p in fwd.split(",") if p.strip()]
+            if hops:
+                return hops[-settings().proxy_hops] if len(hops) >= settings().proxy_hops else hops[0]
     return request.client.host if request.client else "unknown"
 
 
@@ -89,19 +94,39 @@ def request_code(db: DB, email: str, request: Request) -> str:
 
 
 def verify_code(db: DB, email: str, code: str) -> str:
-    """Returns the normalized email if the code is right. Every wrong guess counts against the code."""
+    """Returns the normalized email if the code is right.
+
+    Each guess first reserves an attempt with one atomic UPDATE, so parallel
+    guesses can't exceed MAX_ATTEMPTS, and the code is consumed atomically, so
+    it can't be used twice. Every failure gives the same message.
+    """
     email = normalize_email(email)
     now = utcnow()
     row = db.scalars(select(LoginCode).where(LoginCode.email == email, LoginCode.used_at.is_(None))
                      .order_by(LoginCode.created_at.desc()).limit(1)).first()
-    if row is None or _aware(row.expires_at) < now or row.attempts >= MAX_ATTEMPTS:
-        raise HTTPException(400, "That code has expired. Request a new one.")
-    if not hmac.compare_digest(row.code_hash, crypto.code_hash(email, code.strip())):
-        row.attempts += 1
-        db.commit()
-        raise HTTPException(400, "That code isn't right. Check the latest email and try again.")
-    row.used_at = now
+    if row is None or _aware(row.expires_at) < now:
+        raise HTTPException(400, BAD_CODE)
+    reserved = db.execute(update(LoginCode)
+                          .where(LoginCode.id == row.id, LoginCode.used_at.is_(None), LoginCode.attempts < MAX_ATTEMPTS)
+                          .values(attempts=LoginCode.attempts + 1)).rowcount
+    db.commit()
+    if reserved != 1 or not hmac.compare_digest(row.code_hash, crypto.code_hash(email, code.strip())):
+        raise HTTPException(400, BAD_CODE)
+    consumed = db.execute(update(LoginCode).where(LoginCode.id == row.id, LoginCode.used_at.is_(None))
+                          .values(used_at=now)).rowcount
+    if consumed != 1:
+        db.rollback()
+        raise HTTPException(400, BAD_CODE)
     return email
+
+
+def may_echo_code(request: Request) -> bool:
+    """Return the code in the API response only for explicit local development with no email provider."""
+    from . import mailer
+    s = settings()
+    if s.production or mailer.configured():
+        return False
+    return s.dev_echo_codes or (request.client is not None and request.client.host in LOOPBACK)
 
 
 # ---------- users and sessions ----------
@@ -121,6 +146,9 @@ def upsert_user(db: DB, email: str, accept_terms: bool, name: str | None = None,
             db.add(Consent(user_id=user.id, kind=kind, version=TERMS_VERSION))
         audit(db, "account_created", user.id, method="google" if google_sub else "email")
     else:
+        if google_sub and user.google_sub and user.google_sub != google_sub:
+            # Same email, different Google account (e.g. a recycled Workspace address): don't merge them.
+            raise HTTPException(409, "This email is linked to a different Google account. Sign in with an email code instead.")
         if google_sub and not user.google_sub:
             user.google_sub = google_sub
         if name and not user.name:

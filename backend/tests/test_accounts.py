@@ -208,6 +208,7 @@ def test_export_and_delete_my_data():
     data = json.loads(exp.content)
     assert data["account"]["email"] == email and data["profile"]["resume_text"] == RESUME
     assert data["calendar"][0]["title"] == "Apply" and data["reports"][0]["data"] == {"a": 1}
+    assert any(a["action"] == "login" for a in data["activity"])
     assert {c_["kind"] for c_ in data["consents"]} == {"terms", "store_resume"}
 
     with SessionLocal() as db:
@@ -217,8 +218,9 @@ def test_export_and_delete_my_data():
     with SessionLocal() as db:
         assert db.get(User, uid) is None and db.get(Profile, uid) is None
         assert not db.scalars(select(CalendarEvent).where(CalendarEvent.user_id == uid)).all()
-        logs = db.scalars(select(AuditLog).where(AuditLog.user_id == uid, AuditLog.action == "account_deleted")).all()
-        assert logs and email not in json.dumps([l.detail for l in logs])
+        assert not db.scalars(select(AuditLog).where(AuditLog.user_id == uid)).all()  # unlinked from the person
+        assert not db.scalars(select(LoginCode).where(LoginCode.email == email)).all()  # codes hold the email
+        assert db.scalars(select(AuditLog).where(AuditLog.action == "account_deleted", AuditLog.user_id.is_(None))).first()
     assert TestClient(app, headers=H, cookies=c.cookies).get("/me").status_code == 401
 
 
@@ -226,6 +228,11 @@ def test_export_and_delete_my_data():
 
 def test_production_requires_secrets(monkeypatch):
     from app.config import Settings
+    for missing_or_typo in ("", "prod", "Production"):  # fail closed: anything but development/test is production
+        monkeypatch.setenv("MGA_ENV", missing_or_typo)
+        assert Settings().production
+        with pytest.raises(RuntimeError):
+            Settings().check()
     monkeypatch.setenv("MGA_ENV", "production")
     monkeypatch.delenv("MGA_DATA_KEY", raising=False)
     with pytest.raises(RuntimeError, match="MGA_DATA_KEY"):

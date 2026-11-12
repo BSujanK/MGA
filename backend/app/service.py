@@ -29,7 +29,10 @@ def tax() -> Taxonomy:
 
 
 def _use_llm(flag: bool | None) -> bool:
-    return llm.enabled() if flag is None else flag
+    from .limits import llm_allowed
+    if not llm_allowed.get():  # anonymous request and MGA_LLM_PUBLIC is off: rules only
+        return False
+    return llm.enabled() if flag is None else (flag and llm.enabled())
 
 
 def _clamp(v: float) -> float:

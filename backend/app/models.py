@@ -4,7 +4,14 @@ from __future__ import annotations
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
+
+# Input limits: well above any real resume or posting, far below abuse.
+MAX_RESUME_CHARS = 60_000
+MAX_JOB_CHARS = 50_000
+MAX_OVERRIDES = 300
+MAX_TURNS = 40
 
 
 class Importance(str, Enum):
@@ -157,28 +164,39 @@ class JobPosting(BaseModel):
     source: str = "sample"
     description: str
 
+    @field_validator("apply_url")
+    @classmethod
+    def _safe_url(cls, v: Optional[str]) -> Optional[str]:
+        """Job boards are untrusted: only plain http(s) links, never javascript: or data: URLs."""
+        if not v:
+            return None
+        v = v.strip()
+        if not v.lower().startswith(("http://", "https://")) or any(ord(ch) < 33 or ord(ch) == 127 for ch in v):
+            return None
+        return v[:1000]
+
 
 # ---------- requests ----------
 
 class TextIn(BaseModel):
-    text: str = Field(min_length=1)
+    text: str = Field(min_length=1, max_length=MAX_JOB_CHARS)
     use_llm: Optional[bool] = Field(default=None, description="Force AI extraction on/off. Default: on when an API key is configured")
 
 
 class GapRequest(BaseModel):
-    resume_text: Optional[str] = None
-    overrides: list[SkillOverride] = []
-    job_text: Optional[str] = None
+    resume_text: Optional[str] = Field(default=None, max_length=MAX_RESUME_CHARS)
+    overrides: list[SkillOverride] = Field(default=[], max_length=MAX_OVERRIDES)
+    job_text: Optional[str] = Field(default=None, max_length=MAX_JOB_CHARS)
     job_id: Optional[str] = None
     use_llm: Optional[bool] = None
     include_resources: bool = True
 
 
 class MarketRequest(BaseModel):
-    role: str
-    location: Optional[str] = None
-    resume_text: Optional[str] = None
-    overrides: list[SkillOverride] = []
+    role: str = Field(max_length=100)
+    location: Optional[str] = Field(default=None, max_length=100)
+    resume_text: Optional[str] = Field(default=None, max_length=MAX_RESUME_CHARS)
+    overrides: list[SkillOverride] = Field(default=[], max_length=MAX_OVERRIDES)
     use_llm: Optional[bool] = None
     top: int = Field(default=25, ge=1, le=100)
 
@@ -187,14 +205,14 @@ class MarketRequest(BaseModel):
 
 class JobRef(BaseModel):
     """A target job: one of the stored postings, or pasted text."""
-    job_id: Optional[str] = None
-    job_text: Optional[str] = None
+    job_id: Optional[str] = Field(default=None, max_length=200)
+    job_text: Optional[str] = Field(default=None, max_length=MAX_JOB_CHARS)
 
 
 class ChatTurn(BaseModel):
-    question_id: str
-    skill_id: Optional[str] = None
-    question: str
+    question_id: str = Field(max_length=120)
+    skill_id: Optional[str] = Field(default=None, max_length=60)
+    question: str = Field(max_length=1000)
     answer: str = Field(default="", max_length=4000, description="Empty means the candidate skipped the question")
 
 
@@ -218,9 +236,9 @@ class AnswerFinding(BaseModel):
 
 
 class ChatRequest(JobRef):
-    resume_text: Optional[str] = None
-    overrides: list[SkillOverride] = []
-    turns: list[ChatTurn] = []
+    resume_text: Optional[str] = Field(default=None, max_length=MAX_RESUME_CHARS)
+    overrides: list[SkillOverride] = Field(default=[], max_length=MAX_OVERRIDES)
+    turns: list[ChatTurn] = Field(default=[], max_length=MAX_TURNS)
     max_questions: int = Field(default=6, ge=1, le=12)
     use_llm: Optional[bool] = None
 
@@ -235,8 +253,8 @@ class ChatResponse(BaseModel):
 
 
 class ResumeLine(BaseModel):
-    id: str
-    text: str
+    id: str = Field(max_length=120)
+    text: str = Field(max_length=2000)
     source: str = Field(default="resume", description="resume | answer")
     original: Optional[str] = Field(default=None, description="Text before rewording; set only when the line changed")
     skills: list[str] = Field(default=[], description="Names of job skills this line mentions")
@@ -269,9 +287,9 @@ class KeywordGap(BaseModel):
 
 
 class TailorRequest(JobRef):
-    resume_text: str = Field(min_length=1)
-    overrides: list[SkillOverride] = []
-    turns: list[ChatTurn] = []
+    resume_text: str = Field(min_length=1, max_length=MAX_RESUME_CHARS)
+    overrides: list[SkillOverride] = Field(default=[], max_length=MAX_OVERRIDES)
+    turns: list[ChatTurn] = Field(default=[], max_length=MAX_TURNS)
     use_llm: Optional[bool] = None
 
 
@@ -291,8 +309,8 @@ class TailoredResume(BaseModel):
 
 
 class ExportRequest(BaseModel):
-    header: list[str] = []
-    sections: list[ResumeSection]
+    header: list[str] = Field(default=[], max_length=10)
+    sections: list[ResumeSection] = Field(max_length=40)
     filename: Optional[str] = Field(default=None, max_length=80)
 
 
@@ -375,8 +393,8 @@ class PrepWeek(BaseModel):
 
 
 class PrepRequest(JobRef):
-    resume_text: Optional[str] = None
-    overrides: list[SkillOverride] = []
+    resume_text: Optional[str] = Field(default=None, max_length=MAX_RESUME_CHARS)
+    overrides: list[SkillOverride] = Field(default=[], max_length=MAX_OVERRIDES)
     hours_per_week: float = Field(default=10, ge=2, le=60)
     use_llm: Optional[bool] = None
 
@@ -404,11 +422,11 @@ class PrepKit(BaseModel):
 # ---------- job fit ----------
 
 class JobFitRequest(BaseModel):
-    resume_text: Optional[str] = Field(default=None, description="Omit when signed in to use your saved resume")
-    overrides: list[SkillOverride] = []
-    role: Optional[str] = None
-    location: Optional[str] = None
-    q: Optional[str] = None
+    resume_text: Optional[str] = Field(default=None, max_length=MAX_RESUME_CHARS, description="Omit when signed in to use your saved resume")
+    overrides: list[SkillOverride] = Field(default=[], max_length=MAX_OVERRIDES)
+    role: Optional[str] = Field(default=None, max_length=100)
+    location: Optional[str] = Field(default=None, max_length=100)
+    q: Optional[str] = Field(default=None, max_length=100)
     limit: int = Field(default=20, ge=1, le=100)
 
 

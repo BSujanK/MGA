@@ -97,16 +97,16 @@ def test_stale_profiles_are_reanalyzed():
 
 def test_import_endpoint_needs_admin_token(monkeypatch):
     assert client.post("/jobs/import", params={"source": "greenhouse", "board": "x"}).status_code == 403
-    monkeypatch.setenv("MGA_ADMIN_TOKEN", "s3cret")
+    monkeypatch.setenv("MGA_ADMIN_TOKEN", "s3cret-admin-token-0123456789")
     settings.cache_clear()
     monkeypatch.setattr(ingest, "ingest_board", lambda s, b, c=None: ingest.IngestRun(source=s, board=b, error=None))
     try:
         assert client.post("/jobs/import", params={"source": "greenhouse", "board": "x"},
                            headers={"X-Admin-Token": "wrong"}).status_code == 403
         assert client.post("/jobs/import", params={"source": "greenhouse", "board": "x"},
-                           headers={"X-Admin-Token": "s3cret"}).status_code == 200
+                           headers={"X-Admin-Token": "s3cret-admin-token-0123456789"}).status_code == 200
         assert client.post("/jobs/import", params={"source": "greenhouse", "board": "../etc"},
-                           headers={"X-Admin-Token": "s3cret"}).status_code == 422
+                           headers={"X-Admin-Token": "s3cret-admin-token-0123456789"}).status_code == 422
     finally:
         monkeypatch.undo()
         settings.cache_clear()

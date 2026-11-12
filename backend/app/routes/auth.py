@@ -58,8 +58,7 @@ def send_code(body: CodeRequest, request: Request, db: DB = Depends(get_db)) -> 
         mailer.send(auth.normalize_email(body.email), f"{code} is your MGA sign-in code", text)
     except mailer.MailError as e:
         raise HTTPException(503, "We couldn't send the email right now. Try again in a minute.") from e
-    dev = not settings().production and not mailer.configured()
-    return CodeSent(sent=True, dev_code=code if dev else None)
+    return CodeSent(sent=True, dev_code=code if auth.may_echo_code(request) else None)
 
 
 @router.post("/verify", response_model=UserOut)

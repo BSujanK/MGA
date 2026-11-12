@@ -24,7 +24,7 @@ def _fernet() -> MultiFernet:
     keys = list(settings().data_keys)
     if not keys:
         if settings().production:
-            raise RuntimeError("MGA_DATA_KEY is required in production")
+            raise RuntimeError("MGA_DATA_KEY is required outside MGA_ENV=development/test")
         log.warning("MGA_DATA_KEY not set: using an insecure development key")
         keys = [base64.urlsafe_b64encode(hashlib.sha256(b"mga-dev-only-key").digest()).decode()]
     return MultiFernet([Fernet(k) for k in keys])
@@ -56,9 +56,21 @@ def token_hash(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
 
 
+@lru_cache(maxsize=1)
+def _hmac_secret() -> bytes:
+    """MGA_HMAC_KEY if set; otherwise derived from the data key (a separate purpose-bound key)."""
+    s = settings()
+    if s.hmac_key:
+        return s.hmac_key.encode()
+    if s.data_keys:
+        return hashlib.sha256(b"mga-login-code-hmac:" + s.data_keys[0].encode()).digest()
+    if s.production:
+        raise RuntimeError("MGA_HMAC_KEY or MGA_DATA_KEY is required outside MGA_ENV=development/test")
+    return b"mga-dev-only-hmac"
+
+
 def code_hash(email: str, code: str) -> str:
     """Login codes are short, so they are keyed with a server secret (HMAC) before storage."""
     import hmac
 
-    secret = (settings().data_keys[0] if settings().data_keys else "mga-dev-only-key").encode()
-    return hmac.new(secret, f"{email.lower()}:{code}".encode(), hashlib.sha256).hexdigest()
+    return hmac.new(_hmac_secret(), f"{email.lower()}:{code}".encode(), hashlib.sha256).hexdigest()
