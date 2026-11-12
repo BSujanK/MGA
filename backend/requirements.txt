@@ -13,3 +13,4 @@ psycopg[binary]>=3.2
 cryptography>=43
 google-auth>=2.30
 fpdf2>=2.8
+gunicorn>=23

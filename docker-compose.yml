@@ -1,0 +1,136 @@
+# Full MGA stack for local use and small self-hosted installs.
+#
+#   cp .env.example .env
+#   docker compose up --build            # web on :3000, API docs on :8000/docs
+#   docker compose --profile tools run --rm ingest     # one-off job-board ingestion
+#   docker compose --profile tools run --rm reminders  # send due calendar reminders
+#
+# Values come from .env (compose reads it automatically). Optional settings are
+# passed through only when set, so unset ones keep the application defaults.
+#
+# MGA_ENV defaults to "development" so the stack works with no email provider:
+# the login endpoint returns the code, and tables are also created on first use.
+# To run it like production (self-hosting), set in .env:
+#   MGA_ENV=production
+#   MGA_DATA_KEY=<generated Fernet key>
+#   RESEND_API_KEY=... (or MGA_SMTP_URL=...)
+#   MGA_CORS_ORIGINS=https://your-site-origin
+#   MGA_TRUST_PROXY=1            (if a reverse proxy sits in front)
+# Production sets Secure cookies, so serve the web service over HTTPS
+# (MGA_COOKIE_SECURE=0 only for a quick test on http://localhost).
+
+x-api-env: &api-env
+  MGA_ENV: ${MGA_ENV:-development}
+  DATABASE_URL: postgresql+psycopg://mga:${POSTGRES_PASSWORD:-mga}@db:5432/mga
+  MGA_CORS_ORIGINS: ${MGA_CORS_ORIGINS:-http://localhost:3000}
+  PORT: "8000"
+
+
+  # Forwarded from .env / the shell only if set (an empty value would override defaults).
+  MGA_DATA_KEY:
+  MGA_ADMIN_TOKEN:
+  MGA_SESSION_DAYS:
+  MGA_COOKIE_DOMAIN:
+  MGA_COOKIE_SECURE:
+  MGA_TRUST_PROXY:
+  MGA_AUTO_CREATE:
+  MGA_SEED_SAMPLES:
+  GOOGLE_CLIENT_ID:
+  RESEND_API_KEY:
+  MGA_SMTP_URL:
+  MGA_EMAIL_FROM:
+  ADZUNA_APP_ID:
+  ADZUNA_APP_KEY:
+  ANTHROPIC_API_KEY:
+  MGA_MODEL:
+  MGA_LLM_EFFORT:
+  MGA_LLM:
+  WEB_CONCURRENCY:
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mga
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mga}
+      POSTGRES_DB: mga
+    volumes:
+      - mga-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mga -d mga"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # Runs once per `up`: applies Alembic migrations, then exits.
+  migrate:
+    build: ./backend
+    image: mga-api
+    command: ["alembic", "upgrade", "head"]
+    environment:
+      <<: *api-env
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    build: ./backend
+    image: mga-api
+    restart: unless-stopped
+    environment:
+      <<: *api-env
+    ports:
+      - "${API_PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  web:
+    build:
+      context: ./frontend
+      args:
+        MGA_API_URL: http://api:8000
+    image: mga-web
+    restart: unless-stopped
+    environment:
+      MGA_API_URL: http://api:8000
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      - api
+
+  # One-off ingestion of the public job boards: docker compose --profile tools run --rm ingest
+  # Custom run: docker compose --profile tools run --rm ingest python -m app.ingest --adzuna "react developer" --where Pune
+  ingest:
+    build: ./backend
+    image: mga-api
+    profiles: ["tools"]
+    command: ["python", "-m", "app.ingest"]
+    environment:
+      <<: *api-env
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  # Daily calendar reminder emails: docker compose --profile tools run --rm reminders
+  reminders:
+    build: ./backend
+    image: mga-api
+    profiles: ["tools"]
+    command: ["python", "-m", "app.reminders"]
+    environment:
+      <<: *api-env
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  mga-db:

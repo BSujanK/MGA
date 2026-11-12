@@ -46,6 +46,19 @@ def health() -> dict:
             "skills": len(service.tax().skills), "jobs": get_store().count()}
 
 
+@app.get("/health/ready")
+def health_ready() -> dict:
+    """Readiness: the database answers. /health is liveness and does not need the database to be up."""
+    from sqlalchemy import text
+    from .db import engine
+    try:
+        with engine().connect() as conn:
+            conn.execute(text("SELECT 1"))
+    except Exception:
+        raise HTTPException(503, "Database unavailable")
+    return {"status": "ready"}
+
+
 @app.get("/skills")
 def list_skills(category: Optional[str] = None) -> list[dict]:
     out = [{"id": s.id, "name": s.name, "category": s.category} for s in service.tax().skills.values()]
