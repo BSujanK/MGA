@@ -107,7 +107,7 @@ export function PrepClient() {
               <div className="mb-1 flex justify-between text-xs text-slate-500"><span>Progress</span><span>{progress}%</span></div>
               <div className="h-2 rounded-full bg-slate-100"><div className="h-2 rounded-full bg-emerald-500" style={{ width: `${progress}%` }} /></div>
             </div>
-            <Link href={`/calendar?new=oa&title=${encodeURIComponent(`Online assessment${kit.company ? `: ${kit.company}` : ""}`)}`} className="btn-ghost no-print">
+            <Link href={`/calendar?${new URLSearchParams({ new: "oa", title: `Online assessment: ${kit.job_title ?? "job"}`, company: kit.company ?? "" })}`} className="btn-ghost no-print">
               Add OA date to calendar
             </Link>
           </section>

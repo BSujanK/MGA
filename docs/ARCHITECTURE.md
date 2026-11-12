@@ -126,6 +126,16 @@ priority    = w · gap/r · (1 + market_frequency) + status boost
 - **Company questions:** built only from lines quoted from the posting. AI questions must carry an exact quote, or they're dropped.
 - **Projects:** a template's score is the sum over the gaps it closes of weight × gap / required, + 0.15 per skill the candidate already has, − 0.05 per unrelated skill.
 
+## 8. Frontend state
+
+Until accounts exist, personal data stays in the browser's localStorage (`src/lib/store.ts`):
+- `mga.profile.v1`: resume and skill corrections
+- `mga.tuner.v1`: interview answers per job
+- `mga.prep.v1`: prep items ticked off per job
+- `mga.calendar.v1`: calendar events
+
+The calendar is client-only. `.ics` export (RFC 5545: CRLF, escaping, folding, VALARM reminders) and Google Calendar template links are generated in `src/lib/calendar.ts`.
+
 ## Rules the code must keep
 
 1. Rules-only mode must always work: no API key means no AI, and nothing breaks.

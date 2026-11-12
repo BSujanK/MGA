@@ -34,7 +34,8 @@ Small, usable slices. Each phase ends with something a real candidate can use.
 
 ## Phase 4: prep kits and calendar
 - [x] Company/role prep kit: DSA plan, OA patterns, aptitude, culture questions, gap-closing project, weekly schedule with progress (v0.2)
-- [ ] Calendar: applications, interviews, OA deadlines, hiring drives; reminders; Google Calendar sync / `.ics`
+- [x] Calendar: applications, interviews, OA deadlines, hiring drives; month/list views; "coming up" reminders; `.ics` export with alarms; add-to-Google-Calendar links (v0.2)
+- [ ] Calendar sync both ways (Google Calendar API) once accounts exist
 
 ## Phase 5: employer side and colleges
 - [ ] Employer dashboard with explained gaps, consented candidates only, human decisions

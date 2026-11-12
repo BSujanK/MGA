@@ -46,6 +46,12 @@ export function JobsClient() {
                   <Link href={`/analyze?job=${encodeURIComponent(j.id)}`} className="btn-primary">Check my fit</Link>
                   <Link href={`/resume?job=${encodeURIComponent(j.id)}`} className="btn-ghost">Tune resume</Link>
                   <Link href={`/prep?job=${encodeURIComponent(j.id)}`} className="btn-ghost">Prep kit</Link>
+                  <Link
+                    href={`/calendar?${new URLSearchParams({ new: "application", title: j.title, company: j.company, job: j.id, ...(j.apply_url ? { url: j.apply_url } : {}) })}`}
+                    className="btn-ghost"
+                  >
+                    Add to calendar
+                  </Link>
                   {j.apply_url && <a href={j.apply_url} target="_blank" rel="noopener noreferrer" className="btn-ghost">Apply ↗</a>}
                 </div>
               </div>
