@@ -104,15 +104,16 @@ def enabled() -> bool:
     return bool(os.getenv("ANTHROPIC_API_KEY"))
 
 
-def _parse(system: str, text: str, schema: type[BaseModel]) -> BaseModel:
+def _parse(system: str, text: str, schema: type[BaseModel], wrap: bool = True) -> BaseModel:
     import anthropic
 
+    content = f"<document>\n{text}\n</document>" if wrap else text
     try:
         resp = _client().beta.messages.parse(
             model=MODEL,
             max_tokens=16000,
             system=system,
-            messages=[{"role": "user", "content": f"<document>\n{text}\n</document>"}],
+            messages=[{"role": "user", "content": content}],
             output_format=schema,
             output_config={"effort": EFFORT},
             betas=[FALLBACK_BETA],
@@ -139,3 +140,56 @@ def extract_job(text: str) -> LLMJobExtraction:
 
 def extract_resume(text: str) -> LLMResumeExtraction:
     return _parse(RESUME_SYSTEM, text, LLMResumeExtraction)  # type: ignore[return-value]
+
+
+# ---------- resume tuner ----------
+# The engine decides WHAT to ask and WHICH lines may change; Claude only words
+# the question and rewords lines. Every rewrite is checked by
+# engine.resume_doc.check_rewrite before it is shown.
+
+class LLMQuestion(BaseModel):
+    question: str
+
+
+class LLMRewrittenLine(BaseModel):
+    id: str
+    text: str
+
+
+class LLMRewrite(BaseModel):
+    lines: list[LLMRewrittenLine]
+
+
+QUESTION_SYSTEM = """You help an early-career tech candidate in India surface real experience their resume leaves out, before they apply to a specific job.
+
+You are given the job, one skill the engine wants to ask about, what the resume currently shows for it, and the conversation so far. Write ONE short, friendly question (at most 2 sentences) that:
+- asks whether and how they have used the skill, or (for a follow-up) asks for what they built, their part, and the measurable result;
+- is concrete and easy to answer for a student or fresher (course projects, internships, hackathons, personal projects all count);
+- never assumes they have the skill and never suggests an answer, tool or number for them;
+- does not repeat a question already asked.
+Return only the question."""
+
+REWRITE_SYSTEM = """You improve the wording of resume lines so an early-career tech candidate's real experience reads well for one target job.
+
+Hard rules (a checker rejects any line that breaks them):
+- Never add a skill, tool, technology, number, metric, employer, title or outcome that the line itself does not state. Do not move facts between lines and do not merge lines.
+- Keep every fact the line states. If a line cannot be improved, return it unchanged.
+
+How to rewrite:
+- Make each line a concise, ATS-friendly resume bullet: start with a strong past-tense action verb, no first person, no trailing period, under about 30 words.
+- Where the line already names a skill the job asks for, put it near the front.
+- Lines from "answer" are the candidate's own words from an interview: turn them into resume bullets and drop filler ("yes", "I think"), keeping every fact.
+- "summary" lines: tighten the wording under the same rules; keep it as a sentence.
+Return every id you were given, exactly once."""
+
+
+def phrase_question(context: str) -> str:
+    out = _parse(QUESTION_SYSTEM, context, LLMQuestion, wrap=False)
+    q = out.question.strip()  # type: ignore[attr-defined]
+    if not q or len(q) > 400:
+        raise LLMUnavailable("Claude returned an unusable question")
+    return q
+
+
+def rewrite_lines(payload: str) -> LLMRewrite:
+    return _parse(REWRITE_SYSTEM, payload, LLMRewrite, wrap=False)  # type: ignore[return-value]

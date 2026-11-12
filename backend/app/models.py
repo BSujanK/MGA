@@ -181,3 +181,116 @@ class MarketRequest(BaseModel):
     overrides: list[SkillOverride] = []
     use_llm: Optional[bool] = None
     top: int = Field(default=25, ge=1, le=100)
+
+
+# ---------- resume tuner ----------
+
+class JobRef(BaseModel):
+    """A target job: one of the stored postings, or pasted text."""
+    job_id: Optional[str] = None
+    job_text: Optional[str] = None
+
+
+class ChatTurn(BaseModel):
+    question_id: str
+    skill_id: Optional[str] = None
+    question: str
+    answer: str = Field(default="", max_length=4000, description="Empty means the candidate skipped the question")
+
+
+class ChatQuestion(BaseModel):
+    id: str
+    kind: str = Field(description="gap | followup | general")
+    skill_id: Optional[str] = None
+    skill_name: Optional[str] = None
+    status: Optional[GapStatus] = None
+    question: str
+    why: str = Field(description="Why we are asking, in plain words")
+
+
+class AnswerFinding(BaseModel):
+    """A skill the candidate's own answers give evidence for."""
+    question_id: str
+    skill_id: str
+    name: str
+    level: float
+    evidence: str
+
+
+class ChatRequest(JobRef):
+    resume_text: Optional[str] = None
+    overrides: list[SkillOverride] = []
+    turns: list[ChatTurn] = []
+    max_questions: int = Field(default=6, ge=1, le=12)
+    use_llm: Optional[bool] = None
+
+
+class ChatResponse(BaseModel):
+    question: Optional[ChatQuestion] = Field(description="Next question, or null when the interview is done")
+    done: bool
+    asked: int
+    planned: int
+    findings: list[AnswerFinding] = []
+    mode: str = Field(description="scripted | claude")
+
+
+class ResumeLine(BaseModel):
+    id: str
+    text: str
+    source: str = Field(default="resume", description="resume | answer")
+    original: Optional[str] = Field(default=None, description="Text before rewording; set only when the line changed")
+    skills: list[str] = Field(default=[], description="Names of job skills this line mentions")
+    relevance: float = 0.0
+
+
+class ResumeEntry(BaseModel):
+    """A project or role: optional heading lines (title, dates) and bullets."""
+    heading: list[ResumeLine] = []
+    bullets: list[ResumeLine] = []
+    relevance: float = 0.0
+
+
+class ResumeSection(BaseModel):
+    key: str = Field(description="summary | skills | experience | projects | achievements | certifications | education | answers")
+    title: str
+    entries: list[ResumeEntry] = []
+
+
+class GuardrailNote(BaseModel):
+    line_id: str
+    action: str = Field(description="reverted | dropped")
+    reason: str
+
+
+class KeywordGap(BaseModel):
+    skill_id: str
+    name: str
+    importance: Importance
+
+
+class TailorRequest(JobRef):
+    resume_text: str = Field(min_length=1)
+    overrides: list[SkillOverride] = []
+    turns: list[ChatTurn] = []
+    use_llm: Optional[bool] = None
+
+
+class TailoredResume(BaseModel):
+    job_title: Optional[str] = None
+    company: Optional[str] = None
+    header: list[str] = []
+    sections: list[ResumeSection] = []
+    mode: str = Field(description="rules | claude")
+    keywords_matched: list[str] = Field(default=[], description="Job skills the tailored resume mentions")
+    keywords_missing: list[KeywordGap] = Field(default=[], description="Job skills with no evidence anywhere: never added, sent to the learning plan")
+    coverage_before: float = Field(description="0-100, weighted share of job skills the original resume mentions")
+    coverage_after: float
+    guardrail: list[GuardrailNote] = []
+    notes: list[str] = []
+    text: str = Field(description="Plain-text version of the tailored resume")
+
+
+class ExportRequest(BaseModel):
+    header: list[str] = []
+    sections: list[ResumeSection]
+    filename: Optional[str] = Field(default=None, max_length=80)

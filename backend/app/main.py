@@ -2,18 +2,19 @@
 from __future__ import annotations
 
 import os
+import re
 from typing import Optional
 
-from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Query, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import llm, parsing, service
+from . import export, llm, parsing, service, tuner
 from .engine.learning import recommend
 from .jobs import sources
 from .jobs.store import get_store
 from .models import (
-    CandidateProfile, GapReport, GapRequest, JobPosting, JobProfile, MarketReport, MarketRequest,
-    Resource, TextIn,
+    CandidateProfile, ChatRequest, ChatResponse, ExportRequest, GapReport, GapRequest, JobPosting, JobProfile,
+    MarketReport, MarketRequest, Resource, TailoredResume, TailorRequest, TextIn,
 )
 
 app = FastAPI(
@@ -124,3 +125,40 @@ def learn(skill_id: str, level: float = Query(0, ge=0, le=5), limit: int = Query
     if skill_id not in service.tax().skills:
         raise HTTPException(404, "Unknown skill")
     return recommend(skill_id, level, limit)
+
+
+# ---------- resume tuner ----------
+
+@app.post("/resume/chat", response_model=ChatResponse)
+def resume_chat(body: ChatRequest) -> ChatResponse:
+    """Next interview question about the candidate's gaps for a job, plus what their answers show so far."""
+    if not body.resume_text and not body.overrides:
+        raise HTTPException(422, "Provide resume_text or overrides")
+    try:
+        return tuner.chat(body)
+    except KeyError:
+        raise HTTPException(404, f"Unknown job_id {body.job_id}")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+
+
+@app.post("/resume/tailor", response_model=TailoredResume)
+def resume_tailor(body: TailorRequest) -> TailoredResume:
+    """Reorder and (optionally) reword the resume for one job, using only the resume and the candidate's answers."""
+    try:
+        return tuner.tailor(body)
+    except KeyError:
+        raise HTTPException(404, f"Unknown job_id {body.job_id}")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+
+
+@app.post("/resume/export/docx")
+def resume_export_docx(body: ExportRequest) -> Response:
+    """ATS-friendly DOCX: one column, standard headings, plain bullets, no tables or images."""
+    data = export.resume_docx(body.header, body.sections)
+    name = re.sub(r"[^A-Za-z0-9._-]+", "_", body.filename or "resume").strip("_.") or "resume"
+    if not name.lower().endswith(".docx"):
+        name += ".docx"
+    return Response(content=data, media_type=export.DOCX_MIME,
+                    headers={"Content-Disposition": f'attachment; filename="{name}"'})
