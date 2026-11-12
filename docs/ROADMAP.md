@@ -33,7 +33,7 @@ Small, usable slices. Each phase ends with something a real candidate can use.
 - [x] ATS-friendly DOCX export; PDF via the browser's print view
 
 ## Phase 4: prep kits and calendar
-- [ ] Company/role prep kit: DSA plan, OA patterns, aptitude, culture questions, gap-closing project
+- [x] Company/role prep kit: DSA plan, OA patterns, aptitude, culture questions, gap-closing project, weekly schedule with progress (v0.2)
 - [ ] Calendar: applications, interviews, OA deadlines, hiring drives; reminders; Google Calendar sync / `.ics`
 
 ## Phase 5: employer side and colleges

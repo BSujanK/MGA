@@ -183,7 +183,8 @@ def company_questions(job_text: str, report: GapReport) -> list[PrepQuestion]:
     for quote, names in fundamentals.items():
         listed = names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1]
         out.append(PrepQuestion(
-            question=f"Be ready to explain the core ideas of {listed}, with one example each from your projects or coursework.",
+            question=f"Be ready to explain the core ideas of {listed}, with "
+                     f"{'an example' if len(names) == 1 else 'one example each'} from your projects or coursework.",
             theme=names[0] if len(names) == 1 else "CS fundamentals", source="posting", quote=quote))
     return out[:10]
 

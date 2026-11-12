@@ -1,5 +1,5 @@
 import type {
-  CandidateProfile, ChatResponse, ChatTurn, GapReport, JobPosting, JobProfile, JobRef, MarketReport, Resource,
+  CandidateProfile, ChatResponse, ChatTurn, GapReport, JobPosting, JobProfile, JobRef, MarketReport, PrepKit, Resource,
   ResumeSection, SkillInfo, SkillOverride, TailoredResume,
 } from "./types";
 
@@ -65,6 +65,8 @@ export const api = {
     post<ChatResponse>("/resume/chat", body),
   resumeTailor: (body: JobRef & { resume_text: string; overrides?: SkillOverride[]; turns: ChatTurn[] }) =>
     post<TailoredResume>("/resume/tailor", body),
+  prep: (body: JobRef & { resume_text?: string; overrides?: SkillOverride[]; hours_per_week?: number }) =>
+    post<PrepKit>("/prep", body),
   exportDocx: async (body: { header: string[]; sections: ResumeSection[]; filename?: string }) => {
     const res = await send("/resume/export/docx", {
       method: "POST",

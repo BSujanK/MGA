@@ -31,6 +31,8 @@ backend/app/
     market.py          aggregate postings into market demand
     learning.py        resource recommendations
     resume_doc.py      resume structure, relevance ordering, rewrite guardrail, keyword coverage
+    prep.py            prep kit: DSA plan, core subjects, OA formats, grounded questions, projects, schedule
+  prepkit.py           prep kit orchestration (+ optional Claude questions, checked against the posting)
   tuner.py             resume interview (questions from gaps) + tailoring orchestration
   export.py            ATS-friendly DOCX writer
   jobs/
@@ -40,6 +42,7 @@ backend/app/
     skills.json        taxonomy (86 skills, v0.1)
     resources.json     learning catalog
     jobs_sample.json   synthetic sample postings
+    prep.json          original prep content: DSA topics, subject topics, OA formats, questions, project templates
 ```
 
 ## 1. Taxonomy
@@ -115,6 +118,13 @@ priority    = w · gap/r · (1 + market_frequency) + status boost
   - Lines are scored by the job weights of the skills they name; implied skills count half.
   - Skills, project entries and bullets are sorted by that score. Section order and role chronology are kept.
 - **Guardrail:** every AI rewrite is re-extracted. It is reverted if it brings in a skill (beyond the implied closure of its source), a number, or a large growth in length, or if it drops a job skill the line named. Job skills with no evidence are never added; they are listed for the learning plan.
+
+## 7. Prep kit (`engine/prep.py`)
+
+- **Content:** all written for MGA, in `data/prep.json`. Links come only from `resources.json`.
+- **DSA plan:** topic tiers are cut by the job's required DSA level; topics at the candidate's level are review only.
+- **Company questions:** built only from lines quoted from the posting. AI questions must carry an exact quote, or they're dropped.
+- **Projects:** a template's score is the sum over the gaps it closes of weight × gap / required, + 0.15 per skill the candidate already has, − 0.05 per unrelated skill.
 
 ## Rules the code must keep
 

@@ -18,6 +18,7 @@ Every analysis endpoint accepts `use_llm` (`true` / `false` / omitted). If omitt
 | GET | `/learn/{skill_id}?level=&limit=` | Resources for a skill, matched to level |
 | POST | `/resume/chat` | Next interview question about the candidate's gaps for a job, plus findings from their answers |
 | POST | `/resume/tailor` | Resume reordered (and, with AI, reworded) for one job, using only the resume and answers |
+| POST | `/prep` | Prep kit for one job: DSA plan, core subjects, OA formats, aptitude, questions, project, weekly schedule |
 | POST | `/resume/export/docx` | ATS-friendly DOCX of a (possibly edited) tailored resume |
 
 ## POST /gap
@@ -102,6 +103,18 @@ Returns `{question, done, asked, planned, findings, mode}`.
 ## POST /resume/export/docx
 
 `{header, sections, filename}` → `.docx`: one column, standard headings, real bullet lists, no tables or images.
+
+## POST /prep
+
+`{resume_text?, overrides?, job_id | job_text, hours_per_week}` → `PrepKit`. A resume is optional; without one the plan starts from the basics.
+- **`dsa`:** topics from `data/prep.json`, cut to the level the job asks for. Topics the candidate already covers are marked `review` and get 30% of the time. Data/ML postings that don't ask for DSA get the basic tier only. Roles with no programming skip DSA.
+- **`core`:** OOP, OS, DBMS, networks, system design and SQL, when the posting asks for them, each with a gap status, hours (capped at 12 for revision) and curated resources.
+- **`oa_formats`:** generic early-career OA formats, with `relevant` and `reason` set from the posting. `posting_process` holds lines about the hiring process, quoted verbatim.
+- **`aptitude`:** areas and topics. They are only scheduled when the posting mentions aptitude.
+- **`company_questions`:** built from quoted posting lines (`source: posting`). With AI on, Claude adds questions (`source: ai`), and any question whose `quote` isn't literally in the posting is dropped. Nothing claims a company asks a question.
+- **`behavioral`:** an original question bank plus a STAR tip.
+- **`projects`:** templates ranked by how much of the candidate's gaps they close (`covers`) and what they already know (`builds_on`).
+- **`schedule`:** weeks filled by share (DSA 45%, core 25%, project 30%) in chunks of at least 1.5 h. Long items span weeks as "part i of n".
 
 ## Levels
 

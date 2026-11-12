@@ -224,3 +224,101 @@ export interface JobRef {
   job_id?: string;
   job_text?: string;
 }
+
+// ---------- prep kit ----------
+
+export interface PrepTopic {
+  id: string;
+  name: string;
+  hours: number;
+  review: boolean;
+  patterns: string[];
+  checklist: string[];
+}
+
+export interface DSAPlan {
+  included: boolean;
+  reason: string;
+  candidate_level: number;
+  target_level: number;
+  topics: PrepTopic[];
+  resources: Resource[];
+}
+
+export interface CoreSubject {
+  skill_id: string;
+  name: string;
+  status?: GapStatus | null;
+  required_level: number;
+  candidate_level: number;
+  hours: number;
+  topics: string[];
+  resources: Resource[];
+}
+
+export interface OAFormat {
+  id: string;
+  name: string;
+  what: string;
+  prepare: string[];
+  relevant: boolean;
+  reason?: string | null;
+}
+
+export interface AptitudeArea {
+  area: string;
+  hours: number;
+  topics: string[];
+}
+
+export interface PrepQuestion {
+  question: string;
+  theme: string;
+  source: "bank" | "posting" | "ai";
+  quote?: string | null;
+}
+
+export interface ProjectIdea {
+  id: string;
+  title: string;
+  pitch: string;
+  hours: number;
+  covers: string[];
+  builds_on: string[];
+  milestones: string[];
+  stretch: string[];
+  score: number;
+}
+
+export interface WeekItem {
+  kind: "dsa" | "core" | "aptitude" | "project";
+  ref: string;
+  title: string;
+  hours: number;
+}
+
+export interface PrepWeek {
+  week: number;
+  hours: number;
+  items: WeekItem[];
+}
+
+export interface PrepKit {
+  job_title?: string | null;
+  company?: string | null;
+  readiness: number;
+  dsa: DSAPlan;
+  core: CoreSubject[];
+  oa_formats: OAFormat[];
+  posting_process: string[];
+  aptitude: AptitudeArea[];
+  aptitude_note: string;
+  behavioral: PrepQuestion[];
+  company_questions: PrepQuestion[];
+  star_tip: string;
+  projects: ProjectIdea[];
+  schedule: PrepWeek[];
+  hours_per_week: number;
+  total_hours: number;
+  mode: "rules" | "claude";
+}
