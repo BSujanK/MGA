@@ -1,0 +1,1586 @@
+{
+ "version": "0.1",
+ "note": "Original self-check quizzes written for MGA. A quiz is a self-check, not proof of skill. No links; resources come only from resources.json.",
+ "quizzes": [
+  {
+   "topic": "arrays_strings",
+   "name": "Arrays and strings",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "arrays_strings-1",
+     "question": "After building a prefix-sum array once in O(n), how long does each later 'sum of elements from index i to j' query take?",
+     "options": [
+      "O(j - i) in the worst case",
+      "O(1)",
+      "O(n)",
+      "O(log n)"
+     ],
+     "answer": 1,
+     "explain": "Each range sum is prefix[j+1] - prefix[i], two lookups and one subtraction."
+    },
+    {
+     "id": "arrays_strings-2",
+     "question": "What is the minimum time needed to find the largest value in an unsorted array of n numbers?",
+     "options": [
+      "O(n), because every element must be looked at",
+      "O(1), if you keep a pointer to the end",
+      "O(log n), by halving the array",
+      "O(n log n), because sorting is required"
+     ],
+     "answer": 0,
+     "explain": "Without order, any unchecked element could be the maximum, so all n must be inspected."
+    },
+    {
+     "id": "arrays_strings-3",
+     "question": "You reverse an array in place by swapping the first and last elements, then moving both indices inward. How much extra memory does this use besides the array?",
+     "options": [
+      "O(n)",
+      "O(log n)",
+      "O(1)",
+      "O(n / 2) for a temporary copy of half the array"
+     ],
+     "answer": 2,
+     "explain": "Only the two indices and one temporary value are needed, regardless of n."
+    },
+    {
+     "id": "arrays_strings-4",
+     "question": "Pseudocode: counts = array of 26 zeros; for each letter c in \"abca\": counts[c] = counts[c] + 1. How many entries of counts are non-zero afterwards?",
+     "options": [
+      "2",
+      "3",
+      "1",
+      "4"
+     ],
+     "answer": 1,
+     "explain": "The letters present are a (twice), b and c, so three distinct entries are non-zero."
+    },
+    {
+     "id": "arrays_strings-5",
+     "question": "Inserting a new element at the very front of a dynamic array holding n elements costs, in the worst case:",
+     "options": [
+      "O(n), because every existing element shifts one place",
+      "O(1), because arrays have direct access",
+      "O(log n)",
+      "O(1) amortised, same as appending at the end"
+     ],
+     "answer": 0,
+     "explain": "Each element must move to make room at index 0; only appending at the end is amortised O(1)."
+    },
+    {
+     "id": "arrays_strings-6",
+     "question": "In a language where strings are immutable, you build a string of length n by appending one character at a time in a loop. What is the total time, assuming each append copies the whole string?",
+     "options": [
+      "O(n)",
+      "O(n log n)",
+      "O(log n)",
+      "O(n^2)"
+     ],
+     "answer": 3,
+     "explain": "The copies cost 1 + 2 + ... + n characters, which is about n^2 / 2."
+    }
+   ]
+  },
+  {
+   "topic": "hashing",
+   "name": "Hashing (maps and sets)",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "hashing-1",
+     "question": "What is the average-case time of looking up a key in a well-designed hash map?",
+     "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n log n)"
+     ],
+     "answer": 0,
+     "explain": "A good hash function spreads keys so each lookup touches a constant number of entries on average."
+    },
+    {
+     "id": "hashing-2",
+     "question": "A hash map uses separate chaining with plain linked lists in each bucket. If every key lands in the same bucket, one lookup takes:",
+     "options": [
+      "O(n)",
+      "O(1)",
+      "O(log n)",
+      "O(n^2)"
+     ],
+     "answer": 0,
+     "explain": "All n entries sit in a single list that must be scanned."
+    },
+    {
+     "id": "hashing-3",
+     "question": "Which rule must a hash function used for map keys always follow?",
+     "options": [
+      "The original key must be recoverable from its hash",
+      "Hash values must come out in sorted order",
+      "Two equal keys must produce the same hash value",
+      "Two different keys must always produce different hash values"
+     ],
+     "answer": 2,
+     "explain": "Equal keys going to different buckets would make lookups fail. Collisions between different keys are allowed."
+    },
+    {
+     "id": "hashing-4",
+     "question": "Pseudocode: seen = empty set; dupes = 0; for x in [3, 5, 3, 7, 5]: if x in seen then dupes = dupes + 1 else add x to seen. What is dupes at the end?",
+     "options": [
+      "5",
+      "1",
+      "2",
+      "3"
+     ],
+     "answer": 2,
+     "explain": "The second 3 and the second 5 are repeats; 7 appears once."
+    },
+    {
+     "id": "hashing-5",
+     "question": "Using a hash map in one left-to-right pass, you look for two numbers in an unsorted array that add up to a target. What are the time and extra space?",
+     "options": [
+      "O(n^2) time and O(1) space",
+      "O(n) time and O(n) space",
+      "O(n) time and O(1) space",
+      "O(n log n) time and O(n) space"
+     ],
+     "answer": 1,
+     "explain": "Each element needs one map lookup for its complement and one insert, and the map can hold up to n entries."
+    },
+    {
+     "id": "hashing-6",
+     "question": "A mutable list is used as a map key and its contents are changed after insertion. What is the likely problem?",
+     "options": [
+      "Its hash changes, so the entry may no longer be found where it was stored",
+      "The map automatically moves the entry to the correct bucket",
+      "Nothing; keys are copied on insertion",
+      "The map becomes sorted by the new contents"
+     ],
+     "answer": 0,
+     "explain": "The entry stays in the bucket chosen from the old hash, so a lookup with the new hash looks elsewhere."
+    }
+   ]
+  },
+  {
+   "topic": "two_pointers",
+   "name": "Two pointers and sliding window",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "two_pointers-1",
+     "question": "Array sorted ascending. One pointer is at each end and you want a pair summing to a target. The current sum is larger than the target. What do you do?",
+     "options": [
+      "Move both pointers inward",
+      "Restart with new pointers",
+      "Move the left pointer one step right",
+      "Move the right pointer one step left"
+     ],
+     "answer": 3,
+     "explain": "Moving the right pointer left lowers the sum. Moving the left pointer right would only raise it."
+    },
+    {
+     "id": "two_pointers-2",
+     "question": "What are the time and extra space of the opposite-end two-pointer pair search on a sorted array of n numbers?",
+     "options": [
+      "O(n) time and O(n) space",
+      "O(n^2) time and O(1) space",
+      "O(n) time and O(1) space",
+      "O(log n) time and O(1) space"
+     ],
+     "answer": 2,
+     "explain": "Each pointer moves in one direction at most n steps in total, and only two indices are stored."
+    },
+    {
+     "id": "two_pointers-3",
+     "question": "You need the sum of every window of k consecutive elements in an array of n. Keeping a running sum, adding the entering element and subtracting the leaving one, makes the whole job:",
+     "options": [
+      "O(n * k)",
+      "O(n log k)",
+      "O(k)",
+      "O(n)"
+     ],
+     "answer": 3,
+     "explain": "Each slide costs a constant amount of work instead of re-adding k elements."
+    },
+    {
+     "id": "two_pointers-4",
+     "question": "A linked list has 7 nodes and no cycle. A slow pointer moves 1 step and a fast pointer moves 2 steps per round, both starting at node 1. When the fast pointer reaches the last node (node 7), which node is the slow pointer on?",
+     "options": [
+      "Node 3",
+      "Node 7",
+      "Node 5",
+      "Node 4"
+     ],
+     "answer": 3,
+     "explain": "After t rounds slow is at node 1 + t and fast at 1 + 2t. Fast is at node 7 when t = 3, so slow is at node 4, the middle."
+    },
+    {
+     "id": "two_pointers-5",
+     "question": "Finding the longest substring with no repeated characters using a variable window. A new character is already inside the window. What do you do?",
+     "options": [
+      "Move the left edge forward until the earlier copy is outside the window",
+      "Skip the new character and keep the window unchanged",
+      "Move the right edge back one step",
+      "Clear the whole window and restart at the new character"
+     ],
+     "answer": 0,
+     "explain": "Shrinking from the left removes the old copy and keeps the window valid while preserving earlier progress."
+    },
+    {
+     "id": "two_pointers-6",
+     "question": "Pseudocode: arr = [1, 1, 2, 2, 3]; write = 1; for read from 1 to 4: if arr[read] != arr[read - 1] then arr[write] = arr[read]; write = write + 1. What is write at the end?",
+     "options": [
+      "5",
+      "3",
+      "4",
+      "2"
+     ],
+     "answer": 1,
+     "explain": "The value changes at index 2 (1 to 2) and at index 4 (2 to 3), so write goes from 1 to 3. The first 3 entries are 1, 2, 3."
+    }
+   ]
+  },
+  {
+   "topic": "sorting_search",
+   "name": "Sorting and binary search",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "sorting_search-1",
+     "question": "What is the worst-case number of comparisons binary search needs on a sorted array of n elements?",
+     "options": [
+      "About n * log2(n)",
+      "About n / 2",
+      "About n",
+      "About log2(n)"
+     ],
+     "answer": 3,
+     "explain": "Each comparison halves the remaining range."
+    },
+    {
+     "id": "sorting_search-2",
+     "question": "Binary search on a sorted array with indices 0 to 9 (10 elements) computes mid = (lo + hi) / 2 using integer division. Which index is checked first?",
+     "options": [
+      "5",
+      "9",
+      "4",
+      "3"
+     ],
+     "answer": 2,
+     "explain": "(0 + 9) / 2 = 4 with integer division."
+    },
+    {
+     "id": "sorting_search-3",
+     "question": "You want to use 'binary search on the answer' to find the smallest X that makes a check pass. What must be true of the check?",
+     "options": [
+      "If it passes for some X, it also passes for every larger X",
+      "It must pass for exactly one value of X",
+      "It must pass for every even X",
+      "The values must be stored in an array first"
+     ],
+     "answer": 0,
+     "explain": "Binary search needs a monotonic condition so that one test tells you which half to discard."
+    },
+    {
+     "id": "sorting_search-4",
+     "question": "What are the worst-case time and extra space of merge sort on n elements (standard array version)?",
+     "options": [
+      "O(n^2) time and O(1) extra space",
+      "O(n log n) time and O(n) extra space",
+      "O(n) time and O(n) extra space",
+      "O(n log n) time and O(1) extra space"
+     ],
+     "answer": 1,
+     "explain": "It splits log n times, merges n elements per level, and needs a temporary array to merge."
+    },
+    {
+     "id": "sorting_search-5",
+     "question": "A sort is called stable. What does that guarantee?",
+     "options": [
+      "Its running time is always the same",
+      "Items with equal keys keep their original relative order",
+      "It works on already sorted data only",
+      "It never uses extra memory"
+     ],
+     "answer": 1,
+     "explain": "Stability matters, for example, when you sort by one field after sorting by another."
+    },
+    {
+     "id": "sorting_search-6",
+     "question": "Quicksort always uses the first element as the pivot. On an array that is already sorted, the running time is:",
+     "options": [
+      "O(n^2)",
+      "O(n log n)",
+      "O(log n)",
+      "O(n)"
+     ],
+     "answer": 0,
+     "explain": "The pivot is always the smallest, so each partition removes just one element, giving n + (n-1) + ... + 1 steps."
+    }
+   ]
+  },
+  {
+   "topic": "linked_lists",
+   "name": "Linked lists",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "linked_lists-1",
+     "question": "How long does it take to read the element at position k of a singly linked list, given only the head pointer?",
+     "options": [
+      "O(k), by walking k links",
+      "O(log k)",
+      "O(1)",
+      "O(k^2)"
+     ],
+     "answer": 0,
+     "explain": "There is no index arithmetic; you follow next pointers one at a time."
+    },
+    {
+     "id": "linked_lists-2",
+     "question": "You already hold a pointer to a node in a singly linked list. Inserting a new node right after it takes:",
+     "options": [
+      "O(n^2)",
+      "O(1)",
+      "O(n)",
+      "O(log n)"
+     ],
+     "answer": 1,
+     "explain": "Only two pointer updates are needed: the new node's next and the existing node's next."
+    },
+    {
+     "id": "linked_lists-3",
+     "question": "Pseudocode: prev = null; cur = head; while cur != null: nxt = cur.next; cur.next = prev; prev = cur; cur = nxt; return prev. The list is 1 -> 2 -> 3. What is the value of the node returned?",
+     "options": [
+      "3",
+      "2",
+      "null",
+      "1"
+     ],
+     "answer": 0,
+     "explain": "This reverses the list, so the old tail (3) becomes the new head."
+    },
+    {
+     "id": "linked_lists-4",
+     "question": "What is the main benefit of a dummy head node in list problems such as deleting a value?",
+     "options": [
+      "It makes every operation O(1)",
+      "It allows random access by index",
+      "It removes the need to follow next pointers",
+      "The head no longer needs special-case code"
+     ],
+     "answer": 3,
+     "explain": "With a dummy in front, deleting the first real node is handled the same as deleting any other."
+    },
+    {
+     "id": "linked_lists-5",
+     "question": "Floyd's fast and slow pointer method detects a cycle in a linked list using how much extra memory?",
+     "options": [
+      "O(n^2)",
+      "O(1)",
+      "O(log n)",
+      "O(n)"
+     ],
+     "answer": 1,
+     "explain": "It stores two pointers only, unlike a visited-set approach that can hold all n nodes."
+    },
+    {
+     "id": "linked_lists-6",
+     "question": "Why is binary search a poor fit for a sorted linked list?",
+     "options": [
+      "Reaching the middle node takes O(n), so there is no speedup from halving",
+      "Binary search needs the list to be doubly linked",
+      "Linked lists cannot store sorted data",
+      "Comparisons are more expensive on linked lists"
+     ],
+     "answer": 0,
+     "explain": "Each halving step still requires walking along the links, so the total work stays linear."
+    }
+   ]
+  },
+  {
+   "topic": "stacks_queues",
+   "name": "Stacks and queues",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "stacks_queues-1",
+     "question": "Operations on an empty stack: push 1, push 2, push 3, pop, pop, push 4, pop. What does the last pop return?",
+     "options": [
+      "4",
+      "2",
+      "3",
+      "1"
+     ],
+     "answer": 0,
+     "explain": "After the two pops the stack is [1]; push 4 gives [1, 4], and pop returns the top, 4."
+    },
+    {
+     "id": "stacks_queues-2",
+     "question": "Operations on an empty queue: enqueue A, enqueue B, enqueue C, dequeue, enqueue D, dequeue. What does the last dequeue return?",
+     "options": [
+      "B",
+      "C",
+      "A",
+      "D"
+     ],
+     "answer": 0,
+     "explain": "A queue is first-in first-out: A leaves first, then B."
+    },
+    {
+     "id": "stacks_queues-3",
+     "question": "Which of these bracket strings is balanced?",
+     "options": [
+      "())(",
+      "([)]",
+      "(()",
+      "{[()]}"
+     ],
+     "answer": 3,
+     "explain": "Every bracket is closed by the matching type in the correct nesting order only in {[()]}."
+    },
+    {
+     "id": "stacks_queues-4",
+     "question": "Finding the next greater element for every item in an array with a monotonic stack takes what total time?",
+     "options": [
+      "O(n), because each element is pushed and popped at most once",
+      "O(n^2)",
+      "O(log n)",
+      "O(n log n)"
+     ],
+     "answer": 0,
+     "explain": "Although there is a loop inside a loop, the total number of pops cannot exceed the number of pushes."
+    },
+    {
+     "id": "stacks_queues-5",
+     "question": "You implement a queue using two stacks (one for input, one for output, moving items over only when the output stack is empty). The amortised cost per operation is:",
+     "options": [
+      "O(1)",
+      "O(n^2)",
+      "O(n)",
+      "O(log n)"
+     ],
+     "answer": 0,
+     "explain": "Each element is moved at most once between stacks, so the occasional O(n) transfer is spread across many operations."
+    },
+    {
+     "id": "stacks_queues-6",
+     "question": "Which pairing of traversal and structure is correct for an iterative graph search?",
+     "options": [
+      "Depth-first with a queue, breadth-first with a stack",
+      "Both use a stack",
+      "Depth-first with a stack, breadth-first with a queue",
+      "Both use a queue"
+     ],
+     "answer": 2,
+     "explain": "A stack explores the most recent neighbour first (deep), a queue explores level by level."
+    }
+   ]
+  },
+  {
+   "topic": "recursion",
+   "name": "Recursion and backtracking",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "recursion-1",
+     "question": "Pseudocode: f(n): if n == 0 return 0; return n + f(n - 1). What does f(4) return?",
+     "options": [
+      "24",
+      "10",
+      "6",
+      "4"
+     ],
+     "answer": 1,
+     "explain": "4 + 3 + 2 + 1 + 0 = 10."
+    },
+    {
+     "id": "recursion-2",
+     "question": "What happens if a recursive function has no reachable base case?",
+     "options": [
+      "It stops after n calls",
+      "It keeps calling itself until the call stack overflows",
+      "The compiler rewrites it as a loop",
+      "It returns 0"
+     ],
+     "answer": 1,
+     "explain": "Each call adds a stack frame, and the stack is finite."
+    },
+    {
+     "id": "recursion-3",
+     "question": "A naive recursive fib(n) = fib(n - 1) + fib(n - 2) with base cases fib(0) = 0 and fib(1) = 1 runs in about:",
+     "options": [
+      "O(2^n) time",
+      "O(log n) time",
+      "O(n) time",
+      "O(n^2) time"
+     ],
+     "answer": 0,
+     "explain": "The same subproblems are recomputed many times, so the number of calls roughly doubles with each extra level."
+    },
+    {
+     "id": "recursion-4",
+     "question": "How many subsets (including the empty set and the full set) does a set of 5 distinct elements have?",
+     "options": [
+      "25",
+      "32",
+      "120",
+      "10"
+     ],
+     "answer": 1,
+     "explain": "Each element is either in or out: 2^5 = 32."
+    },
+    {
+     "id": "recursion-5",
+     "question": "How many different orderings (permutations) exist for 4 distinct items?",
+     "options": [
+      "8",
+      "16",
+      "12",
+      "24"
+     ],
+     "answer": 3,
+     "explain": "4 x 3 x 2 x 1 = 24."
+    },
+    {
+     "id": "recursion-6",
+     "question": "In backtracking, what is the purpose of the 'un-choose' step after exploring one choice?",
+     "options": [
+      "To store the answer found so far",
+      "To end the whole search",
+      "To make the search faster by skipping branches",
+      "To restore the state so the next choice starts from a clean position"
+     ],
+     "answer": 3,
+     "explain": "Without undoing the change, later branches would see leftovers from earlier ones and produce wrong results."
+    }
+   ]
+  },
+  {
+   "topic": "trees",
+   "name": "Binary trees and BSTs",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "trees-1",
+     "question": "What is the extra memory used by a recursive depth-first traversal of a binary tree of height h (not counting the tree itself)?",
+     "options": [
+      "O(1)",
+      "O(n) always",
+      "O(h), for the call stack",
+      "O(log n) always"
+     ],
+     "answer": 2,
+     "explain": "The recursion goes at most h levels deep. For a skewed tree h can be n."
+    },
+    {
+     "id": "trees-2",
+     "question": "An in-order traversal of a valid binary search tree visits the keys in what order?",
+     "options": [
+      "Level by level",
+      "Ascending (sorted) order",
+      "Descending order",
+      "Insertion order"
+     ],
+     "answer": 1,
+     "explain": "Left subtree, then node, then right subtree matches the BST ordering rule."
+    },
+    {
+     "id": "trees-3",
+     "question": "A binary tree is completely full and has 3 levels (the root is level 1). How many nodes does it have?",
+     "options": [
+      "9",
+      "6",
+      "7",
+      "8"
+     ],
+     "answer": 2,
+     "explain": "1 + 2 + 4 = 7."
+    },
+    {
+     "id": "trees-4",
+     "question": "A tree has root 1 with children 2 (left) and 3 (right). Node 2 has a left child 4 and no right child. What does a post-order traversal (left, right, node) print?",
+     "options": [
+      "4 2 1 3",
+      "4 3 2 1",
+      "4 2 3 1",
+      "1 2 4 3"
+     ],
+     "answer": 2,
+     "explain": "Under 2: print 4 then 2. Then the right subtree 3. The root 1 comes last."
+    },
+    {
+     "id": "trees-5",
+     "question": "Which data structure does a level-order (breadth-first) traversal of a tree use?",
+     "options": [
+      "A hash set only",
+      "A min-heap",
+      "A stack",
+      "A queue"
+     ],
+     "answer": 3,
+     "explain": "A queue processes nodes in the order they were discovered, which gives level by level."
+    },
+    {
+     "id": "trees-6",
+     "question": "You insert the keys 1, 2, 3, 4, 5 in that order into a plain (non-balancing) binary search tree. What is the cost of searching for 5 afterwards?",
+     "options": [
+      "O(log n)",
+      "O(n), because the tree is a chain",
+      "O(n log n)",
+      "O(1)"
+     ],
+     "answer": 1,
+     "explain": "Each key becomes the right child of the previous one, so the tree degenerates into a linked list."
+    }
+   ]
+  },
+  {
+   "topic": "heaps",
+   "name": "Heaps and priority queues",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "heaps-1",
+     "question": "In a binary min-heap, where is the smallest element and how long does it take to read it?",
+     "options": [
+      "At a leaf, in O(log n)",
+      "At the root, in O(log n)",
+      "At the root, in O(1)",
+      "Anywhere, in O(n)"
+     ],
+     "answer": 2,
+     "explain": "The heap property puts the minimum at the root; peeking does not change the heap."
+    },
+    {
+     "id": "heaps-2",
+     "question": "How long do push and pop (remove the minimum) take in a binary heap of n elements?",
+     "options": [
+      "O(n) each",
+      "O(n log n) each",
+      "O(1) each",
+      "O(log n) each"
+     ],
+     "answer": 3,
+     "explain": "The new or moved element sifts through at most the height of the tree, about log2(n) levels."
+    },
+    {
+     "id": "heaps-3",
+     "question": "To get the K largest of n numbers you keep a min-heap of at most K items, pushing each number and popping when the size exceeds K. The time is:",
+     "options": [
+      "O(n + K)",
+      "O(n log n)",
+      "O(K log n)",
+      "O(n log K)"
+     ],
+     "answer": 3,
+     "explain": "Each of n numbers causes at most one push and one pop on a heap of size K."
+    },
+    {
+     "id": "heaps-4",
+     "question": "Building a heap from an unsorted array of n elements with the bottom-up method takes:",
+     "options": [
+      "O(log n)",
+      "O(n log n)",
+      "O(n^2)",
+      "O(n)"
+     ],
+     "answer": 3,
+     "explain": "Most nodes are near the bottom and sift only a short distance, which sums to a linear total."
+    },
+    {
+     "id": "heaps-5",
+     "question": "A binary heap is stored in an array with 0-based indices, and the children of index i are 2i + 1 and 2i + 2. What is the parent of index 5?",
+     "options": [
+      "4",
+      "3",
+      "2",
+      "1"
+     ],
+     "answer": 2,
+     "explain": "Index 2 has children 2*2 + 1 = 5 and 2*2 + 2 = 6, so the parent of 5 is 2, which is (5 - 1) / 2 with integer division."
+    },
+    {
+     "id": "heaps-6",
+     "question": "To maintain a running median with two heaps, what does the max-heap hold?",
+     "options": [
+      "The smaller half of the numbers",
+      "Only the duplicates",
+      "The larger half of the numbers",
+      "The most recent K numbers"
+     ],
+     "answer": 0,
+     "explain": "The max-heap root is the largest of the lower half, and the min-heap root is the smallest of the upper half; the median comes from these roots."
+    }
+   ]
+  },
+  {
+   "topic": "graphs",
+   "name": "Graphs: BFS, DFS, topological sort",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "graphs-1",
+     "question": "How much memory does an adjacency list for a graph with V vertices and E edges use?",
+     "options": [
+      "O(E^2)",
+      "O(V^2) always",
+      "O(V * E)",
+      "O(V + E)"
+     ],
+     "answer": 3,
+     "explain": "One list header per vertex plus one entry per edge (two per edge if undirected)."
+    },
+    {
+     "id": "graphs-2",
+     "question": "In an unweighted graph, which algorithm finds the path with the fewest edges from a source to every other vertex?",
+     "options": [
+      "Breadth-first search",
+      "Binary search",
+      "Topological sort",
+      "Depth-first search"
+     ],
+     "answer": 0,
+     "explain": "BFS visits vertices in order of increasing distance from the source."
+    },
+    {
+     "id": "graphs-3",
+     "question": "What is the time complexity of BFS on a graph stored as an adjacency list?",
+     "options": [
+      "O(E log V)",
+      "O(V + E)",
+      "O(V * E)",
+      "O(V^2) always"
+     ],
+     "answer": 1,
+     "explain": "Each vertex is dequeued once and each edge is examined a constant number of times."
+    },
+    {
+     "id": "graphs-4",
+     "question": "A topological ordering of a directed graph exists only if the graph:",
+     "options": [
+      "Has the same number of vertices and edges",
+      "Is connected",
+      "Has no directed cycle",
+      "Is a tree"
+     ],
+     "answer": 2,
+     "explain": "A cycle means a set of tasks each waiting for another, so no valid order can exist."
+    },
+    {
+     "id": "graphs-5",
+     "question": "Directed edges: A->B, A->C, B->D, C->D. Which of these is a valid topological order?",
+     "options": [
+      "B A C D",
+      "A B C D",
+      "D B C A",
+      "A D B C"
+     ],
+     "answer": 1,
+     "explain": "Every edge goes forward in A B C D. The others put a vertex before one that must precede it."
+    },
+    {
+     "id": "graphs-6",
+     "question": "Doing DFS on an undirected graph, you reach an already-visited vertex that is not the vertex you just came from. What does this show?",
+     "options": [
+      "The graph is disconnected",
+      "The graph is a tree",
+      "The graph contains a cycle",
+      "The search must restart"
+     ],
+     "answer": 2,
+     "explain": "There are now two different paths between the same two vertices, which forms a cycle."
+    }
+   ]
+  },
+  {
+   "topic": "greedy",
+   "name": "Greedy algorithms",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "greedy-1",
+     "question": "To pick the maximum number of non-overlapping meetings, which greedy rule is correct?",
+     "options": [
+      "Choose the shortest meeting first",
+      "Choose the meeting that overlaps the most others",
+      "Choose the meeting that starts earliest",
+      "Repeatedly choose the compatible meeting that finishes earliest"
+     ],
+     "answer": 3,
+     "explain": "Finishing earliest leaves the most room for the rest. Shortest-first and earliest-start both have counterexamples."
+    },
+    {
+     "id": "greedy-2",
+     "question": "When can a greedy algorithm be trusted to give an optimal answer?",
+     "options": [
+      "Whenever the input is sorted",
+      "When a locally best choice can always be extended to a globally optimal solution",
+      "Always, if it runs in O(n log n)",
+      "Whenever the problem asks for a minimum"
+     ],
+     "answer": 1,
+     "explain": "That 'greedy choice' property has to be argued for each problem, usually with an exchange argument."
+    },
+    {
+     "id": "greedy-3",
+     "question": "Coins are {1, 3, 4} and you always take the largest coin that fits. How many coins does this give for an amount of 6?",
+     "options": [
+      "2 coins (3 + 3)",
+      "4 coins",
+      "3 coins (4 + 1 + 1), though 2 coins (3 + 3) is possible",
+      "6 coins"
+     ],
+     "answer": 2,
+     "explain": "Greedy takes 4 first and then needs two 1s. This shows greedy is not optimal for every coin set."
+    },
+    {
+     "id": "greedy-4",
+     "question": "Meetings (start, end): (1,3), (2,4), (3,5), (6,7). A meeting that ends at 3 and another that starts at 3 do not conflict. What is the maximum number you can attend?",
+     "options": [
+      "2",
+      "4",
+      "3",
+      "1"
+     ],
+     "answer": 2,
+     "explain": "Take (1,3), then (3,5), then (6,7). (2,4) overlaps with both (1,3) and (3,5)."
+    },
+    {
+     "id": "greedy-5",
+     "question": "Greedy interval scheduling sorts n meetings by end time and then scans once. The total running time is:",
+     "options": [
+      "O(n)",
+      "O(log n)",
+      "O(n^2)",
+      "O(n log n)"
+     ],
+     "answer": 3,
+     "explain": "The sort dominates; the scan afterwards is linear."
+    },
+    {
+     "id": "greedy-6",
+     "question": "What is an 'exchange argument' used for in greedy proofs?",
+     "options": [
+      "To reduce memory usage",
+      "To measure the running time",
+      "To test the algorithm on random inputs",
+      "To show that swapping an optimal solution's choice for the greedy choice does not make it worse"
+     ],
+     "answer": 3,
+     "explain": "Repeating the swap transforms any optimal solution into the greedy one without losing quality."
+    }
+   ]
+  },
+  {
+   "topic": "dp",
+   "name": "Dynamic programming",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "dp-1",
+     "question": "Which two properties together suggest that dynamic programming will work for a problem?",
+     "options": [
+      "Sorted input and unique values",
+      "A graph with no cycles and positive weights",
+      "A single loop and constant memory",
+      "Overlapping subproblems and optimal substructure"
+     ],
+     "answer": 3,
+     "explain": "Subproblems repeat (so caching helps) and the best answer is built from best answers to smaller problems."
+    },
+    {
+     "id": "dp-2",
+     "question": "Adding memoisation to naive recursive Fibonacci changes the time from exponential to:",
+     "options": [
+      "O(1)",
+      "O(n^2)",
+      "O(log n)",
+      "O(n)"
+     ],
+     "answer": 3,
+     "explain": "Each of the n distinct values is computed once, then reused."
+    },
+    {
+     "id": "dp-3",
+     "question": "You can climb 1 or 2 stairs at a time, with ways(1) = 1 and ways(2) = 2, and ways(n) = ways(n - 1) + ways(n - 2). What is ways(5)?",
+     "options": [
+      "13",
+      "10",
+      "5",
+      "8"
+     ],
+     "answer": 3,
+     "explain": "ways(3) = 3, ways(4) = 5, ways(5) = 8."
+    },
+    {
+     "id": "dp-4",
+     "question": "A robot moves from the top-left to the bottom-right of a 3 x 3 grid of cells, moving only right or down. How many different paths are there?",
+     "options": [
+      "4",
+      "12",
+      "9",
+      "6"
+     ],
+     "answer": 3,
+     "explain": "It makes 2 right and 2 down moves in some order: 4 moves choose 2 = 6."
+    },
+    {
+     "id": "dp-5",
+     "question": "For the longest common subsequence of strings of lengths n and m, the standard table approach takes:",
+     "options": [
+      "O(n * m) time",
+      "O(n log m) time",
+      "O(n + m) time",
+      "O(2^n) time"
+     ],
+     "answer": 0,
+     "explain": "There is one table cell per pair of prefixes, each filled in constant time."
+    },
+    {
+     "id": "dp-6",
+     "question": "A 0/1 knapsack has n items and capacity W. The standard dynamic programming solution takes:",
+     "options": [
+      "O(2^n) time",
+      "O(n * W) time",
+      "O(n + W) time",
+      "O(n log W) time"
+     ],
+     "answer": 1,
+     "explain": "The table has n rows and W + 1 columns. This is pseudo-polynomial because W is a number, not an input size."
+    }
+   ]
+  },
+  {
+   "topic": "advanced_graphs",
+   "name": "Shortest paths, union-find, MST",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "advanced_graphs-1",
+     "question": "Dijkstra's algorithm gives correct shortest paths only if the edge weights are:",
+     "options": [
+      "All distinct",
+      "All equal",
+      "Non-negative",
+      "Integers only"
+     ],
+     "answer": 2,
+     "explain": "A negative edge can make an already-finalised vertex reachable more cheaply later."
+    },
+    {
+     "id": "advanced_graphs-2",
+     "question": "Dijkstra's algorithm on a graph with V vertices and E edges, using a binary heap, runs in about:",
+     "options": [
+      "O(V^2 * E)",
+      "O(V + E)",
+      "O((V + E) log V)",
+      "O(V * E)"
+     ],
+     "answer": 2,
+     "explain": "Each edge can cause one heap push, and each heap operation costs O(log V)."
+    },
+    {
+     "id": "advanced_graphs-3",
+     "question": "Undirected weighted edges: A-B 4, A-C 1, C-B 2, B-D 1. What is the shortest distance from A to D?",
+     "options": [
+      "3",
+      "6",
+      "5",
+      "4"
+     ],
+     "answer": 3,
+     "explain": "A-C-B-D costs 1 + 2 + 1 = 4. The direct route A-B-D costs 4 + 1 = 5."
+    },
+    {
+     "id": "advanced_graphs-4",
+     "question": "A union-find (disjoint set) structure uses path compression and union by rank. The amortised cost of each operation is:",
+     "options": [
+      "O(log n) exactly",
+      "Nearly constant (inverse Ackermann)",
+      "O(n)",
+      "O(n log n)"
+     ],
+     "answer": 1,
+     "explain": "The combined optimisations keep trees so flat that the cost is effectively constant for any realistic n."
+    },
+    {
+     "id": "advanced_graphs-5",
+     "question": "How many edges does a minimum spanning tree of a connected graph with V vertices have?",
+     "options": [
+      "V",
+      "V + 1",
+      "V - 1",
+      "V / 2"
+     ],
+     "answer": 2,
+     "explain": "A spanning tree connects V vertices with no cycle, which takes exactly V - 1 edges."
+    },
+    {
+     "id": "advanced_graphs-6",
+     "question": "In Kruskal's algorithm, which rule decides whether the next cheapest edge is added?",
+     "options": [
+      "Add it only if its endpoints are in different components",
+      "Add it only if it is connected to the last added edge",
+      "Add it only if it is shorter than the average edge",
+      "Always add it"
+     ],
+     "answer": 0,
+     "explain": "Joining two vertices already connected would create a cycle, which a tree cannot have."
+    }
+   ]
+  },
+  {
+   "topic": "tries_bits",
+   "name": "Tries and bit manipulation",
+   "skill_id": "dsa",
+   "questions": [
+    {
+     "id": "tries_bits-1",
+     "question": "In a trie, looking up a word of length L takes how long, ignoring the alphabet size?",
+     "options": [
+      "O(L)",
+      "O(1)",
+      "O(n * L)",
+      "O(log n) where n is the number of words"
+     ],
+     "answer": 0,
+     "explain": "You follow one edge per character, no matter how many words are stored."
+    },
+    {
+     "id": "tries_bits-2",
+     "question": "Pseudocode: result = 0; for x in [4, 7, 4, 9, 7]: result = result XOR x. What is result?",
+     "options": [
+      "9",
+      "0",
+      "4",
+      "7"
+     ],
+     "answer": 0,
+     "explain": "XOR of equal values cancels (a XOR a = 0), so 4, 4 and 7, 7 cancel and only 9 remains."
+    },
+    {
+     "id": "tries_bits-3",
+     "question": "What is 12 AND 11 (that is, n AND (n - 1) with n = 12)? Binary: 12 = 1100, 11 = 1011.",
+     "options": [
+      "0",
+      "4",
+      "8",
+      "10"
+     ],
+     "answer": 2,
+     "explain": "1100 AND 1011 = 1000, which is 8. The operation clears the lowest set bit."
+    },
+    {
+     "id": "tries_bits-4",
+     "question": "Why can a trie answer 'does any stored word start with this prefix?' better than a hash set of words?",
+     "options": [
+      "Hash sets cannot store strings",
+      "A trie stores words in sorted order only",
+      "Following the prefix's characters reaches a node covering all words with that prefix",
+      "A trie uses no memory"
+     ],
+     "answer": 2,
+     "explain": "A hash set only answers exact matches; a trie keeps shared prefixes together in its structure."
+    },
+    {
+     "id": "tries_bits-5",
+     "question": "What is 5 left-shifted by 2 (5 << 2)?",
+     "options": [
+      "10",
+      "20",
+      "7",
+      "25"
+     ],
+     "answer": 1,
+     "explain": "Shifting left by k multiplies by 2^k: 5 x 4 = 20."
+    },
+    {
+     "id": "tries_bits-6",
+     "question": "A trie stores several words with a total of N characters across all of them. At most how many nodes does it have, not counting the root?",
+     "options": [
+      "log N",
+      "2^N",
+      "N",
+      "N^2"
+     ],
+     "answer": 2,
+     "explain": "Each character adds at most one new node, and shared prefixes only reduce that."
+    }
+   ]
+  },
+  {
+   "topic": "oop",
+   "name": "Object-oriented programming",
+   "skill_id": "oop",
+   "questions": [
+    {
+     "id": "oop-1",
+     "question": "What does encapsulation mean?",
+     "options": [
+      "Creating a new class from an existing one",
+      "Using one method name for several different tasks",
+      "Keeping an object's internal state private and exposing it through methods",
+      "Running several objects at the same time"
+     ],
+     "answer": 2,
+     "explain": "Hiding state lets the class protect its rules, for example never allowing a negative balance."
+    },
+    {
+     "id": "oop-2",
+     "question": "Pseudocode: class Animal has speak() that prints \"...\". class Dog extends Animal and overrides speak() to print \"woof\". Then: a = new Dog(); a.speak() where a is declared as type Animal. In a language with dynamic dispatch, what prints?",
+     "options": [
+      "...",
+      "Nothing; it is a compile error",
+      "Both \"...\" and \"woof\"",
+      "woof"
+     ],
+     "answer": 3,
+     "explain": "The method that runs is chosen from the real object type (Dog) at run time. This is polymorphism."
+    },
+    {
+     "id": "oop-3",
+     "question": "A Car contains an Engine object it uses to move. Which relationship is this?",
+     "options": [
+      "Composition (a has-a relationship)",
+      "Inheritance (an is-a relationship)",
+      "Overloading",
+      "Abstraction by interface only"
+     ],
+     "answer": 0,
+     "explain": "A car is not a kind of engine; it has one. Prefer composition when the relationship is not truly is-a."
+    },
+    {
+     "id": "oop-4",
+     "question": "Which statement about method overriding is correct?",
+     "options": [
+      "A subclass supplies its own version of a method defined in its parent with the same signature",
+      "Two methods with the same name but different parameters are in the same class",
+      "A method that is only available at compile time",
+      "A method that cannot be called from outside the class"
+     ],
+     "answer": 0,
+     "explain": "The second option describes overloading, the third describes a private method."
+    },
+    {
+     "id": "oop-5",
+     "question": "The Single Responsibility Principle says that a class should:",
+     "options": [
+      "Never use inheritance",
+      "Have only one reason to change",
+      "Be used by only one other class",
+      "Have only one method"
+     ],
+     "answer": 1,
+     "explain": "Mixing unrelated duties (for example billing and email formatting) makes changes to one risk breaking the other."
+    },
+    {
+     "id": "oop-6",
+     "question": "A class declares an abstract method with no body. What follows from this?",
+     "options": [
+      "Objects of the class can be created but the method returns null",
+      "The method is called automatically by subclasses",
+      "The class cannot be instantiated directly; a concrete subclass must implement the method",
+      "The method becomes private"
+     ],
+     "answer": 2,
+     "explain": "Abstract methods define what subclasses must provide, so the class is incomplete on its own."
+    }
+   ]
+  },
+  {
+   "topic": "os",
+   "name": "Operating systems",
+   "skill_id": "os",
+   "questions": [
+    {
+     "id": "os-1",
+     "question": "Threads of the same process share which of these by default?",
+     "options": [
+      "Heap memory and open files",
+      "Their program counters",
+      "Their call stacks",
+      "Their CPU register values"
+     ],
+     "answer": 0,
+     "explain": "Each thread has its own stack and registers, but they all see the same process address space."
+    },
+    {
+     "id": "os-2",
+     "question": "Which of these is NOT one of the four conditions needed for a deadlock?",
+     "options": [
+      "Mutual exclusion",
+      "Round-robin scheduling",
+      "Circular wait",
+      "Hold and wait"
+     ],
+     "answer": 1,
+     "explain": "The conditions are mutual exclusion, hold and wait, no preemption and circular wait. Scheduling policy is not on the list."
+    },
+    {
+     "id": "os-3",
+     "question": "What happens during a context switch?",
+     "options": [
+      "The disk is formatted",
+      "All memory is cleared",
+      "The CPU state of the running process is saved and the state of another process is loaded",
+      "The running process is deleted"
+     ],
+     "answer": 2,
+     "explain": "This lets the OS share one CPU among many processes."
+    },
+    {
+     "id": "os-4",
+     "question": "A page fault occurs when:",
+     "options": [
+      "Two processes use the same file",
+      "The disk is full",
+      "A program divides by zero",
+      "A process accesses a page that is not currently in physical memory"
+     ],
+     "answer": 3,
+     "explain": "The OS has to bring the page in (from disk, for example) before the instruction can continue."
+    },
+    {
+     "id": "os-5",
+     "question": "Round-robin scheduling, time quantum 4 ms. P1, P2, P3 all arrive at time 0 in that order, each needing 8 ms of CPU. At what time does P1 finish?",
+     "options": [
+      "8 ms",
+      "16 ms",
+      "12 ms",
+      "24 ms"
+     ],
+     "answer": 1,
+     "explain": "P1 runs 0-4, P2 4-8, P3 8-12, then P1 runs again 12-16 and completes."
+    },
+    {
+     "id": "os-6",
+     "question": "Two threads each run counter = counter + 1 a thousand times on a shared variable with no locking. Why might the final value be below 2000?",
+     "options": [
+      "The read-add-write steps of the two threads can interleave, so some updates are lost",
+      "Threads can only run one after the other, so the second overwrites the first",
+      "Integers cannot exceed 1000",
+      "The OS skips every other instruction"
+     ],
+     "answer": 0,
+     "explain": "This is a race condition; a mutex or an atomic increment makes the update safe."
+    }
+   ]
+  },
+  {
+   "topic": "dbms",
+   "name": "Database management systems",
+   "skill_id": "dbms",
+   "questions": [
+    {
+     "id": "dbms-1",
+     "question": "What does a primary key guarantee in a table?",
+     "options": [
+      "Each row can be identified uniquely and the key is never NULL",
+      "The column is encrypted",
+      "The column can only hold numbers",
+      "The table is sorted by that column"
+     ],
+     "answer": 0,
+     "explain": "Uniqueness and non-null are required; sorting and types are separate concerns."
+    },
+    {
+     "id": "dbms-2",
+     "question": "In ACID, what does the letter I stand for and what does it protect against?",
+     "options": [
+      "Isolation, so concurrent transactions do not see each other's half-finished work",
+      "Integrity, so numbers are always positive",
+      "Indexing, so queries are fast",
+      "Inheritance, so tables extend each other"
+     ],
+     "answer": 0,
+     "explain": "Isolation gives each transaction the effect of running alone, to a degree set by the isolation level."
+    },
+    {
+     "id": "dbms-3",
+     "question": "What is the main purpose of normalisation?",
+     "options": [
+      "To reduce duplicated data and the update anomalies it causes",
+      "To store data as one large table",
+      "To encrypt sensitive columns",
+      "To make queries run faster in all cases"
+     ],
+     "answer": 0,
+     "explain": "Storing each fact once avoids having to update several copies that may become inconsistent."
+    },
+    {
+     "id": "dbms-4",
+     "question": "Which describes the usual trade-off of adding an index to a column?",
+     "options": [
+      "Writes get faster and reads get slower",
+      "Reads and writes both get faster",
+      "Reads on that column get faster, but writes get slower and storage grows",
+      "There is no trade-off"
+     ],
+     "answer": 2,
+     "explain": "Every insert, update or delete must also maintain the index structure."
+    },
+    {
+     "id": "dbms-5",
+     "question": "An orders table has a column customer_id declared as a foreign key to customers(id). What does this enforce?",
+     "options": [
+      "Customer IDs must be sorted",
+      "Every customer must have at least one order",
+      "Every order must refer to a customer that exists",
+      "Orders cannot be deleted"
+     ],
+     "answer": 2,
+     "explain": "This is referential integrity; it blocks orders pointing to missing customers."
+    },
+    {
+     "id": "dbms-6",
+     "question": "A transfer debits account A by 500 and then the system crashes before crediting account B. Which ACID property ensures the debit is undone?",
+     "options": [
+      "Atomicity",
+      "Isolation",
+      "Consistency alone",
+      "Durability"
+     ],
+     "answer": 0,
+     "explain": "Atomicity means the transaction happens completely or not at all, so the partial debit is rolled back."
+    }
+   ]
+  },
+  {
+   "topic": "networking",
+   "name": "Computer networks",
+   "skill_id": "networking",
+   "questions": [
+    {
+     "id": "networking-1",
+     "question": "Which statement correctly compares TCP and UDP?",
+     "options": [
+      "Both guarantee ordering",
+      "TCP is connection-oriented with ordered, retransmitted delivery; UDP sends datagrams with no such guarantees",
+      "UDP guarantees delivery and TCP does not",
+      "TCP is used only for email"
+     ],
+     "answer": 1,
+     "explain": "UDP trades reliability for lower overhead, which suits things like live audio."
+    },
+    {
+     "id": "networking-2",
+     "question": "What is the job of DNS?",
+     "options": [
+      "To encrypt web traffic",
+      "To translate domain names into IP addresses",
+      "To compress web pages",
+      "To assign a MAC address to each device"
+     ],
+     "answer": 1,
+     "explain": "Browsers use names; the network needs IP addresses."
+    },
+    {
+     "id": "networking-3",
+     "question": "An HTTP response has status code 503. What class of problem does this indicate?",
+     "options": [
+      "A server-side problem (5xx)",
+      "A redirect (3xx)",
+      "A success (2xx)",
+      "A client request error (4xx)"
+     ],
+     "answer": 0,
+     "explain": "5xx codes mean the server failed or is unavailable, even if the request was valid."
+    },
+    {
+     "id": "networking-4",
+     "question": "What is the sequence of the TCP three-way handshake?",
+     "options": [
+      "SYN, ACK, FIN",
+      "SYN, SYN-ACK, ACK",
+      "ACK, SYN, SYN-ACK",
+      "HELLO, HELLO-ACK, DATA"
+     ],
+     "answer": 1,
+     "explain": "The client sends SYN, the server answers SYN-ACK, and the client confirms with ACK."
+    },
+    {
+     "id": "networking-5",
+     "question": "What does HTTPS add on top of plain HTTP?",
+     "options": [
+      "Encryption of the traffic and authentication of the server through TLS and certificates",
+      "A guarantee that the website content is true",
+      "Automatic compression of images",
+      "A faster protocol that skips DNS"
+     ],
+     "answer": 0,
+     "explain": "TLS protects the connection, but it says nothing about whether the site itself is honest."
+    },
+    {
+     "id": "networking-6",
+     "question": "How many addresses are in the IPv4 block 192.168.1.0/24, counting every address?",
+     "options": [
+      "256",
+      "255",
+      "24",
+      "254"
+     ],
+     "answer": 0,
+     "explain": "A /24 leaves 8 host bits, so 2^8 = 256 addresses. (Usually 254 are usable for hosts.)"
+    }
+   ]
+  },
+  {
+   "topic": "system_design",
+   "name": "System design basics",
+   "skill_id": "system_design",
+   "questions": [
+    {
+     "id": "system_design-1",
+     "question": "What is horizontal scaling?",
+     "options": [
+      "Compressing all requests",
+      "Handling more load by adding more machines",
+      "Moving the database to disk",
+      "Giving one machine more CPU and RAM"
+     ],
+     "answer": 1,
+     "explain": "Adding more CPU or RAM to one machine is vertical scaling."
+    },
+    {
+     "id": "system_design-2",
+     "question": "In the cache-aside pattern, what happens on a cache miss?",
+     "options": [
+      "The application reads from the database and then stores the result in the cache",
+      "The request is rejected",
+      "The cache calls the database itself and returns an error",
+      "The database is updated first"
+     ],
+     "answer": 0,
+     "explain": "The application is responsible for loading the cache, so later reads for the same key are fast."
+    },
+    {
+     "id": "system_design-3",
+     "question": "During a network partition between two replicas of a database, the CAP theorem says a system must choose between:",
+     "options": [
+      "Consistency and availability",
+      "Speed and cost",
+      "Reads and writes",
+      "Security and privacy"
+     ],
+     "answer": 0,
+     "explain": "When replicas cannot talk, answering requests risks stale data, while refusing requests loses availability."
+    },
+    {
+     "id": "system_design-4",
+     "question": "What does a load balancer do?",
+     "options": [
+      "Converts SQL to NoSQL",
+      "Spreads incoming requests across several servers",
+      "Stores user passwords",
+      "Compiles application code"
+     ],
+     "answer": 1,
+     "explain": "It also helps hide failed servers by routing around them."
+    },
+    {
+     "id": "system_design-5",
+     "question": "A service receives about 1 million requests per day, evenly spread. Roughly how many requests per second is that on average?",
+     "options": [
+      "About 1,200",
+      "About 1",
+      "About 120",
+      "About 12"
+     ],
+     "answer": 3,
+     "explain": "There are 86,400 seconds in a day: 1,000,000 / 86,400 is about 11.6. Peak traffic is usually several times higher."
+    },
+    {
+     "id": "system_design-6",
+     "question": "A client times out on a payment request and retries it. What property should the server's payment endpoint have so the customer is not charged twice?",
+     "options": [
+      "Eventual consistency",
+      "Idempotency, using a unique request key to recognise repeats",
+      "Statelessness",
+      "Horizontal scaling"
+     ],
+     "answer": 1,
+     "explain": "With an idempotency key the server returns the earlier result instead of charging again."
+    }
+   ]
+  },
+  {
+   "topic": "sql",
+   "name": "SQL",
+   "skill_id": "sql",
+   "questions": [
+    {
+     "id": "sql-1",
+     "question": "Which statement about WHERE and HAVING is correct?",
+     "options": [
+      "They are identical",
+      "WHERE filters rows before grouping; HAVING filters groups after aggregation",
+      "WHERE can only be used with joins",
+      "HAVING filters rows before grouping; WHERE filters groups"
+     ],
+     "answer": 1,
+     "explain": "Aggregate conditions such as SUM(amount) > 100 belong in HAVING."
+    },
+    {
+     "id": "sql-2",
+     "question": "Table students(id) and table marks(student_id, score). A student with no marks should still appear in the result, with NULL for score. Which join does this?",
+     "options": [
+      "students LEFT JOIN marks",
+      "Any join; they behave the same",
+      "students INNER JOIN marks",
+      "marks INNER JOIN students"
+     ],
+     "answer": 0,
+     "explain": "A left join keeps every row from the left table and fills missing matches with NULL."
+    },
+    {
+     "id": "sql-3",
+     "question": "Table t has column x with the values 1, 2, NULL, 4. What does SELECT COUNT(x) FROM t return?",
+     "options": [
+      "2",
+      "NULL",
+      "3",
+      "4"
+     ],
+     "answer": 2,
+     "explain": "COUNT(column) ignores NULLs. COUNT(*) would return 4."
+    },
+    {
+     "id": "sql-4",
+     "question": "What does SELECT * FROM students WHERE city = NULL return?",
+     "options": [
+      "All rows",
+      "Rows where city is empty",
+      "An error in every database",
+      "No rows"
+     ],
+     "answer": 3,
+     "explain": "A comparison with NULL is never true. Use city IS NULL instead."
+    },
+    {
+     "id": "sql-5",
+     "question": "Table orders(customer, amount) has rows (A, 100), (A, 50), (B, 70). The query is: SELECT customer FROM orders GROUP BY customer HAVING SUM(amount) > 100. What does it return?",
+     "options": [
+      "No rows",
+      "A and B",
+      "B",
+      "A"
+     ],
+     "answer": 3,
+     "explain": "A totals 150 (above 100) and B totals 70 (not above 100)."
+    },
+    {
+     "id": "sql-6",
+     "question": "A plain B-tree index exists on column email. Which query can use it most effectively for a fast lookup?",
+     "options": [
+      "WHERE LOWER(email) = 'x@example.com'",
+      "WHERE SUBSTR(email, 1, 3) = 'x@e'",
+      "WHERE email LIKE '%@example.com'",
+      "WHERE email = 'x@example.com'"
+     ],
+     "answer": 3,
+     "explain": "An exact match on the indexed value works. Wrapping the column in a function or starting the pattern with a wildcard prevents a plain index from being used."
+    }
+   ]
+  }
+ ]
+}

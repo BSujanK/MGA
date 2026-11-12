@@ -802,6 +802,266 @@
     "Subscriptions for new reviews",
     "Query cost limits"
    ]
+  },
+  {
+   "id": "ios_expense_splitter",
+   "title": "Hostel expense splitter for iPhone",
+   "hours": 25,
+   "pitch": "A native iOS app where flatmates add shared expenses (chai, groceries, electricity) and see who owes whom, even offline.",
+   "skills": [
+    "swift",
+    "ios",
+    "rest_api",
+    "unit_testing",
+    "git"
+   ],
+   "milestones": [
+    "Model groups, members and expenses in Swift value types and write down the rounding rule for uneven splits",
+    "Build the list and add-expense screens and show a validation message for empty or negative amounts",
+    "Persist data on the device and show that the app reopens with the same balances after being force-quit",
+    "Sync with a small REST backend and show a clear state when the network is down",
+    "Write unit tests for the split and settle-up logic, including a case that does not divide evenly",
+    "Record a short screen capture and a README that lists what you would change before a store submission"
+   ],
+   "stretch": [
+    "Simplify debts so the fewest payments settle the group",
+    "Export a month summary as a shareable text"
+   ]
+  },
+  {
+   "id": "security_audit_lab",
+   "title": "Vulnerable web app: find, exploit and fix",
+   "hours": 30,
+   "pitch": "Build a deliberately weak small web app on your own machine, document each flaw, then fix it and prove the fix with a test.",
+   "skills": [
+    "security",
+    "auth",
+    "rest_api",
+    "python",
+    "linux",
+    "networking"
+   ],
+   "milestones": [
+    "Build a small app with login, a search box and a profile page, running only on localhost",
+    "Plant and document three flaws (for example SQL injection, stored XSS, broken access control) with a step-by-step reproduction for each",
+    "Fix every flaw and add a regression test that fails on the old code and passes on the new",
+    "Add security headers, input validation and rate limiting on login, and show the before and after responses",
+    "Scan your own dependencies for known vulnerabilities and write up what you upgraded and why",
+    "Write a short report in the style of a penetration-test finding: impact, evidence, fix, residual risk"
+   ],
+   "stretch": [
+    "Threat-model the app with a data-flow diagram",
+    "Add an audit log that records failed logins"
+   ]
+  },
+  {
+   "id": "rainfall_stats_study",
+   "title": "Monsoon rainfall: trends and a simple forecast",
+   "hours": 20,
+   "pitch": "Use a public rainfall dataset for a few districts to test whether the monsoon is changing and how well a simple model predicts it.",
+   "skills": [
+    "statistics",
+    "pandas",
+    "ml",
+    "python",
+    "data_viz"
+   ],
+   "milestones": [
+    "Load a public dataset, document its source and licence in the README, and list the missing values you found",
+    "Clean the data in pandas and write down every assumption you made when filling or dropping gaps",
+    "State a hypothesis and test it (for example, mean June-September rainfall in two decades differs) with the test, the p-value and what it does not prove",
+    "Plot trends with uncertainty bands and a chart that a non-technical reader can follow",
+    "Fit a baseline and one regression model, split by year not randomly, and report the error of each on the held-out years",
+    "Write a one-page conclusion that separates what the data shows from what it cannot show"
+   ],
+   "stretch": [
+    "Compare two districts with a confidence interval on the difference",
+    "Check for outliers caused by sensor errors"
+   ]
+  },
+  {
+   "id": "kirana_stock_vue",
+   "title": "Kirana stock dashboard in Vue",
+   "hours": 25,
+   "pitch": "A single-page app where a shop owner tracks stock, sees low-stock items and a daily sales summary on a phone-sized screen.",
+   "skills": [
+    "vue",
+    "typescript",
+    "javascript",
+    "html",
+    "css",
+    "rest_api",
+    "unit_testing"
+   ],
+   "milestones": [
+    "Set up the project with TypeScript and define the types for items, stock movements and sales",
+    "Build the stock list with search, sort and a low-stock highlight using components with typed props",
+    "Add a form to record stock in and out with validation and clear error messages",
+    "Fetch data from a small mock REST API and handle loading, error and empty states",
+    "Write component tests for the form and the low-stock logic",
+    "Make it usable at 360px width and deploy a static build; note the Lighthouse scores you got"
+   ],
+   "stretch": [
+    "Rebuild one screen in Angular and write what differed",
+    "Add an offline cache so the list opens without network"
+   ]
+  },
+  {
+   "id": "club_portal_django",
+   "title": "College club event portal in Django",
+   "hours": 25,
+   "pitch": "A web app where a college club posts events, students register, and organisers see attendance and export the list.",
+   "skills": [
+    "django",
+    "python",
+    "postgresql",
+    "rest_api",
+    "auth",
+    "unit_testing",
+    "docker"
+   ],
+   "milestones": [
+    "Design models for events, registrations and roles; draw the ER diagram and justify the constraints",
+    "Build event list, detail and registration pages with Django forms and server-side validation",
+    "Add login with separate permissions for students and organisers, and show a student failing to open an organiser page",
+    "Expose a small JSON API for events and write tests that cover registration limits and duplicates",
+    "Add an admin view with attendance export and show one query you optimised with select_related",
+    "Containerise with Docker and write setup steps another student can follow in 10 minutes"
+   ],
+   "stretch": [
+    "Email confirmation using a console backend in development",
+    "Port one view to Flask and compare the code"
+   ]
+  },
+  {
+   "id": "payments_ledger_kafka",
+   "title": "Payment ledger with Spring Boot and Kafka",
+   "hours": 40,
+   "pitch": "Two Spring Boot services: one takes UPI-style transfer requests, the other updates account balances from events, with no double-credit on retries.",
+   "skills": [
+    "spring",
+    "kafka",
+    "java",
+    "microservices",
+    "postgresql",
+    "docker"
+   ],
+   "milestones": [
+    "Define the event schema and the account tables, and write down which service owns which data",
+    "Build the transfer service with an idempotency key so the same request twice creates one transfer",
+    "Publish transfer events to a Kafka topic and consume them in the ledger service with manual offset commits",
+    "Prove with a test that replaying the same event does not credit twice",
+    "Add a dead-letter topic for events that fail, and show one failure being routed there",
+    "Run both services and Kafka with Docker Compose and document how you would scale the consumer"
+   ],
+   "stretch": [
+    "Add a reconciliation job that finds mismatched balances",
+    "Expose consumer lag as a metric"
+   ]
+  },
+  {
+   "id": "webhook_relay_ts",
+   "title": "Webhook relay with retries in Node and TypeScript",
+   "hours": 20,
+   "pitch": "A service that receives events from one app and reliably delivers them to subscriber endpoints, retrying failures with backoff.",
+   "skills": [
+    "nodejs",
+    "typescript",
+    "express",
+    "rest_api",
+    "mongodb",
+    "unit_testing"
+   ],
+   "milestones": [
+    "Define typed event and subscriber models and a request-signing scheme so receivers can verify the sender",
+    "Build endpoints to register subscribers and to accept events with schema validation",
+    "Deliver events with exponential backoff and a maximum attempt count; show the retry timeline for a failing receiver",
+    "Store every delivery attempt so an operator can see status per event",
+    "Write tests with a fake receiver that fails twice and then succeeds",
+    "Document the delivery guarantee you offer (at least once) and the duplicate handling receivers need"
+   ],
+   "stretch": [
+    "Per-subscriber rate limit",
+    "A replay endpoint for failed events"
+   ]
+  },
+  {
+   "id": "product_search_es",
+   "title": "Multilingual product search with Elasticsearch",
+   "hours": 30,
+   "pitch": "Search for a local marketplace where shoppers type in English, Hindi written in English letters, or with typos, and still find products.",
+   "skills": [
+    "elasticsearch",
+    "python",
+    "fastapi",
+    "rest_api",
+    "nosql",
+    "docker"
+   ],
+   "milestones": [
+    "Create a synthetic catalogue of at least 5,000 products and index it with an explicit mapping",
+    "Build a search endpoint with relevance scoring across title and description with field boosts",
+    "Add typo tolerance and a synonym list (for example chappal and slipper) and show queries that failed before and work now",
+    "Add filters and facets for price, category and rating with pagination",
+    "Measure relevance on 20 hand-written queries before and after tuning, using a simple table of hits in the top 5",
+    "Run Elasticsearch in Docker, document the index settings and explain how you would reindex without downtime"
+   ],
+   "stretch": [
+    "Autocomplete using edge n-grams",
+    "Transliteration of Hindi words in Devanagari to Roman letters"
+   ]
+  },
+  {
+   "id": "rate_limiter_leaderboard",
+   "title": "Rate limiter and live leaderboard on Redis",
+   "hours": 20,
+   "pitch": "A small service that protects an API with a rate limiter and serves a live top-10 quiz leaderboard, built to handle bursts.",
+   "skills": [
+    "redis",
+    "system_design",
+    "fastapi",
+    "monitoring",
+    "networking",
+    "unit_testing"
+   ],
+   "milestones": [
+    "Write a one-page design: requests per second you target, data shapes in Redis, and what happens if Redis is down",
+    "Implement a token-bucket or sliding-window limiter and show it rejecting a burst with the right status code and retry header",
+    "Implement the leaderboard with a sorted set and show rank and top-10 queries",
+    "Make updates atomic and prove it with a concurrent load test",
+    "Expose metrics (allowed, rejected, latency) and plot them under load",
+    "Write the trade-offs: memory use, key expiry, consistency across several app servers"
+   ],
+   "stretch": [
+    "Per-user and global limits at the same time",
+    "Persist leaderboard snapshots to a database every hour"
+   ]
+  },
+  {
+   "id": "indic_digit_recognizer",
+   "title": "Handwritten digit recognizer for Indian scripts",
+   "hours": 30,
+   "pitch": "Train a small convolutional model to recognise handwritten digits in Devanagari or another Indian script and serve it behind an API.",
+   "skills": [
+    "computer_vision",
+    "deep_learning",
+    "ml",
+    "python",
+    "fastapi",
+    "docker"
+   ],
+   "milestones": [
+    "Choose a public digit dataset, record its licence in the README and show a grid of sample images per class",
+    "Build a baseline (for example logistic regression on pixels) and record its accuracy",
+    "Train a small convolutional network with augmentation and compare it with the baseline on a held-out set",
+    "Show a confusion matrix, list the three most confused digit pairs and view the actual wrong images",
+    "Serve the model with an endpoint that accepts an image and returns the top 3 labels with scores; reject non-images",
+    "Package with Docker and write down where the model fails (thin strokes, rotated writing) so a user knows its limits"
+   ],
+   "stretch": [
+    "Export the model to a lighter format and compare speed",
+    "Add a confidence threshold that says 'not sure'"
+   ]
   }
  ]
 }

@@ -16,6 +16,7 @@ from .db.models import Profile
 from .config import settings
 from .routes import auth as auth_routes
 from .routes import me as me_routes
+from .routes import quiz as quiz_routes
 from .engine.learning import recommend
 from .jobs.store import get_store
 from .models import (
@@ -40,6 +41,7 @@ app.add_middleware(
 )
 app.include_router(auth_routes.router)
 app.include_router(me_routes.router)
+app.include_router(quiz_routes.router)
 
 
 @app.get("/health")

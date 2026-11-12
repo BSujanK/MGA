@@ -124,3 +124,35 @@ def test_prep_content_is_consistent():
     assert all(s in tax.skills for p in data["projects"] for s in p["skills"])
     assert set(data["core_subjects"]) == set(prep.CORE_IDS)
     assert not re.search(r"https?://|www\.", str(data))  # links only come from resources.json
+
+
+NEW_PROJECT_IDS = ["ios_expense_splitter", "security_audit_lab", "rainfall_stats_study", "kirana_stock_vue", "club_portal_django",
+                   "payments_ledger_kafka", "webhook_relay_ts", "product_search_es", "rate_limiter_leaderboard",
+                   "indic_digit_recognizer"]
+
+
+def test_project_templates_are_well_formed():
+    from app.engine.taxonomy import load_taxonomy
+    projects, tax = prep.load_prep()["projects"], load_taxonomy()
+    ids = [p["id"] for p in projects]
+    assert len(ids) == len(set(ids)) and set(NEW_PROJECT_IDS) <= set(ids)
+    for p in projects:
+        assert 15 <= p["hours"] <= 40, p["id"]
+        assert 4 <= len(p["skills"]) <= 7 and len(set(p["skills"])) == len(p["skills"]), p["id"]
+        assert all(s in tax.skills for s in p["skills"]), p["id"]
+        assert 5 <= len(p["milestones"]) <= 6 and all(m.strip() for m in p["milestones"]), p["id"]
+        assert 1 <= len(p["stretch"]) <= 3, p["id"]
+        assert not re.search(r"https?://|www\.", str(p)), p["id"]
+    covered = {tax.get(s).category for p in projects for s in p["skills"]}
+    assert covered >= {c for c in {s.category for s in tax.skills.values()} if c not in ("soft", "process")}
+
+
+def test_gap_specific_postings_rank_the_matching_template_first():
+    cases = {
+        "ios_expense_splitter": "Requirements\n- Swift\n- iOS app development\n- Unit testing",
+        "security_audit_lab": "Requirements\n- Application security and vulnerability assessment\n- Authentication and authorization\n- Linux",
+        "product_search_es": "Requirements\n- Elasticsearch\n- Python\n- Search relevance tuning",
+    }
+    for expected, text in cases.items():
+        k = _kit(job_text=text)
+        assert k["projects"] and k["projects"][0]["id"] == expected, (expected, [p["id"] for p in k["projects"]])
