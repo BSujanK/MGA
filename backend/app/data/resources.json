@@ -1,0 +1,1099 @@
+{
+ "version": "0.1.0",
+ "note": "Seed catalog of learning resources keyed by skill id. Run scripts/check_links.py before releases. Prefer free, official or university sources.",
+ "resources": {
+  "python": [
+   {
+    "title": "The Python Tutorial",
+    "provider": "Python.org",
+    "url": "https://docs.python.org/3/tutorial/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 15
+   },
+   {
+    "title": "CS50's Introduction to Programming with Python",
+    "provider": "Harvard CS50",
+    "url": "https://cs50.harvard.edu/python/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 40
+   }
+  ],
+  "java": [
+   {
+    "title": "Learn Java",
+    "provider": "dev.java (Oracle)",
+    "url": "https://dev.java/learn/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 30
+   },
+   {
+    "title": "Programming in Java",
+    "provider": "NPTEL",
+    "url": "https://nptel.ac.in/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 40
+   }
+  ],
+  "cpp": [
+   {
+    "title": "LearnCpp.com",
+    "provider": "LearnCpp",
+    "url": "https://www.learncpp.com/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 60
+   }
+  ],
+  "c": [
+   {
+    "title": "CS50x (C portion, weeks 1-5)",
+    "provider": "Harvard CS50",
+    "url": "https://cs50.harvard.edu/x/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 40
+   }
+  ],
+  "csharp": [
+   {
+    "title": "C# documentation and tutorials",
+    "provider": "Microsoft Learn",
+    "url": "https://learn.microsoft.com/en-us/dotnet/csharp/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 30
+   }
+  ],
+  "javascript": [
+   {
+    "title": "The Modern JavaScript Tutorial",
+    "provider": "javascript.info",
+    "url": "https://javascript.info/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 40
+   },
+   {
+    "title": "JavaScript Guide",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 20
+   }
+  ],
+  "typescript": [
+   {
+    "title": "The TypeScript Handbook",
+    "provider": "typescriptlang.org",
+    "url": "https://www.typescriptlang.org/docs/handbook/intro.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 12
+   }
+  ],
+  "go": [
+   {
+    "title": "A Tour of Go",
+    "provider": "go.dev",
+    "url": "https://go.dev/tour/",
+    "kind": "practice",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 8
+   },
+   {
+    "title": "Learn Go",
+    "provider": "go.dev",
+    "url": "https://go.dev/learn/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 20
+   }
+  ],
+  "rust": [
+   {
+    "title": "The Rust Programming Language",
+    "provider": "rust-lang.org",
+    "url": "https://doc.rust-lang.org/book/",
+    "kind": "book",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 50
+   }
+  ],
+  "kotlin": [
+   {
+    "title": "Kotlin docs: Getting started",
+    "provider": "kotlinlang.org",
+    "url": "https://kotlinlang.org/docs/getting-started.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 15
+   }
+  ],
+  "swift": [
+   {
+    "title": "The Swift Programming Language",
+    "provider": "swift.org",
+    "url": "https://docs.swift.org/swift-book/",
+    "kind": "book",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 30
+   }
+  ],
+  "r": [
+   {
+    "title": "R for Data Science (2e)",
+    "provider": "Hadley Wickham et al.",
+    "url": "https://r4ds.hadley.nz/",
+    "kind": "book",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 40
+   }
+  ],
+  "sql": [
+   {
+    "title": "SQLBolt interactive lessons",
+    "provider": "SQLBolt",
+    "url": "https://sqlbolt.com/",
+    "kind": "practice",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 6
+   },
+   {
+    "title": "SQL 50 study plan",
+    "provider": "LeetCode",
+    "url": "https://leetcode.com/studyplan/top-sql-50/",
+    "kind": "practice",
+    "cost": "freemium",
+    "level": "intermediate",
+    "hours": 20
+   }
+  ],
+  "bash": [
+   {
+    "title": "The Missing Semester of Your CS Education",
+    "provider": "MIT",
+    "url": "https://missing.csail.mit.edu/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 12
+   }
+  ],
+  "html": [
+   {
+    "title": "Learn web development: HTML",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 8
+   }
+  ],
+  "css": [
+   {
+    "title": "Learn CSS",
+    "provider": "web.dev",
+    "url": "https://web.dev/learn/css",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 15
+   }
+  ],
+  "react": [
+   {
+    "title": "Learn React",
+    "provider": "react.dev",
+    "url": "https://react.dev/learn",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 20
+   },
+   {
+    "title": "Full Stack Open",
+    "provider": "University of Helsinki",
+    "url": "https://fullstackopen.com/en/",
+    "kind": "course",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 80
+   }
+  ],
+  "nextjs": [
+   {
+    "title": "Learn Next.js",
+    "provider": "Vercel",
+    "url": "https://nextjs.org/learn",
+    "kind": "course",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 15
+   }
+  ],
+  "angular": [
+   {
+    "title": "Angular tutorials",
+    "provider": "angular.dev",
+    "url": "https://angular.dev/tutorials",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 20
+   }
+  ],
+  "vue": [
+   {
+    "title": "Vue.js tutorial",
+    "provider": "vuejs.org",
+    "url": "https://vuejs.org/tutorial/",
+    "kind": "practice",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 10
+   }
+  ],
+  "redux": [
+   {
+    "title": "Redux Essentials",
+    "provider": "redux.js.org",
+    "url": "https://redux.js.org/tutorials/essentials/part-1-overview-concepts",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 8
+   }
+  ],
+  "tailwind": [
+   {
+    "title": "Tailwind CSS docs",
+    "provider": "tailwindcss.com",
+    "url": "https://tailwindcss.com/docs",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 5
+   }
+  ],
+  "nodejs": [
+   {
+    "title": "Learn Node.js",
+    "provider": "nodejs.org",
+    "url": "https://nodejs.org/en/learn",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 15
+   },
+   {
+    "title": "Full Stack Open (backend parts)",
+    "provider": "University of Helsinki",
+    "url": "https://fullstackopen.com/en/",
+    "kind": "course",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 40
+   }
+  ],
+  "express": [
+   {
+    "title": "Express guide",
+    "provider": "expressjs.com",
+    "url": "https://expressjs.com/en/guide/routing.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 6
+   }
+  ],
+  "spring": [
+   {
+    "title": "Spring guides",
+    "provider": "spring.io",
+    "url": "https://spring.io/guides",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 30
+   }
+  ],
+  "django": [
+   {
+    "title": "Writing your first Django app",
+    "provider": "djangoproject.com",
+    "url": "https://docs.djangoproject.com/en/stable/intro/tutorial01/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 10
+   }
+  ],
+  "flask": [
+   {
+    "title": "Flask tutorial",
+    "provider": "Pallets",
+    "url": "https://flask.palletsprojects.com/en/stable/tutorial/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 6
+   }
+  ],
+  "fastapi": [
+   {
+    "title": "FastAPI tutorial: user guide",
+    "provider": "fastapi.tiangolo.com",
+    "url": "https://fastapi.tiangolo.com/tutorial/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 10
+   }
+  ],
+  "dotnet": [
+   {
+    "title": ".NET learning center",
+    "provider": "Microsoft Learn",
+    "url": "https://learn.microsoft.com/en-us/dotnet/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 30
+   }
+  ],
+  "rest_api": [
+   {
+    "title": "HTTP overview",
+    "provider": "MDN Web Docs",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 3
+   }
+  ],
+  "graphql": [
+   {
+    "title": "Learn GraphQL",
+    "provider": "graphql.org",
+    "url": "https://graphql.org/learn/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 6
+   }
+  ],
+  "grpc": [
+   {
+    "title": "gRPC introduction and quick starts",
+    "provider": "grpc.io",
+    "url": "https://grpc.io/docs/what-is-grpc/introduction/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 6
+   }
+  ],
+  "microservices": [
+   {
+    "title": "System Design Primer",
+    "provider": "donnemartin (GitHub)",
+    "url": "https://github.com/donnemartin/system-design-primer",
+    "kind": "book",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 30
+   }
+  ],
+  "kafka": [
+   {
+    "title": "Apache Kafka quickstart",
+    "provider": "Apache Software Foundation",
+    "url": "https://kafka.apache.org/quickstart",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 4
+   }
+  ],
+  "auth": [
+   {
+    "title": "OAuth 2.0 overview",
+    "provider": "oauth.net",
+    "url": "https://oauth.net/2/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 4
+   },
+   {
+    "title": "Introduction to JSON Web Tokens",
+    "provider": "jwt.io",
+    "url": "https://jwt.io/introduction",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 1
+   }
+  ],
+  "mysql": [
+   {
+    "title": "MySQL tutorial",
+    "provider": "MySQL docs",
+    "url": "https://dev.mysql.com/doc/refman/8.0/en/tutorial.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 6
+   }
+  ],
+  "postgresql": [
+   {
+    "title": "PostgreSQL tutorial",
+    "provider": "postgresql.org",
+    "url": "https://www.postgresql.org/docs/current/tutorial.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 8
+   }
+  ],
+  "mongodb": [
+   {
+    "title": "MongoDB University",
+    "provider": "MongoDB",
+    "url": "https://learn.mongodb.com/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 15
+   }
+  ],
+  "nosql": [
+   {
+    "title": "MongoDB University",
+    "provider": "MongoDB",
+    "url": "https://learn.mongodb.com/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 15
+   }
+  ],
+  "dynamodb": [
+   {
+    "title": "Amazon DynamoDB developer guide",
+    "provider": "AWS",
+    "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 8
+   }
+  ],
+  "redis": [
+   {
+    "title": "Redis docs: get started",
+    "provider": "redis.io",
+    "url": "https://redis.io/docs/latest/get-started/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 4
+   }
+  ],
+  "elasticsearch": [
+   {
+    "title": "Elasticsearch guide",
+    "provider": "Elastic",
+    "url": "https://www.elastic.co/guide/index.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 10
+   }
+  ],
+  "db_design": [
+   {
+    "title": "Database Systems (CMU 15-445)",
+    "provider": "Carnegie Mellon University",
+    "url": "https://15445.courses.cs.cmu.edu/",
+    "kind": "course",
+    "cost": "free",
+    "level": "advanced",
+    "hours": 60
+   }
+  ],
+  "aws": [
+   {
+    "title": "AWS Skill Builder",
+    "provider": "AWS",
+    "url": "https://skillbuilder.aws/",
+    "kind": "course",
+    "cost": "freemium",
+    "level": "beginner",
+    "hours": 30
+   }
+  ],
+  "azure": [
+   {
+    "title": "Azure training paths",
+    "provider": "Microsoft Learn",
+    "url": "https://learn.microsoft.com/en-us/training/azure/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 30
+   }
+  ],
+  "gcp": [
+   {
+    "title": "Google Cloud Skills Boost",
+    "provider": "Google Cloud",
+    "url": "https://www.cloudskillsboost.google/",
+    "kind": "course",
+    "cost": "freemium",
+    "level": "beginner",
+    "hours": 30
+   }
+  ],
+  "docker": [
+   {
+    "title": "Docker: get started",
+    "provider": "Docker",
+    "url": "https://docs.docker.com/get-started/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 8
+   }
+  ],
+  "kubernetes": [
+   {
+    "title": "Kubernetes basics tutorial",
+    "provider": "kubernetes.io",
+    "url": "https://kubernetes.io/docs/tutorials/kubernetes-basics/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 10
+   }
+  ],
+  "ci_cd": [
+   {
+    "title": "GitHub Actions documentation",
+    "provider": "GitHub",
+    "url": "https://docs.github.com/en/actions",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 8
+   }
+  ],
+  "terraform": [
+   {
+    "title": "Terraform tutorials",
+    "provider": "HashiCorp",
+    "url": "https://developer.hashicorp.com/terraform/tutorials",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 12
+   }
+  ],
+  "linux": [
+   {
+    "title": "Linux Journey",
+    "provider": "linuxjourney.com",
+    "url": "https://linuxjourney.com/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 15
+   },
+   {
+    "title": "The Missing Semester of Your CS Education",
+    "provider": "MIT",
+    "url": "https://missing.csail.mit.edu/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 12
+   }
+  ],
+  "monitoring": [
+   {
+    "title": "Prometheus: getting started",
+    "provider": "prometheus.io",
+    "url": "https://prometheus.io/docs/prometheus/latest/getting_started/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 4
+   }
+  ],
+  "git": [
+   {
+    "title": "Pro Git book",
+    "provider": "git-scm.com",
+    "url": "https://git-scm.com/book/en/v2",
+    "kind": "book",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 10
+   },
+   {
+    "title": "Learn Git Branching",
+    "provider": "learngitbranching.js.org",
+    "url": "https://learngitbranching.js.org/",
+    "kind": "practice",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 3
+   }
+  ],
+  "networking": [
+   {
+    "title": "Computer Networking: A Top-Down Approach (author resources)",
+    "provider": "Kurose & Ross",
+    "url": "https://gaia.cs.umass.edu/kurose_ross/index.php",
+    "kind": "book",
+    "cost": "freemium",
+    "level": "intermediate",
+    "hours": 40
+   }
+  ],
+  "dsa": [
+   {
+    "title": "NeetCode roadmap",
+    "provider": "NeetCode",
+    "url": "https://neetcode.io/roadmap",
+    "kind": "practice",
+    "cost": "freemium",
+    "level": "beginner",
+    "hours": 120
+   },
+   {
+    "title": "Algorithms for Competitive Programming",
+    "provider": "cp-algorithms.com",
+    "url": "https://cp-algorithms.com/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "advanced",
+    "hours": 80
+   },
+   {
+    "title": "Top Interview 150",
+    "provider": "LeetCode",
+    "url": "https://leetcode.com/studyplan/top-interview-150/",
+    "kind": "practice",
+    "cost": "freemium",
+    "level": "intermediate",
+    "hours": 80
+   }
+  ],
+  "oop": [
+   {
+    "title": "Refactoring.Guru design patterns",
+    "provider": "Refactoring.Guru",
+    "url": "https://refactoring.guru/design-patterns",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 15
+   }
+  ],
+  "os": [
+   {
+    "title": "Operating Systems: Three Easy Pieces",
+    "provider": "Arpaci-Dusseau",
+    "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/",
+    "kind": "book",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 40
+   }
+  ],
+  "dbms": [
+   {
+    "title": "Database Systems (CMU 15-445)",
+    "provider": "Carnegie Mellon University",
+    "url": "https://15445.courses.cs.cmu.edu/",
+    "kind": "course",
+    "cost": "free",
+    "level": "advanced",
+    "hours": 60
+   }
+  ],
+  "system_design": [
+   {
+    "title": "System Design Primer",
+    "provider": "donnemartin (GitHub)",
+    "url": "https://github.com/donnemartin/system-design-primer",
+    "kind": "book",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 30
+   }
+  ],
+  "excel": [
+   {
+    "title": "Excel video training",
+    "provider": "Microsoft Support",
+    "url": "https://support.microsoft.com/en-us/excel",
+    "kind": "video",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 10
+   }
+  ],
+  "powerbi": [
+   {
+    "title": "Power BI training",
+    "provider": "Microsoft Learn",
+    "url": "https://learn.microsoft.com/en-us/training/powerplatform/power-bi",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 20
+   }
+  ],
+  "tableau": [
+   {
+    "title": "Tableau free training videos",
+    "provider": "Tableau",
+    "url": "https://www.tableau.com/learn/training",
+    "kind": "video",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 10
+   }
+  ],
+  "data_viz": [
+   {
+    "title": "Kaggle Learn: Data Visualization",
+    "provider": "Kaggle",
+    "url": "https://www.kaggle.com/learn/data-visualization",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 4
+   }
+  ],
+  "pandas": [
+   {
+    "title": "Kaggle Learn: Pandas",
+    "provider": "Kaggle",
+    "url": "https://www.kaggle.com/learn/pandas",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 4
+   },
+   {
+    "title": "pandas: getting started",
+    "provider": "pandas.pydata.org",
+    "url": "https://pandas.pydata.org/docs/getting_started/index.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 6
+   }
+  ],
+  "statistics": [
+   {
+    "title": "Statistics and probability",
+    "provider": "Khan Academy",
+    "url": "https://www.khanacademy.org/math/statistics-probability",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 40
+   }
+  ],
+  "spark": [
+   {
+    "title": "Spark quick start",
+    "provider": "Apache Spark",
+    "url": "https://spark.apache.org/docs/latest/quick-start.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 6
+   }
+  ],
+  "etl": [
+   {
+    "title": "Data Engineering Zoomcamp",
+    "provider": "DataTalks.Club",
+    "url": "https://github.com/DataTalksClub/data-engineering-zoomcamp",
+    "kind": "course",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 60
+   }
+  ],
+  "ml": [
+   {
+    "title": "Machine Learning Specialization",
+    "provider": "DeepLearning.AI / Coursera",
+    "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+    "kind": "course",
+    "cost": "freemium",
+    "level": "beginner",
+    "hours": 60
+   },
+   {
+    "title": "Kaggle Learn: Intro to Machine Learning",
+    "provider": "Kaggle",
+    "url": "https://www.kaggle.com/learn/intro-to-machine-learning",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 3
+   },
+   {
+    "title": "scikit-learn tutorials",
+    "provider": "scikit-learn.org",
+    "url": "https://scikit-learn.org/stable/tutorial/index.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 10
+   }
+  ],
+  "deep_learning": [
+   {
+    "title": "Practical Deep Learning for Coders",
+    "provider": "fast.ai",
+    "url": "https://course.fast.ai/",
+    "kind": "course",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 40
+   },
+   {
+    "title": "PyTorch tutorials",
+    "provider": "pytorch.org",
+    "url": "https://pytorch.org/tutorials/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 20
+   }
+  ],
+  "nlp": [
+   {
+    "title": "Hugging Face LLM Course",
+    "provider": "Hugging Face",
+    "url": "https://huggingface.co/learn/llm-course/chapter1/1",
+    "kind": "course",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 30
+   }
+  ],
+  "computer_vision": [
+   {
+    "title": "OpenCV tutorials",
+    "provider": "OpenCV",
+    "url": "https://docs.opencv.org/4.x/d9/df8/tutorial_root.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 15
+   }
+  ],
+  "llm": [
+   {
+    "title": "Hugging Face LLM Course",
+    "provider": "Hugging Face",
+    "url": "https://huggingface.co/learn/llm-course/chapter1/1",
+    "kind": "course",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 30
+   },
+   {
+    "title": "Anthropic courses",
+    "provider": "Anthropic (GitHub)",
+    "url": "https://github.com/anthropics/courses",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 10
+   }
+  ],
+  "mlops": [
+   {
+    "title": "MLOps Zoomcamp",
+    "provider": "DataTalks.Club",
+    "url": "https://github.com/DataTalksClub/mlops-zoomcamp",
+    "kind": "course",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 50
+   }
+  ],
+  "manual_testing": [
+   {
+    "title": "ISTQB Foundation Level syllabus",
+    "provider": "ISTQB",
+    "url": "https://www.istqb.org/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 20
+   }
+  ],
+  "automation_testing": [
+   {
+    "title": "Playwright: getting started",
+    "provider": "Playwright",
+    "url": "https://playwright.dev/docs/intro",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 6
+   },
+   {
+    "title": "Selenium documentation",
+    "provider": "selenium.dev",
+    "url": "https://www.selenium.dev/documentation/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 10
+   }
+  ],
+  "unit_testing": [
+   {
+    "title": "pytest: get started",
+    "provider": "pytest",
+    "url": "https://docs.pytest.org/en/stable/getting-started.html",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 3
+   },
+   {
+    "title": "Jest: getting started",
+    "provider": "jestjs.io",
+    "url": "https://jestjs.io/docs/getting-started",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 3
+   }
+  ],
+  "android": [
+   {
+    "title": "Android Basics with Compose",
+    "provider": "Android Developers",
+    "url": "https://developer.android.com/courses/android-basics-compose/course",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 50
+   }
+  ],
+  "ios": [
+   {
+    "title": "Develop in Swift tutorials",
+    "provider": "Apple Developer",
+    "url": "https://developer.apple.com/tutorials/develop-in-swift",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 40
+   }
+  ],
+  "flutter": [
+   {
+    "title": "Flutter: get started",
+    "provider": "flutter.dev",
+    "url": "https://docs.flutter.dev/get-started",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 20
+   }
+  ],
+  "react_native": [
+   {
+    "title": "React Native: getting started",
+    "provider": "reactnative.dev",
+    "url": "https://reactnative.dev/docs/getting-started",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 15
+   }
+  ],
+  "security": [
+   {
+    "title": "OWASP Top Ten",
+    "provider": "OWASP",
+    "url": "https://owasp.org/www-project-top-ten/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 6
+   },
+   {
+    "title": "PortSwigger Web Security Academy",
+    "provider": "PortSwigger",
+    "url": "https://portswigger.net/web-security",
+    "kind": "practice",
+    "cost": "free",
+    "level": "intermediate",
+    "hours": 60
+   }
+  ],
+  "agile": [
+   {
+    "title": "The Scrum Guide",
+    "provider": "scrumguides.org",
+    "url": "https://scrumguides.org/",
+    "kind": "docs",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 2
+   }
+  ],
+  "communication": [
+   {
+    "title": "Communication skills courses",
+    "provider": "NPTEL",
+    "url": "https://nptel.ac.in/",
+    "kind": "course",
+    "cost": "free",
+    "level": "beginner",
+    "hours": 20
+   }
+  ]
+ }
+}

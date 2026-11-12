@@ -1,0 +1,173 @@
+{
+ "note": "SYNTHETIC sample postings with fictional companies, for development and demos only. Live postings come from connectors (app/jobs/sources.py).",
+ "jobs": [
+  {
+   "id": "sde1-kestrel",
+   "title": "Software Development Engineer I",
+   "company": "Kestrel Pay",
+   "location": "Bengaluru",
+   "experience": "0-2 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "About us\nKestrel Pay builds UPI payment infrastructure used by 2,000 merchants.\nWhat you'll do\n- Design, build and own backend services in Java and Spring Boot\n- Write clean REST APIs and unit tests with JUnit\n- Work with product and QA in an Agile team\nRequirements\n- Strong problem solving with data structures and algorithms\n- Solid understanding of OOP, DBMS and operating systems concepts\n- Experience with SQL (MySQL or PostgreSQL)\n- Familiarity with Git\nNice to have\n- Exposure to Docker, Kafka or AWS\n- Knowledge of system design basics"
+  },
+  {
+   "id": "sde1-orbit",
+   "title": "SDE 1 - Backend",
+   "company": "Orbit Logistics",
+   "location": "Hyderabad",
+   "experience": "0-1 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "Responsibilities\n- Build microservices in Go or Java that track 1M shipments a day\n- Own features end to end, from design to deployment on Kubernetes\nMust have\n- Strong DSA and coding skills (competitive programming is a plus)\n- Proficiency in one of Java, Go, Python, C++\n- Good knowledge of SQL and database design\n- Understanding of REST APIs and HTTP\nGood to have\n- Docker, Kubernetes, Redis\n- CI/CD with GitHub Actions"
+  },
+  {
+   "id": "fullstack-nimbus",
+   "title": "Full Stack Developer (Fresher)",
+   "company": "Nimbus Learning",
+   "location": "Pune",
+   "experience": "0-1 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "Nimbus Learning is an edtech startup.\nWhat you'll do\n- Build features across our React frontend and Node.js backend\n- Integrate REST APIs and third-party services\nWhat we're looking for\n- Strong JavaScript fundamentals, HTML and CSS\n- Hands-on experience with React (hooks, state management)\n- Experience with Node.js and Express\n- MongoDB or any SQL database\n- Git and basic Linux\nNice to have\n- TypeScript, Next.js, Tailwind CSS\n- Deployed a project on AWS or GCP"
+  },
+  {
+   "id": "frontend-pixel",
+   "title": "Frontend Engineer I",
+   "company": "Pixelcraft Commerce",
+   "location": "Bengaluru",
+   "experience": "0-2 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "Role overview\nYou will build fast, accessible storefronts used by millions of shoppers.\nRequirements\n- Expert knowledge of HTML, CSS and JavaScript\n- Strong experience with React and TypeScript\n- Experience with Redux or a similar state management library\n- Unit testing with Jest\nPreferred\n- Next.js and server-side rendering\n- Tailwind CSS\n- Familiarity with web performance and REST APIs"
+  },
+  {
+   "id": "da-saffron",
+   "title": "Data Analyst - Graduate",
+   "company": "Saffron Retail Analytics",
+   "location": "Gurugram",
+   "experience": "0-1 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "What you'll do\n- Build dashboards in Power BI or Tableau for business teams\n- Write SQL queries to analyse sales and customer data\nRequirements\n- Strong SQL skills\n- Advanced Excel (pivot tables, VLOOKUP)\n- Working knowledge of Python with Pandas\n- Good understanding of statistics and A/B testing\n- Excellent communication skills\nGood to have\n- Experience with data visualization libraries like Matplotlib\n- Exposure to ETL tools or Airflow"
+  },
+  {
+   "id": "da-lotus",
+   "title": "Business / Data Analyst",
+   "company": "Lotus Health",
+   "location": "Chennai",
+   "experience": "0-2 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "Requirements\n- Proficiency in SQL and Excel\n- Experience with Tableau or Power BI dashboards\n- Basic Python or R for analysis\n- Statistics fundamentals: hypothesis testing, regression analysis\n- Strong analytical thinking and attention to detail\n- Communication skills to present insights\nNice to have\n- Knowledge of BigQuery or Snowflake"
+  },
+  {
+   "id": "ml-vega",
+   "title": "Machine Learning Engineer I",
+   "company": "Vega AI Labs",
+   "location": "Bengaluru",
+   "experience": "0-2 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "What you'll do\n- Train, evaluate and deploy ML models for document understanding\n- Build RAG pipelines with large language models\nRequirements\n- Strong Python\n- Solid understanding of machine learning (scikit-learn, XGBoost)\n- Hands-on experience with deep learning in PyTorch or TensorFlow\n- Experience with NLP or LLMs (Hugging Face, LangChain, embeddings)\n- Good statistics and linear algebra fundamentals\n- Data structures and algorithms\nNice to have\n- MLOps: Docker, MLflow, model serving\n- Experience with AWS SageMaker or GCP Vertex AI"
+  },
+  {
+   "id": "ml-quanta",
+   "title": "AI Engineer - Generative AI",
+   "company": "Quanta Insurance Tech",
+   "location": "Hyderabad",
+   "experience": "1-2 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "Must have\n- 1+ years of Python development\n- Experience building applications with LLMs: prompt engineering, RAG, vector databases\n- REST API development with FastAPI or Flask\n- SQL and NoSQL databases\nGood to have\n- Fine-tuning transformers, NLP\n- Docker and Kubernetes\n- Azure cloud"
+  },
+  {
+   "id": "devops-atlas",
+   "title": "DevOps Engineer (Associate)",
+   "company": "Atlas Cloudworks",
+   "location": "Pune",
+   "experience": "0-2 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "Responsibilities\n- Maintain CI/CD pipelines in Jenkins and GitHub Actions\n- Manage containerised workloads on Kubernetes (EKS)\n- Write infrastructure as code with Terraform\nRequirements\n- Strong Linux administration and shell scripting (Bash)\n- Hands-on experience with Docker and Kubernetes\n- Working knowledge of AWS (EC2, S3, IAM, VPC)\n- Understanding of computer networking (DNS, TCP/IP, load balancing)\n- Git\nNice to have\n- Python scripting\n- Monitoring with Prometheus and Grafana"
+  },
+  {
+   "id": "qa-delta",
+   "title": "QA Automation Engineer - Fresher",
+   "company": "Delta Mobility",
+   "location": "Chennai",
+   "experience": "0-1 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "Requirements\n- Good understanding of SDLC, STLC and manual testing\n- Experience with Selenium or Playwright test automation\n- Programming in Java or Python\n- Basic SQL\n- API testing with REST APIs and Postman\nNice to have\n- CI/CD (Jenkins), Git\n- Exposure to Appium for mobile testing"
+  },
+  {
+   "id": "android-kite",
+   "title": "Android Developer I",
+   "company": "Kite Social",
+   "location": "Remote (India)",
+   "experience": "0-2 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "What you'll do\n- Build features for an Android app with 5M installs\nRequirements\n- Strong Kotlin and Android development (Jetpack Compose)\n- Understanding of OOP and design patterns\n- REST API integration\n- Git\nNice to have\n- Flutter or React Native experience\n- Unit testing with JUnit and Mockito"
+  },
+  {
+   "id": "sde-intern-cobalt",
+   "title": "Software Engineer Intern (6 months)",
+   "company": "Cobalt Systems",
+   "location": "Bengaluru",
+   "experience": "Final-year students",
+   "employment_type": "Internship",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "Who you are\n- A final-year B.Tech/B.E. student in CS or related branch\n- Strong DSA (arrays, trees, graphs, dynamic programming)\n- Proficient in C++ or Java\n- Good knowledge of OOP, operating systems, DBMS and computer networks\n- Good communication and teamwork\nBonus\n- Projects using React, Node.js or Python\n- Hackathon or competitive programming achievements"
+  },
+  {
+   "id": "backend-python-ember",
+   "title": "Backend Engineer - Python",
+   "company": "Ember Health",
+   "location": "Remote (India)",
+   "experience": "1-2 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "Requirements\n- 1-2 years of experience with Python and Django or FastAPI\n- Strong PostgreSQL and database design skills\n- Experience with REST APIs, authentication (OAuth, JWT)\n- Redis and Celery or another message queue\n- Docker\n- Unit testing with pytest\nGood to have\n- AWS\n- System design and scalability"
+  },
+  {
+   "id": "data-eng-river",
+   "title": "Data Engineer I",
+   "company": "Riverstone Analytics",
+   "location": "Hyderabad",
+   "experience": "0-2 years",
+   "employment_type": "Full-time",
+   "apply_url": null,
+   "posted_at": "2026-11-01",
+   "source": "sample",
+   "description": "What you'll do\n- Build batch and streaming data pipelines\nRequirements\n- Strong SQL and Python\n- Experience with Apache Spark (PySpark)\n- ETL and data warehousing concepts; Airflow\n- Working knowledge of a cloud platform: AWS, GCP or Azure\nNice to have\n- Kafka\n- dbt, Snowflake"
+  }
+ ]
+}

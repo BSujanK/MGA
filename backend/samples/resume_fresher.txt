@@ -1,0 +1,28 @@
+Aarav Sharma (sample candidate)
+B.Tech Computer Science, 2026 | Bengaluru
+
+Summary
+Final-year CS student who enjoys building web apps and solving DSA problems.
+
+Technical Skills
+Languages: Java, Python, JavaScript, C
+Web: HTML, CSS, React
+Databases: MySQL
+Tools: Git, VS Code, Postman
+
+Projects
+- Campus Canteen App: built a food-ordering web app with React and a Node.js + Express backend, MySQL database; 300 students use it
+- Expense Tracker: developed a REST API in Java with Spring Boot and MySQL, wrote JUnit tests
+- Solved 400+ problems on LeetCode (data structures and algorithms), contest rating 1650
+
+Internship
+Web Development Intern, Small Studio (May-Jul 2025)
+- Implemented responsive pages in React and CSS for 3 client websites
+- Integrated REST APIs and fixed bugs reported by QA
+
+Certifications
+- AWS Cloud Practitioner (in progress)
+- NPTEL: Database Management Systems
+
+Achievements
+- Smart India Hackathon 2025 finalist
