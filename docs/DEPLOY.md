@@ -55,6 +55,7 @@ A daily job running `python -m app.maintenance` deletes sign-in codes older than
 ### 2.5 Security settings to know
 - `MGA_ENV` must be exactly `production`, `development` or `test`. A missing or mistyped value is treated as production (fail closed): the API refuses to start without `MGA_DATA_KEY`, Postgres and an email provider.
 - Sign-in codes are returned in API responses only in development with no email provider, and only to localhost or when `MGA_DEV_ECHO_CODES=1`.
+- The website's Next.js server proxies `/api/*` to the API. It forwards the client's `X-Forwarded-For` header (or sets it to the client's address), so the API sees the user's IP, not the web server's. Set `MGA_TRUST_PROXY=1` on the API, and make sure the platform in front of the website (Vercel, Render, Railway or your load balancer) sets `X-Forwarded-For` itself; otherwise a client could spoof it. Without `MGA_TRUST_PROXY=1`, every user shares the web server's IP and the per-IP limits (30 sign-in codes an hour) would apply to everyone at once.
 - Behind a load balancer set `MGA_TRUST_PROXY=1` and `MGA_PROXY_HOPS` to the number of proxies that append to `X-Forwarded-For` (usually 1), so per-IP rate limits use the address your proxy saw.
 - Claude runs only for signed-in users unless `MGA_LLM_PUBLIC=1`.
 - `MGA_ADMIN_TOKEN` must be at least 24 characters, or `POST /jobs/import` stays disabled.

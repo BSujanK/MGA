@@ -79,8 +79,27 @@ export function sortEvents(events: CalEvent[]): CalEvent[] {
 
 // ---------- .ics export (RFC 5545) ----------
 
+/** Remove control characters (incl. CR/LF) so a value can never inject extra iCalendar lines. */
+function clean(s: string): string {
+  return s.replace(/[\u0000-\u001f\u007f]/g, " ");
+}
+
+/** The URL only if it is a plain http(s) link; otherwise undefined. Use for every link rendered from data. */
+export function safeUrl(u: string | null | undefined): string | undefined {
+  if (!u) return undefined;
+  try {
+    const p = new URL(u.trim());
+    return p.protocol === "http:" || p.protocol === "https:" ? p.href : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function esc(s: string): string {
-  return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+  return s
+    .split(/\r?\n/)
+    .map((line) => clean(line).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,"))
+    .join("\\n");
 }
 
 /** Fold lines longer than 75 octets, as the spec requires. */
@@ -117,13 +136,13 @@ function endOf(e: CalEvent): { date: string; time: string } {
 }
 
 function description(e: CalEvent): string {
-  return [e.company && `Company: ${e.company}`, e.notes, e.url].filter(Boolean).join("\n");
+  return [e.company && `Company: ${e.company}`, e.notes, safeUrl(e.url)].filter(Boolean).join("\n");
 }
 
 export function toICS(events: CalEvent[], now = new Date()): string {
   const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//MGA//Job search calendar//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH"];
   for (const e of events) {
-    lines.push("BEGIN:VEVENT", `UID:${e.id}@mga`, `DTSTAMP:${stamp(now)}`);
+    lines.push("BEGIN:VEVENT", `UID:${clean(e.id)}@mga`, `DTSTAMP:${stamp(now)}`);
     if (e.time) {
       const end = endOf(e);
       // Floating local time: shows at the same clock time wherever the candidate is.
@@ -134,7 +153,8 @@ export function toICS(events: CalEvent[], now = new Date()): string {
     lines.push(`SUMMARY:${esc(`${KINDS[e.kind].label}: ${e.title}`)}`, `CATEGORIES:${esc(KINDS[e.kind].label)}`);
     const desc = description(e);
     if (desc) lines.push(`DESCRIPTION:${esc(desc)}`);
-    if (e.url) lines.push(`URL:${e.url}`);
+    const link = safeUrl(e.url);
+    if (link) lines.push(`URL:${clean(link)}`);
     if (e.remindDays > 0) {
       lines.push("BEGIN:VALARM", "ACTION:DISPLAY", `DESCRIPTION:${esc(e.title)}`, `TRIGGER:-P${e.remindDays}D`, "END:VALARM");
     }

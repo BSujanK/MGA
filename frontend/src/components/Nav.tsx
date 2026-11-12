@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAccount } from "@/lib/account";
 
 const LINKS = [
   { href: "/analyze", label: "Job fit" },
@@ -15,6 +16,7 @@ const LINKS = [
 
 export function Nav() {
   const path = usePathname();
+  const { user, loading } = useAccount();
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-6 overflow-x-auto px-4 py-3 sm:px-6">
@@ -36,6 +38,19 @@ export function Nav() {
             );
           })}
         </nav>
+        <div className="ml-auto shrink-0 text-sm">
+          {loading ? null : user ? (
+            <Link
+              href="/account"
+              title="Your account"
+              className={`block max-w-48 truncate rounded-lg px-3 py-1.5 font-medium ${path === "/account" ? "bg-indigo-50 text-indigo-700" : "text-slate-700 hover:bg-slate-100"}`}
+            >
+              {user.email}
+            </Link>
+          ) : (
+            <Link href="/login" className="btn-ghost px-3 py-1.5">Sign in</Link>
+          )}
+        </div>
       </div>
     </header>
   );

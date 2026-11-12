@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
+import { SyncManager } from "@/components/SyncManager";
 
 export const metadata: Metadata = {
   title: "MGA: know exactly what stands between you and the job",
@@ -13,9 +15,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <Nav />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
-        <footer className="border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-          MGA · Market Gap Analysis · Your resume stays in this browser until you create an account.
-        </footer>
+        <Footer />
+        <SyncManager />
       </body>
     </html>
   );

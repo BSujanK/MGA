@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
+  safeUrl,
   type CalEvent, type EventKind, KINDS, addDays, calendarStore, daysBetween, googleCalendarUrl, monthGrid, newId,
   parseISODate, sortEvents, toICS, toISODate,
 } from "@/lib/calendar";
@@ -45,7 +46,7 @@ export function CalendarClient() {
       title: params.get("title") ?? "",
       company: params.get("company") ?? "",
       jobId: params.get("job") ?? undefined,
-      url: params.get("url") ?? "",
+      url: safeUrl(params.get("url")) ?? "",
     });
     router.replace("/calendar");
   }, [params, router, today]);
@@ -73,7 +74,7 @@ export function CalendarClient() {
         </p>
         <p className="mt-1 text-sm text-slate-600">{when(e, today)}{e.remindDays > 0 ? ` · reminder ${e.remindDays} day${e.remindDays > 1 ? "s" : ""} before` : ""}</p>
         {e.notes && <p className="mt-1 whitespace-pre-wrap text-sm text-slate-600">{e.notes}</p>}
-        {e.url && <a href={e.url} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm text-indigo-700 underline">Open link ↗</a>}
+        {safeUrl(e.url) && <a href={safeUrl(e.url)} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm text-indigo-700 underline">Open link ↗</a>}
       </div>
       <div className="flex flex-wrap gap-1.5 text-sm">
         <button type="button" className="btn-ghost px-3 py-1" onClick={() => toggleDone(e.id)}>{e.done ? "Not done" : "Done"}</button>

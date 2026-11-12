@@ -43,7 +43,7 @@ export function createLocalStore<T>(key: string, empty: T) {
     return [value, set];
   }
 
-  return { read, write, useStore };
+  return { read, write, subscribe, useStore };
 }
 
 /** Short stable key for a pasted job description. */

@@ -45,6 +45,16 @@ export function saveProfile(next: StoredProfile) {
   listeners.forEach((l) => l());
 }
 
+/** Used by the account sync layer. Not for UI code. */
+export const readProfile = read;
+export const subscribeProfile = subscribe;
+
+/** Write a profile exactly as given (keeps its updatedAt) and notify listeners. */
+export function applyProfile(next: StoredProfile) {
+  window.localStorage.setItem(KEY, JSON.stringify(next));
+  listeners.forEach((l) => l());
+}
+
 export function clearProfile() {
   window.localStorage.removeItem(KEY);
   listeners.forEach((l) => l());

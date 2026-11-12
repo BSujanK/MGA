@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
+import { useAccount } from "@/lib/account";
 import { useProfile } from "@/lib/profile";
 import type { GapReport, JobPosting } from "@/lib/types";
 import { ResumeInput } from "@/components/ResumeInput";
@@ -20,6 +22,9 @@ export function AnalyzeClient() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [editResume, setEditResume] = useState(false);
+  const { user } = useAccount();
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     api.jobs().then(setJobs).catch((e) => setError(e.message));
@@ -35,10 +40,31 @@ export function AnalyzeClient() {
         ...(mode === "pick" ? { job_id: jobId } : { job_text: jobText }),
       };
       setReport(await api.gap(body));
+      setSaveState("idle");
     } catch (e) {
       setError((e as Error).message);
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function saveReport() {
+    if (!report) return;
+    setSaveState("saving");
+    setSaveError(null);
+    try {
+      const savedJobId = mode === "pick" && jobId ? jobId : undefined;
+      await api.saveReport({
+        kind: "gap",
+        title: [report.job.title || "Pasted posting", report.job.company].filter(Boolean).join(" · "),
+        job_id: savedJobId,
+        summary: { readiness: report.summary.readiness, must_have_coverage: report.summary.must_have_coverage },
+        data: report,
+      });
+      setSaveState("saved");
+    } catch (e) {
+      setSaveError((e as Error).message);
+      setSaveState("idle");
     }
   }
 
@@ -105,6 +131,20 @@ export function AnalyzeClient() {
       {report && !busy && (
         <div className="space-y-8">
           <GapSummaryCard report={report} />
+          {user && (
+            <div className="flex flex-wrap items-center gap-3">
+              {saveState === "saved" ? (
+                <p className="text-sm text-emerald-700" role="status">
+                  Saved. <Link href="/account" className="font-medium underline">View in your account</Link>
+                </p>
+              ) : (
+                <button type="button" className="btn-ghost" onClick={saveReport} disabled={saveState === "saving"}>
+                  {saveState === "saving" ? "Saving…" : "Save report"}
+                </button>
+              )}
+              {saveError && <span className="text-sm text-rose-700">{saveError}</span>}
+            </div>
+          )}
           <GapList gaps={report.gaps} />
           {report.extra_skills.length > 0 && (
             <section className="card p-5" aria-labelledby="extra-h">
