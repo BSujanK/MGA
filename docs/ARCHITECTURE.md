@@ -10,11 +10,12 @@ Resume ──────┘   skills     skill taxonomy            └─> Lear
 
 | Layer | Now | Planned |
 |---|---|---|
-| API | Python 3.11+, FastAPI (`backend/`) | same |
+| API | Python 3.11+, FastAPI (`backend/`), stateless, so it scales horizontally | same |
 | Engine | Rule-based extractor + optional Claude extraction | + embedding similarity for unseen skill phrases |
-| Data | JSON files in `backend/app/data/` | Postgres + pgvector |
+| Data | Postgres 16 via SQLAlchemy 2 + Alembic (SQLite for dev/tests); taxonomy and content in `backend/app/data/` | + pgvector |
 | AI | Anthropic SDK, structured outputs | + resume interview chat, resume rewriting |
-| Frontend | none yet | Next.js (TypeScript), PWA (`frontend/`) |
+| Frontend | Next.js 16 (TypeScript, `frontend/`), proxies `/api` to the API | + PWA |
+| Auth | Email one-time codes + Google sign-in, sessions in Postgres | same |
 
 ## Backend layout
 
@@ -133,7 +134,28 @@ priority    = w · gap/r · (1 + market_frequency) + status boost
 - **Company questions:** built only from lines quoted from the posting. AI questions must carry an exact quote, or they're dropped.
 - **Projects:** a template's score is the sum over the gaps it closes of weight × gap / required, + 0.15 per skill the candidate already has, − 0.05 per unrelated skill.
 
-## 8. Frontend state
+## 8. Accounts, data and scale (Phase 2)
+
+- **Config:** `app/config.py` reads everything from env. Production refuses to start without `MGA_DATA_KEY`, Postgres and an email provider.
+- **Database (`app/db/`):**
+  - 12 tables: users, sessions, login_codes, consents, profiles, documents, calendar_events, saved_reports, audit_log, job_postings, ingest_runs, alembic_version.
+  - Migrations live in `backend/migrations/` (`alembic upgrade head`). A test checks that the migrations match the models.
+- **Encryption (`app/crypto.py`):** resume text, interview answers, prep progress, calendar notes and saved reports are Fernet-encrypted at rest. `MGA_DATA_KEY` takes comma-separated keys for rotation.
+- **Auth (`app/auth.py`):**
+  - Codes are HMAC-hashed, expire in 10 minutes and allow 5 attempts.
+  - Rate limits are counted in Postgres, so they hold across instances.
+  - Session tokens are 256-bit; only their sha256 is stored. Cookies are httpOnly, SameSite=Lax and Secure in production.
+  - CSRF defence: a custom header plus a CORS allowlist.
+  - Account creation records consent (terms, storing the resume) with a version.
+- **Privacy:** `DELETE /me` removes every row for the user, and `GET /me/export` returns it all. The audit log keeps only the random user id.
+- **Jobs (`app/jobs/store.py`, `app/ingest.py`):**
+  - Postings are upserted by id and stored with a pre-analyzed rule profile, tagged with an engine version (a hash of the taxonomy and extractor) so they're re-analyzed when the engine changes.
+  - Postings missing from a board on the next run are closed.
+  - `python -m app.ingest` runs from cron: Greenhouse, Lever (boards in `data/boards.json`) and Adzuna (API keys).
+- **Fit ranking:** `/jobs/fit` scores the candidate against up to 500 stored profiles per request (rules only, pure Python).
+- **Caching:** the market report cache is keyed on a (count, last update) marker that's re-read at most every 60 s, so instances pick up other instances' ingests.
+
+## 9. Frontend state
 
 Until accounts exist, personal data stays in the browser's localStorage (`src/lib/store.ts`):
 - `mga.profile.v1`: resume and skill corrections

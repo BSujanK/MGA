@@ -1,6 +1,10 @@
-# MGA API (v0.1)
+# MGA API (v0.3)
 
 Base URL in development: `http://localhost:8000`. Interactive docs: `/docs`. The Pydantic models in `backend/app/models.py` are the source of truth for every shape.
+
+In production the browser talks only to the website, which proxies `/api/*` to this API, so the session cookie stays on one site.
+
+**Auth:** analysis endpoints work without an account. Endpoints under `/me` need a session: the httpOnly cookie `mga_session`, or `Authorization: Bearer <token>`. Every non-GET request sent with the cookie must include the header `X-Requested-With: mga` (CSRF defence).
 
 Every analysis endpoint accepts `use_llm` (`true` / `false` / omitted). If omitted, Claude is used when an API key is configured; otherwise the rule engine runs alone.
 
@@ -16,6 +20,20 @@ Every analysis endpoint accepts `use_llm` (`true` / `false` / omitted). If omitt
 | GET | `/jobs/{id}` | One posting |
 | POST | `/jobs/import?source=greenhouse\|lever&board=` | Pull a company's public job board |
 | GET | `/learn/{skill_id}?level=&limit=` | Resources for a skill, matched to level |
+| POST | `/jobs/fit` | Postings ranked by your readiness ("jobs you're closest to"); uses your saved resume when signed in |
+| POST | `/jobs/import?source=&board=&company=` | **Admin only** (`X-Admin-Token`): ingest one public board now |
+| GET | `/auth/config` | Sign-in methods on offer (email; Google if configured) |
+| POST | `/auth/code` | `{email}`: email a 6-digit code (rate-limited: 5/hour per email, 30/hour per IP) |
+| POST | `/auth/verify` | `{email, code, accept_terms}`: sign in; new accounts need `accept_terms: true` |
+| POST | `/auth/google` | `{credential, accept_terms}`: sign in with a Google ID token |
+| POST | `/auth/logout`, `/auth/logout-all` | End this session / every session |
+| GET / DELETE | `/me` | Account summary / **delete the account and all its data** |
+| GET | `/me/export` | Everything stored about you, decrypted, as JSON |
+| GET / PUT | `/me/profile` | Resume text (encrypted at rest), file name, skill corrections |
+| GET / PUT / DELETE | `/me/documents/{tuner\|prep}/{key}` | Interview answers / prep progress per job |
+| GET / PUT / DELETE | `/me/calendar/{id}` | Calendar events |
+| GET / POST / GET / DELETE | `/me/reports`, `/me/reports/{id}` | Saved reports |
+| POST | `/me/import` | First sign-in: merge data saved in the browser; the account's data wins |
 | POST | `/resume/chat` | Next interview question about the candidate's gaps for a job, plus findings from their answers |
 | POST | `/resume/tailor` | Resume reordered (and, with AI, reworded) for one job, using only the resume and answers |
 | POST | `/prep` | Prep kit for one job: DSA plan, core subjects, OA formats, aptitude, questions, project, weekly schedule |

@@ -22,11 +22,15 @@ Small, usable slices. Each phase ends with something a real candidate can use.
 - [ ] Run `python -m eval.run --llm` with an API key and record rules+Claude numbers
 - [ ] Run `scripts/check_links.py` locally and fix any dead links
 
-## Phase 2: accounts, data, live jobs
-- [ ] Auth, user profiles, saved reports, delete-my-data
-- [ ] Postgres (+ pgvector); store pre-analyzed postings
-- [ ] Ingestion jobs: Greenhouse/Lever board list for India tech companies, Adzuna API, more ATS connectors
-- [ ] Gap % shown in the job list; "jobs you're closest to"
+## Phase 2: accounts, data, live jobs (v0.3, in progress)
+- [x] Auth (email codes, Google), user profiles, saved reports, delete-my-data, export-my-data, consent records
+- [x] Postgres + Alembic; encrypted personal data; pre-analyzed postings with engine versioning
+- [x] Ingestion CLI: Greenhouse, Lever, Adzuna; closes removed postings; run history
+- [x] API for "jobs you're closest to" (`/jobs/fit`)
+- [ ] Frontend: sign-in, account page, browser-to-account sync, fit % in the job list (in progress)
+- [ ] Deployment: Docker images, compose, CI, deploy guide (in progress)
+- [ ] Board list for India tech companies (verified tokens only) in `data/boards.json`; more ATS connectors (Ashby, SmartRecruiters)
+- [ ] pgvector + embeddings for unseen skill phrases
 - [ ] Taxonomy growth loop from `unmapped` phrases; ESCO/Lightcast ID mapping
 
 ## Phase 3: resume tuner ✅ (v0.2)
