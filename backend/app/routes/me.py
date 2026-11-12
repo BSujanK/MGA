@@ -91,6 +91,10 @@ class ImportIn(BaseModel):
     calendar: list[EventIn] = Field(default=[], max_length=MAX_EVENTS)
 
 
+class SettingsIO(BaseModel):
+    reminder_emails: bool
+
+
 class MeOut(BaseModel):
     user: UserOut
     has_resume: bool
@@ -107,6 +111,8 @@ def _event_out(e: CalendarEvent) -> dict:
 
 def _put_event(db: DB, user_id: str, ev: EventIn) -> None:
     row = db.get(CalendarEvent, (user_id, ev.id)) or CalendarEvent(user_id=user_id, id=ev.id)
+    if (row.date, row.time, row.remind_days) != (ev.date, ev.time or None, ev.remindDays):
+        row.reminded_at = None  # new date, time or lead time: remind again
     row.kind, row.title, row.date, row.time = ev.kind, ev.title, ev.date, ev.time or None
     row.duration_mins, row.company, row.job_id, row.url = ev.durationMins, ev.company, ev.jobId, ev.url
     row.notes_enc = crypto.encrypt(ev.notes) if ev.notes else None
@@ -139,6 +145,19 @@ def me(user: User = Depends(auth.current_user), db: DB = Depends(get_db)) -> MeO
                          "sessions": count(Session)})
 
 
+@router.get("/settings", response_model=SettingsIO)
+def get_settings(user: User = Depends(auth.current_user)) -> SettingsIO:
+    return SettingsIO(reminder_emails=user.reminder_emails)
+
+
+@router.put("/settings", response_model=SettingsIO)
+def put_settings(body: SettingsIO, user: User = Depends(auth.current_user), db: DB = Depends(get_db)) -> SettingsIO:
+    user.reminder_emails = body.reminder_emails
+    db.add(user)
+    db.commit()
+    return SettingsIO(reminder_emails=user.reminder_emails)
+
+
 @router.delete("")
 def delete_me(response: Response, user: User = Depends(auth.current_user), db: DB = Depends(get_db)) -> dict:
     """Delete the account and everything in it. Cannot be undone."""
@@ -158,7 +177,8 @@ def export(user: User = Depends(auth.current_user), db: DB = Depends(get_db)) ->
     prof = db.get(Profile, user.id)
     docs = db.scalars(select(Document).where(Document.user_id == user.id)).all()
     out = {
-        "account": {"email": user.email, "name": user.name, "created_at": user.created_at.isoformat()},
+        "account": {"email": user.email, "name": user.name, "created_at": user.created_at.isoformat(),
+                    "reminder_emails": user.reminder_emails},
         "consents": [{"kind": c.kind, "version": c.version, "granted": c.granted, "at": c.at.isoformat()}
                      for c in db.scalars(select(Consent).where(Consent.user_id == user.id))],
         "profile": {"resume_text": crypto.decrypt(prof.resume_enc), "file_name": prof.file_name,

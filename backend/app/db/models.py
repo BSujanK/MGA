@@ -5,7 +5,7 @@ import uuid
 from datetime import date, datetime, timezone
 
 from sqlalchemy import (
-    JSON, Boolean, Date, DateTime, Float, ForeignKey, Index, Integer, String, Text, UniqueConstraint,
+    JSON, Boolean, Date, DateTime, Float, ForeignKey, Index, Integer, String, Text, UniqueConstraint, true,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -33,6 +33,7 @@ class User(Base):
     google_sub: Mapped[str | None] = mapped_column(String(64), unique=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    reminder_emails: Mapped[bool] = mapped_column(Boolean, default=True, server_default=true())
 
     sessions: Mapped[list["Session"]] = relationship(back_populates="user", cascade="all, delete-orphan", passive_deletes=True)
 
@@ -105,6 +106,7 @@ class CalendarEvent(Base):
     notes_enc: Mapped[str | None] = mapped_column(Text)
     remind_days: Mapped[int] = mapped_column(Integer, default=1)
     done: Mapped[bool] = mapped_column(Boolean, default=False)
+    reminded_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
 
 
