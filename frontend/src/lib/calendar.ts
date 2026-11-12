@@ -5,12 +5,12 @@ import { createLocalStore } from "./store";
 export type EventKind = "application" | "oa" | "interview" | "deadline" | "drive" | "other";
 
 export const KINDS: Record<EventKind, { label: string; chip: string; dot: string }> = {
-  application: { label: "Application", chip: "bg-indigo-50 text-indigo-700 ring-indigo-200", dot: "bg-indigo-500" },
-  oa: { label: "Online assessment", chip: "bg-amber-50 text-amber-800 ring-amber-200", dot: "bg-amber-500" },
-  interview: { label: "Interview", chip: "bg-emerald-50 text-emerald-700 ring-emerald-200", dot: "bg-emerald-500" },
-  deadline: { label: "Deadline", chip: "bg-rose-50 text-rose-700 ring-rose-200", dot: "bg-rose-500" },
-  drive: { label: "Hiring drive", chip: "bg-sky-50 text-sky-700 ring-sky-200", dot: "bg-sky-500" },
-  other: { label: "Other", chip: "bg-slate-100 text-slate-700 ring-slate-200", dot: "bg-slate-400" },
+  application: { label: "Application", chip: "bg-royal-soft text-royal ring-royal/20", dot: "bg-royal" },
+  oa: { label: "Online assessment", chip: "bg-nitro-soft text-[#c2410c] ring-nitro/25", dot: "bg-nitro" },
+  interview: { label: "Interview", chip: "bg-stone text-whiteout ring-stone", dot: "bg-stone" },
+  deadline: { label: "Deadline", chip: "bg-redline-soft text-redline ring-redline/20", dot: "bg-redline" },
+  drive: { label: "Hiring drive", chip: "bg-fusion-light text-stone-700 ring-fusion", dot: "bg-stone-400" },
+  other: { label: "Other", chip: "bg-fusion-50 text-stone-500 ring-fusion-light", dot: "bg-fusion" },
 };
 
 export interface CalEvent {

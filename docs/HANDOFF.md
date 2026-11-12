@@ -67,6 +67,16 @@ Read this first in any new session, then `CLAUDE.md`, `docs/PRODUCT.md`, `docs/A
   - Google sign-in is tested only with a mocked token;
   - no real email provider was used.
 
+## UI v2 (design system)
+- **Design rules:** `docs/DESIGN.md`. It covers:
+  - one typeface (Geist);
+  - the palette: Whiteout, Black Stone, Fusion, Redline, Royal Blue, Nitro Orange;
+  - the type scale;
+  - one dark block and one "unexpected move" per page.
+- **Shared code:** tokens and utilities are in `frontend/src/app/globals.css`, primitives in `frontend/src/components/ui.tsx`. The reference page is `frontend/src/app/page.tsx`.
+- **Status:** every page is redesigned and checked at 1440 and 390 px (no horizontal scroll, no console errors).
+- **Candidates for `ui.tsx`** (suggested by the page builders): `ReadinessNumeral`, a faded `Index` heading, `LevelDots`, a drawn `Check`, a pill `Segmented` control, and a `DangerZone`.
+
 ## Next tasks, in order
 1. **Deploy:** follow `docs/DEPLOY.md`. You need to:
    - create Postgres, the API service and the website;
