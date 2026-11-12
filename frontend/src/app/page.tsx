@@ -36,8 +36,8 @@ function ReportCloseUp() {
           {rows.map((r) => (
             <li key={r.name} className="space-y-2">
               <div className="flex items-center justify-between gap-3 text-sm">
-                <span className="font-medium">{r.name}</span>
-                <span className="flex items-center gap-3"><span className="muted">{r.h}</span><StatusChip status={r.status} /></span>
+                <span className="min-w-0 font-medium">{r.name}</span>
+                <span className="flex shrink-0 items-center gap-3"><span className="muted whitespace-nowrap">{r.h}</span><StatusChip status={r.status} /></span>
               </div>
               <LevelBar have={r.have} need={r.need} status={r.status} />
             </li>
