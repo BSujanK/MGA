@@ -71,12 +71,13 @@ export function AnalyzeClient() {
   const canRun = hasProfile && (mode === "pick" ? !!jobId : jobText.trim().length > 40);
 
   return (
-    <div className="space-y-8">
-      <div className="grid gap-6 lg:grid-cols-2">
-        <section className="card space-y-3 p-5" aria-labelledby="resume-h">
-          <h2 id="resume-h" className="font-semibold text-slate-900">1. Your resume</h2>
+    <div className="space-y-24">
+      <div className="grid gap-6 lg:grid-cols-12">
+        <section className="card space-y-4 p-6 sm:p-8 lg:col-span-5 lg:mt-12" aria-labelledby="resume-h">
+          <p aria-hidden className="numeral text-[4.5rem] leading-[0.8] text-fusion">01</p>
+          <h2 id="resume-h" className="text-xl font-semibold tracking-[-0.02em]">Your resume</h2>
           {hasProfile && !editResume ? (
-            <div className="space-y-2 text-sm text-slate-600">
+            <div className="space-y-4 text-[0.9375rem] text-stone-600">
               <p>
                 Using your saved resume{profile.fileName ? ` (${profile.fileName})` : ""}
                 {profile.overrides.length ? ` plus ${profile.overrides.length} skill corrections` : ""}.
@@ -87,14 +88,17 @@ export function AnalyzeClient() {
             <ResumeInput compact onSaved={() => setEditResume(false)} />
           )}
         </section>
-        <section className="card space-y-3 p-5" aria-labelledby="job-h">
-          <div className="flex items-center justify-between">
-            <h2 id="job-h" className="font-semibold text-slate-900">2. The job</h2>
-            <div className="flex rounded-lg bg-slate-100 p-0.5 text-sm" role="tablist">
+        <section className="card space-y-5 p-6 sm:p-8 lg:col-span-7" aria-labelledby="job-h">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="space-y-4">
+              <p aria-hidden className="numeral text-[4.5rem] leading-[0.8] text-fusion">02</p>
+              <h2 id="job-h" className="text-xl font-semibold tracking-[-0.02em]">The job</h2>
+            </div>
+            <div className="flex rounded-full bg-fusion-50 p-1 ring-1 ring-fusion-light" role="tablist">
               {(["pick", "paste"] as const).map((m) => (
                 <button
                   key={m} type="button" role="tab" aria-selected={mode === m} onClick={() => setMode(m)}
-                  className={`rounded-md px-3 py-1 font-medium ${mode === m ? "bg-white text-slate-900 shadow-sm" : "text-slate-600"}`}
+                  className={`rounded-full px-4 py-1.5 text-[0.8125rem] font-medium transition ${mode === m ? "bg-white text-stone shadow-float" : "text-stone-500 hover:text-stone"}`}
                 >
                   {m === "pick" ? "Pick a job" : "Paste a posting"}
                 </button>
@@ -115,26 +119,26 @@ export function AnalyzeClient() {
             <div>
               <label htmlFor="jd" className="label">Job description</label>
               <textarea
-                id="jd" className="input h-40 text-xs" value={jobText} onChange={(e) => setJobText(e.target.value)}
+                id="jd" className="input h-40 text-[0.8125rem]" value={jobText} onChange={(e) => setJobText(e.target.value)}
                 placeholder="Paste the full posting: responsibilities, requirements, nice-to-haves."
               />
             </div>
           )}
-          <button type="button" className="btn-primary w-full" disabled={!canRun || busy} onClick={run}>
+          <button type="button" className="btn-primary w-full px-6 py-3.5 text-[0.9375rem]" disabled={!canRun || busy} onClick={run}>
             {busy ? "Analyzing…" : "Analyze my fit"}
           </button>
-          {!hasProfile && <p className="text-xs text-slate-500">Add your resume first.</p>}
+          {!hasProfile && <p className="muted">Add your resume first.</p>}
         </section>
       </div>
       {busy && <Spinner label="Comparing every skill…" />}
       {error && <ErrorBox message={error} />}
       {report && !busy && (
-        <div className="space-y-8">
+        <div className="space-y-12">
           <GapSummaryCard report={report} />
           {user && (
             <div className="flex flex-wrap items-center gap-3">
               {saveState === "saved" ? (
-                <p className="text-sm text-emerald-700" role="status">
+                <p className="text-sm text-royal" role="status">
                   Saved. <Link href="/account" className="font-medium underline">View in your account</Link>
                 </p>
               ) : (
@@ -142,23 +146,25 @@ export function AnalyzeClient() {
                   {saveState === "saving" ? "Saving…" : "Save report"}
                 </button>
               )}
-              {saveError && <span className="text-sm text-rose-700">{saveError}</span>}
+              {saveError && <span className="text-sm text-redline">{saveError}</span>}
             </div>
           )}
           <GapList gaps={report.gaps} />
           {report.extra_skills.length > 0 && (
-            <section className="card p-5" aria-labelledby="extra-h">
-              <h2 id="extra-h" className="mb-2 font-semibold text-slate-900">Your other skills</h2>
-              <p className="mb-3 text-sm text-slate-600">This job doesn&apos;t ask for these, but they still count elsewhere.</p>
+            <section className="panel space-y-5 p-6 sm:p-8" aria-labelledby="extra-h">
+              <div className="space-y-1">
+                <h2 id="extra-h" className="text-xl font-semibold tracking-[-0.02em]">Your other skills</h2>
+                <p className="muted">This job doesn&apos;t ask for these, but they still count elsewhere.</p>
+              </div>
               <ul className="flex flex-wrap gap-2">
                 {report.extra_skills.map((s) => (
-                  <li key={s.skill_id} className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">{s.name}</li>
+                  <li key={s.skill_id} className="chip bg-white px-3 py-1.5 text-[0.8125rem] font-medium text-stone-700 ring-1 ring-fusion">{s.name}</li>
                 ))}
               </ul>
             </section>
           )}
           {report.job.unmapped.length > 0 && (
-            <p className="text-xs text-slate-500">Also mentioned, not yet in our skill map: {report.job.unmapped.join(", ")}.</p>
+            <p className="muted">Also mentioned, not yet in our skill map: {report.job.unmapped.join(", ")}.</p>
           )}
         </div>
       )}

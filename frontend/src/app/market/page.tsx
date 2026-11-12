@@ -1,14 +1,14 @@
 import { MarketClient } from "./MarketClient";
+import { PageHeader } from "@/components/ui";
 
 export const metadata = { title: "Market · MGA" };
 
 export default function MarketPage() {
   return (
-    <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-slate-900">The market for your role</h1>
-        <p className="text-slate-600">What employers actually ask for across every posting we track, and which of your gaps unlock the most jobs.</p>
-      </header>
+    <div className="space-y-16">
+      <PageHeader eyebrow="The market" title="What employers ask for," accent="and where you stand.">
+        Every posting we track for your role, skill by skill, and which of your gaps unlock the most jobs.
+      </PageHeader>
       <MarketClient />
     </div>
   );

@@ -5,7 +5,8 @@ import { api } from "@/lib/api";
 import { useProfile } from "@/lib/profile";
 import type { MarketReport } from "@/lib/types";
 import { GapCard } from "@/components/GapReportView";
-import { ErrorBox, ReadinessRing, Spinner, levelName } from "@/components/ui";
+import { DemandChart } from "@/components/market/DemandChart";
+import { ErrorBox, Spinner } from "@/components/ui";
 
 const ROLES = [
   { value: "sde", label: "Software engineer (SDE)" },
@@ -45,61 +46,52 @@ export function MarketClient() {
   }
 
   return (
-    <div className="space-y-8">
-      <form className="card flex flex-wrap items-end gap-4 p-5" onSubmit={(e) => { e.preventDefault(); run(); }}>
+    <div className="space-y-24">
+      <form className="card flex flex-wrap items-end gap-4 p-6 sm:p-8" onSubmit={(e) => { e.preventDefault(); run(); }}>
         <div className="min-w-56 flex-1">
           <label htmlFor="role" className="label">Role</label>
           <select id="role" className="input" value={role} onChange={(e) => setRole(e.target.value)}>
             {ROLES.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
           </select>
         </div>
-        <div className="min-w-44">
+        <div className="min-w-44 flex-1 sm:flex-none">
           <label htmlFor="city" className="label">Location</label>
           <select id="city" className="input" value={city} onChange={(e) => setCity(e.target.value)}>
             {CITIES.map((c) => <option key={c} value={c}>{c || "Anywhere in India"}</option>)}
           </select>
         </div>
-        <button className="btn-primary" disabled={busy}>{busy ? "Analyzing…" : "Analyze market"}</button>
-        {!hasProfile && <p className="w-full text-xs text-slate-500">Add your resume on the home page to see your personal gaps against the market.</p>}
+        <button className="btn-primary w-full px-6 py-3.5 text-[0.9375rem] sm:w-auto" disabled={busy}>{busy ? "Analyzing…" : "Analyze market"}</button>
+        {!hasProfile && <p className="muted w-full">Add your resume on the home page to see your personal gaps against the market.</p>}
       </form>
       {busy && <Spinner label="Reading every posting…" />}
       {error && <ErrorBox message={error} />}
       {report && !busy && (report.postings_analyzed === 0 ? (
-        <p className="text-slate-600">No postings for this role and location yet. Try another city or “Anywhere”.</p>
+        <p className="lede">No postings for this role and location yet. Try another city or “Anywhere”.</p>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-5">
-          <section className="card p-5 lg:col-span-3" aria-labelledby="demand-h">
-            <h2 id="demand-h" className="font-semibold text-slate-900">Skill demand</h2>
-            <p className="mb-4 text-sm text-slate-500">Share of {report.postings_analyzed} postings that ask for each skill. Darker = more often a must-have.</p>
-            <ul className="space-y-2.5">
-              {report.skills.map((s) => (
-                <li key={s.skill_id} className="grid grid-cols-[9rem_1fr_3rem] items-center gap-3 text-sm">
-                  <span className="truncate text-slate-700" title={s.name}>{s.name}</span>
-                  <span className="h-4 rounded bg-slate-100" title={`Typical level: ${levelName(s.avg_required_level)}; must-have in ${Math.round(s.must_rate * 100)}%`}>
-                    <span
-                      className="block h-4 rounded"
-                      style={{ width: `${s.frequency * 100}%`, background: `rgba(79, 70, 229, ${0.35 + 0.65 * s.must_rate})` }}
-                    />
-                  </span>
-                  <span className="text-right font-medium tabular-nums text-slate-900">{Math.round(s.frequency * 100)}%</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-          <section className="space-y-4 lg:col-span-2" aria-labelledby="you-h">
-            <h2 id="you-h" className="font-semibold text-slate-900">You vs. this market</h2>
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <DemandChart report={report} className="lg:col-span-7" />
+          <section className="space-y-6 lg:col-span-5 lg:mt-24" aria-labelledby="you-h">
+            <h2 id="you-h" className="title">
+              You vs. this market
+              <span className="block font-extralight text-stone-400">Your gaps, in order.</span>
+            </h2>
             {report.market_readiness != null ? (
               <>
-                <div className="card flex items-center gap-4 p-5">
-                  <ReadinessRing value={report.market_readiness} label="Market readiness" size={100} />
-                  <p className="text-sm text-slate-600">Close the gaps below in order: each one is weighted by how many postings ask for it.</p>
+                <div className="card space-y-3 p-6 sm:p-8">
+                  <div role="img" aria-label={`Market readiness: ${Math.round(report.market_readiness)}%`}>
+                    <p aria-hidden className="numeral text-[7rem] leading-[0.85] sm:text-[9rem]">
+                      {Math.round(report.market_readiness)}<span className="text-nitro">%</span>
+                    </p>
+                    <p aria-hidden className="eyebrow mt-4">Market readiness</p>
+                  </div>
+                  <p className="muted max-w-sm">Close the gaps below in order: each one is weighted by how many postings ask for it.</p>
                 </div>
-                <ol className="space-y-3">
-                  {report.candidate_gaps.slice(0, 8).map((g) => <GapCard key={g.skill_id} gap={g} />)}
+                <ol className="space-y-4">
+                  {report.candidate_gaps.slice(0, 8).map((g) => <GapCard key={g.skill_id} gap={g} compact />)}
                 </ol>
               </>
             ) : (
-              <p className="text-sm text-slate-600">Add your resume to see this.</p>
+              <p className="lede">Add your resume to see this.</p>
             )}
           </section>
         </div>
