@@ -1,92 +1,1581 @@
 {
-  "version": "0.1.0",
-  "note": "MGA seed skill taxonomy for India early-career tech roles. Each skill can later be linked to ESCO / Lightcast Open Skills IDs via external_ids. 'related' holds transfer similarity (0-1): how much knowing the related skill counts toward this one. 'hours' is a rough estimate of focused hours from zero to job-ready (level 3). 'exact' lists aliases that must match case-sensitively (short or ambiguous words). implies lists skills a candidate necessarily has when they have this one (MySQL implies SQL); used on the candidate side only.",
-  "skills": [
-    {"id": "python", "name": "Python", "category": "language", "aliases": ["python", "python3", "python 3"], "related": {"java": 0.3, "javascript": 0.3, "r": 0.3}, "hours": 60},
-    {"id": "java", "name": "Java", "category": "language", "aliases": ["java", "core java", "java 8", "java 11", "java 17", "j2ee"], "related": {"kotlin": 0.6, "csharp": 0.6, "cpp": 0.4, "python": 0.3}, "hours": 80},
-    {"id": "cpp", "name": "C++", "category": "language", "aliases": ["c++", "cpp", "c plus plus", "stl"], "related": {"c": 0.6, "java": 0.4, "csharp": 0.4, "rust": 0.3}, "hours": 90},
-    {"id": "c", "name": "C", "category": "language", "aliases": ["c programming", "c language", "ansi c", "embedded c"], "exact": ["C"], "related": {"cpp": 0.6}, "hours": 60},
-    {"id": "csharp", "name": "C#", "category": "language", "aliases": ["c#", "csharp", "c sharp"], "related": {"java": 0.6, "dotnet": 0.5, "cpp": 0.3}, "hours": 70},
-    {"id": "javascript", "name": "JavaScript", "category": "language", "aliases": ["javascript", "js", "es6", "ecmascript", "vanilla js"], "related": {"typescript": 0.8, "python": 0.3}, "hours": 60},
-    {"id": "typescript", "name": "TypeScript", "category": "language", "aliases": ["typescript"], "related": {"javascript": 0.7, "java": 0.2, "csharp": 0.3}, "hours": 25, "exact": ["TS"], "implies": ["javascript"]},
-    {"id": "go", "name": "Go", "category": "language", "aliases": ["golang", "go lang"], "exact": ["Go"], "related": {"java": 0.3, "cpp": 0.3, "python": 0.2, "rust": 0.3}, "hours": 50},
-    {"id": "rust", "name": "Rust", "category": "language", "aliases": ["rustlang"], "related": {"cpp": 0.4, "go": 0.3}, "hours": 100, "exact": ["Rust"]},
-    {"id": "kotlin", "name": "Kotlin", "category": "language", "aliases": ["kotlin"], "related": {"java": 0.7, "swift": 0.3}, "hours": 40},
-    {"id": "swift", "name": "Swift", "category": "language", "aliases": ["swiftui"], "related": {"kotlin": 0.3}, "hours": 60, "exact": ["Swift"]},
-    {"id": "r", "name": "R", "category": "language", "aliases": ["r programming", "rstudio", "r language"], "exact": ["R"], "related": {"python": 0.3}, "hours": 50},
-    {"id": "sql", "name": "SQL", "category": "database", "aliases": ["sql", "structured query language", "t-sql", "pl/sql", "plsql"], "related": {"mysql": 0.8, "postgresql": 0.8}, "hours": 30},
-    {"id": "bash", "name": "Shell Scripting", "category": "devops", "aliases": ["bash", "shell scripting", "shell script", "unix shell", "zsh"], "related": {"linux": 0.6}, "hours": 20},
-    {"id": "html", "name": "HTML", "category": "frontend", "aliases": ["html", "html5"], "related": {}, "hours": 10},
-    {"id": "css", "name": "CSS", "category": "frontend", "aliases": ["css", "css3", "scss", "sass", "flexbox", "css grid"], "related": {"tailwind": 0.5}, "hours": 25},
-    {"id": "react", "name": "React", "category": "frontend", "aliases": ["reactjs", "react.js", "react hooks"], "related": {"nextjs": 0.6, "vue": 0.5, "angular": 0.4, "react_native": 0.5}, "hours": 50, "exact": ["React"], "implies": ["javascript"]},
-    {"id": "nextjs", "name": "Next.js", "category": "frontend", "aliases": ["next.js", "nextjs", "next js"], "related": {"react": 0.6}, "hours": 25, "implies": ["react", "javascript"]},
-    {"id": "angular", "name": "Angular", "category": "frontend", "aliases": ["angular", "angularjs", "angular.js"], "related": {"react": 0.4, "vue": 0.4, "typescript": 0.2}, "hours": 50, "implies": ["typescript"]},
-    {"id": "vue", "name": "Vue.js", "category": "frontend", "aliases": ["vue", "vuejs", "vue.js", "nuxt"], "related": {"react": 0.5, "angular": 0.4}, "hours": 40, "implies": ["javascript"]},
-    {"id": "redux", "name": "Redux", "category": "frontend", "aliases": ["redux", "redux toolkit", "zustand", "state management"], "related": {"react": 0.3}, "hours": 12, "implies": ["react"]},
-    {"id": "tailwind", "name": "Tailwind CSS", "category": "frontend", "aliases": ["tailwind", "tailwindcss", "tailwind css"], "related": {"css": 0.6}, "hours": 8, "implies": ["css"]},
-    {"id": "nodejs", "name": "Node.js", "category": "backend", "aliases": ["node.js", "nodejs", "node js"], "related": {"express": 0.6, "javascript": 0.4}, "hours": 40, "exact": ["Node"], "implies": ["javascript"]},
-    {"id": "express", "name": "Express.js", "category": "backend", "aliases": ["express.js", "expressjs", "nestjs"], "related": {"nodejs": 0.7, "fastapi": 0.4, "flask": 0.4}, "hours": 20, "exact": ["Express"], "implies": ["nodejs", "javascript"]},
-    {"id": "spring", "name": "Spring Boot", "category": "backend", "aliases": ["spring boot", "springboot", "spring mvc", "spring framework", "hibernate", "jpa"], "related": {"java": 0.3, "django": 0.3, "express": 0.3}, "hours": 70, "exact": ["Spring"], "implies": ["java"]},
-    {"id": "django", "name": "Django", "category": "backend", "aliases": ["django", "django rest framework", "drf"], "related": {"flask": 0.6, "fastapi": 0.6, "spring": 0.3}, "hours": 45, "implies": ["python"]},
-    {"id": "flask", "name": "Flask", "category": "backend", "aliases": ["flask"], "related": {"fastapi": 0.7, "django": 0.5, "express": 0.5}, "hours": 20, "implies": ["python"]},
-    {"id": "fastapi", "name": "FastAPI", "category": "backend", "aliases": ["fastapi", "fast api"], "related": {"flask": 0.7, "django": 0.5, "express": 0.5}, "hours": 20, "implies": ["python"]},
-    {"id": "dotnet", "name": ".NET", "category": "backend", "aliases": [".net", "dotnet", "asp.net", ".net core", "asp.net core"], "related": {"csharp": 0.4, "spring": 0.4}, "hours": 70, "implies": ["csharp"]},
-    {"id": "rest_api", "name": "REST APIs", "category": "backend", "aliases": ["restful", "rest api", "rest apis", "restful api", "restful apis", "api design", "web services"], "related": {"graphql": 0.4, "grpc": 0.4}, "hours": 15, "exact": ["REST"]},
-    {"id": "graphql", "name": "GraphQL", "category": "backend", "aliases": ["graphql", "apollo"], "related": {"rest_api": 0.5}, "hours": 15},
-    {"id": "grpc", "name": "gRPC", "category": "backend", "aliases": ["grpc", "protobuf", "protocol buffers"], "related": {"rest_api": 0.5}, "hours": 12},
-    {"id": "microservices", "name": "Microservices", "category": "backend", "aliases": ["microservices", "microservice", "microservice architecture", "service oriented architecture", "soa"], "related": {"system_design": 0.4, "docker": 0.3}, "hours": 40},
-    {"id": "kafka", "name": "Apache Kafka", "category": "backend", "aliases": ["kafka", "apache kafka", "rabbitmq", "message queue", "message queues", "sqs", "pub/sub"], "related": {"microservices": 0.3}, "hours": 25},
-    {"id": "auth", "name": "Authentication & Authorization", "category": "security", "aliases": ["oauth", "oauth2", "jwt", "authentication", "sso", "openid connect"], "related": {"rest_api": 0.2}, "hours": 12, "exact": []},
-    {"id": "mysql", "name": "MySQL", "category": "database", "aliases": ["mysql", "mariadb"], "related": {"sql": 0.8, "postgresql": 0.8}, "hours": 20, "implies": ["sql"]},
-    {"id": "postgresql", "name": "PostgreSQL", "category": "database", "aliases": ["postgresql", "postgres", "psql"], "related": {"sql": 0.8, "mysql": 0.8}, "hours": 25, "implies": ["sql"]},
-    {"id": "mongodb", "name": "MongoDB", "category": "database", "aliases": ["mongodb", "mongo", "mongoose"], "related": {"nosql": 0.7, "dynamodb": 0.4}, "hours": 20},
-    {"id": "nosql", "name": "NoSQL Databases", "category": "database", "aliases": ["nosql", "no-sql", "cassandra", "couchbase"], "related": {"mongodb": 0.7, "dynamodb": 0.6, "redis": 0.4}, "hours": 20},
-    {"id": "dynamodb", "name": "DynamoDB", "category": "database", "aliases": ["dynamodb", "dynamo db"], "related": {"nosql": 0.6, "mongodb": 0.4, "aws": 0.2}, "hours": 12},
-    {"id": "redis", "name": "Redis", "category": "database", "aliases": ["redis", "memcached"], "related": {"nosql": 0.3}, "hours": 10, "exact": []},
-    {"id": "elasticsearch", "name": "Elasticsearch", "category": "database", "aliases": ["elasticsearch", "elastic search", "opensearch", "elk", "solr"], "related": {"nosql": 0.3}, "hours": 20},
-    {"id": "db_design", "name": "Database Design", "category": "database", "aliases": ["database design", "data modeling", "data modelling", "normalization", "schema design", "er diagram", "indexing"], "related": {"sql": 0.4, "dbms": 0.6}, "hours": 20, "implies": ["sql"]},
-    {"id": "aws", "name": "AWS", "category": "cloud", "aliases": ["aws", "amazon web services", "aws lambda", "cloudformation"], "related": {"azure": 0.6, "gcp": 0.6}, "hours": 60, "exact": ["Lambda", "S3", "EC2"]},
-    {"id": "azure", "name": "Microsoft Azure", "category": "cloud", "aliases": ["azure", "microsoft azure", "azure devops", "azure functions"], "related": {"aws": 0.6, "gcp": 0.6}, "hours": 60},
-    {"id": "gcp", "name": "Google Cloud", "category": "cloud", "aliases": ["gcp", "google cloud", "google cloud platform", "bigquery", "cloud run", "firebase"], "related": {"aws": 0.6, "azure": 0.6}, "hours": 60},
-    {"id": "docker", "name": "Docker", "category": "devops", "aliases": ["docker", "containers", "containerization", "dockerfile", "docker compose", "podman"], "related": {"kubernetes": 0.4}, "hours": 20},
-    {"id": "kubernetes", "name": "Kubernetes", "category": "devops", "aliases": ["kubernetes", "k8s", "eks", "aks", "gke", "openshift"], "related": {"docker": 0.4}, "hours": 50, "exact": ["Helm"], "implies": ["docker"]},
-    {"id": "ci_cd", "name": "CI/CD", "category": "devops", "aliases": ["ci/cd", "ci cd", "cicd", "continuous integration", "continuous delivery", "continuous deployment", "jenkins", "github actions", "gitlab ci", "circleci"], "related": {"git": 0.2, "docker": 0.2}, "hours": 20},
-    {"id": "terraform", "name": "Terraform / IaC", "category": "devops", "aliases": ["terraform", "infrastructure as code", "iac", "ansible", "pulumi", "cloudformation templates"], "related": {"aws": 0.2, "ci_cd": 0.2}, "hours": 25},
-    {"id": "linux", "name": "Linux", "category": "devops", "aliases": ["linux", "unix", "ubuntu", "centos", "rhel", "linux administration"], "related": {"bash": 0.5}, "hours": 30},
-    {"id": "monitoring", "name": "Monitoring & Observability", "category": "devops", "aliases": ["monitoring", "observability", "prometheus", "grafana", "datadog", "new relic", "logging", "splunk"], "related": {"linux": 0.2}, "hours": 15},
-    {"id": "git", "name": "Git", "category": "tools", "aliases": ["git", "gitlab", "bitbucket", "version control"], "related": {}, "hours": 8, "exact": ["GitHub", "Github", "github"]},
-    {"id": "networking", "name": "Computer Networks", "category": "cs_fundamentals", "aliases": ["computer networks", "tcp/ip", "dns", "osi model", "computer networking"], "related": {}, "hours": 30, "exact": ["HTTP"]},
-    {"id": "dsa", "name": "Data Structures & Algorithms", "category": "cs_fundamentals", "aliases": ["data structures", "algorithms", "dsa", "data structures and algorithms", "competitive programming", "problem solving", "leetcode", "dynamic programming", "graph algorithms"], "related": {}, "hours": 150},
-    {"id": "oop", "name": "Object-Oriented Programming", "category": "cs_fundamentals", "aliases": ["oop", "oops", "object oriented programming", "object-oriented programming", "object oriented design", "design patterns", "solid principles", "low level design", "lld"], "related": {"java": 0.3, "cpp": 0.3}, "hours": 25},
-    {"id": "os", "name": "Operating Systems", "category": "cs_fundamentals", "aliases": ["operating systems", "operating system", "os concepts", "multithreading", "concurrency", "process scheduling"], "related": {"linux": 0.3}, "hours": 30},
-    {"id": "dbms", "name": "DBMS Concepts", "category": "cs_fundamentals", "aliases": ["dbms", "database management systems", "acid", "transactions", "rdbms"], "related": {"sql": 0.4, "db_design": 0.5}, "hours": 20},
-    {"id": "system_design", "name": "System Design", "category": "cs_fundamentals", "aliases": ["system design", "high level design", "hld", "scalability", "distributed systems", "scalable systems", "software architecture"], "related": {"microservices": 0.4}, "hours": 60},
-    {"id": "excel", "name": "Excel", "category": "data", "aliases": ["excel", "ms excel", "microsoft excel", "advanced excel", "vlookup", "pivot tables", "google sheets", "spreadsheets"], "related": {}, "hours": 20},
-    {"id": "powerbi", "name": "Power BI", "category": "data", "aliases": ["power bi", "powerbi", "dax"], "related": {"tableau": 0.7}, "hours": 25},
-    {"id": "tableau", "name": "Tableau", "category": "data", "aliases": ["tableau", "looker", "looker studio", "data studio"], "related": {"powerbi": 0.7}, "hours": 25},
-    {"id": "data_viz", "name": "Data Visualization", "category": "data", "aliases": ["data visualization", "data visualisation", "dashboards", "dashboarding", "matplotlib", "seaborn", "plotly"], "related": {"powerbi": 0.5, "tableau": 0.5}, "hours": 15},
-    {"id": "pandas", "name": "Pandas & NumPy", "category": "data", "aliases": ["pandas", "numpy", "dataframes", "data wrangling", "data cleaning"], "related": {"python": 0.2, "sql": 0.2}, "hours": 25, "implies": ["python"]},
-    {"id": "statistics", "name": "Statistics", "category": "data", "aliases": ["statistics", "statistical analysis", "probability", "hypothesis testing", "a/b testing", "ab testing", "regression analysis", "inferential statistics"], "related": {}, "hours": 50},
-    {"id": "spark", "name": "Apache Spark", "category": "data", "aliases": ["apache spark", "pyspark", "hadoop", "databricks", "big data"], "related": {"pandas": 0.3, "sql": 0.3}, "hours": 40, "exact": ["Hive", "Spark"]},
-    {"id": "etl", "name": "ETL & Data Pipelines", "category": "data", "aliases": ["etl", "elt", "data pipelines", "data pipeline", "airflow", "apache airflow", "dbt", "data warehousing", "data warehouse", "snowflake"], "related": {"sql": 0.3, "spark": 0.3}, "hours": 35},
-    {"id": "ml", "name": "Machine Learning", "category": "ml", "aliases": ["machine learning", "scikit-learn", "sklearn", "supervised learning", "unsupervised learning", "xgboost", "predictive modeling", "predictive modelling"], "related": {"statistics": 0.3, "deep_learning": 0.4}, "hours": 100, "exact": ["ML"]},
-    {"id": "deep_learning", "name": "Deep Learning", "category": "ml", "aliases": ["deep learning", "neural networks", "neural network", "cnn", "rnn", "transformers", "tensorflow", "keras", "pytorch"], "related": {"ml": 0.4}, "hours": 100, "implies": ["ml"]},
-    {"id": "nlp", "name": "NLP", "category": "ml", "aliases": ["nlp", "natural language processing", "text classification", "named entity recognition", "spacy", "nltk"], "related": {"deep_learning": 0.4, "llm": 0.5}, "hours": 50},
-    {"id": "computer_vision", "name": "Computer Vision", "category": "ml", "aliases": ["computer vision", "opencv", "image processing", "object detection", "yolo", "image classification"], "related": {"deep_learning": 0.4}, "hours": 50},
-    {"id": "llm", "name": "LLMs & Generative AI", "category": "ml", "aliases": ["llm", "llms", "large language models", "generative ai", "genai", "gen ai", "prompt engineering", "retrieval augmented generation", "langchain", "llamaindex", "hugging face", "huggingface", "fine-tuning", "ai agents", "vector database", "vector databases", "embeddings"], "related": {"nlp": 0.5, "deep_learning": 0.3, "python": 0.1}, "hours": 50, "exact": ["RAG"]},
-    {"id": "mlops", "name": "MLOps", "category": "ml", "aliases": ["mlops", "ml ops", "mlflow", "kubeflow", "model deployment", "model serving", "sagemaker", "vertex ai"], "related": {"docker": 0.3, "ci_cd": 0.3, "ml": 0.3}, "hours": 40, "implies": ["ml"]},
-    {"id": "manual_testing", "name": "Software Testing", "category": "testing", "aliases": ["manual testing", "software testing", "quality assurance", "test cases", "sdlc", "stlc", "bug tracking", "regression testing"], "related": {"automation_testing": 0.4}, "hours": 25, "exact": ["QA"]},
-    {"id": "automation_testing", "name": "Test Automation", "category": "testing", "aliases": ["selenium", "test automation", "automation testing", "cypress", "playwright", "appium", "testng"], "related": {"manual_testing": 0.4, "unit_testing": 0.4}, "hours": 35},
-    {"id": "unit_testing", "name": "Unit Testing", "category": "testing", "aliases": ["unit testing", "unit tests", "junit", "pytest", "jest", "mocha", "tdd", "test driven development", "mockito"], "related": {"automation_testing": 0.3}, "hours": 12},
-    {"id": "android", "name": "Android Development", "category": "mobile", "aliases": ["android", "android development", "android studio", "jetpack compose"], "related": {"kotlin": 0.3, "flutter": 0.4, "react_native": 0.4}, "hours": 80},
-    {"id": "ios", "name": "iOS Development", "category": "mobile", "aliases": ["ios development", "xcode", "uikit"], "related": {"swift": 0.3, "flutter": 0.4, "react_native": 0.4}, "hours": 80, "exact": ["iOS", "IOS"]},
-    {"id": "flutter", "name": "Flutter", "category": "mobile", "aliases": ["flutter"], "related": {"react_native": 0.6, "android": 0.3}, "hours": 50, "exact": ["Dart"]},
-    {"id": "react_native", "name": "React Native", "category": "mobile", "aliases": ["react native", "react-native"], "related": {"react": 0.6, "flutter": 0.6}, "hours": 40, "exact": ["Expo"], "implies": ["react", "javascript"]},
-    {"id": "security", "name": "Application Security", "category": "security", "aliases": ["application security", "cybersecurity", "cyber security", "owasp", "penetration testing", "vulnerability assessment", "secure coding", "network security"], "related": {"auth": 0.3, "networking": 0.2}, "hours": 60},
-    {"id": "agile", "name": "Agile / Scrum", "category": "process", "aliases": ["agile", "scrum", "kanban", "sprint planning"], "related": {}, "hours": 6, "exact": ["JIRA", "Jira"]},
-    {"id": "communication", "name": "Communication", "category": "soft", "aliases": ["communication skills", "verbal communication", "written communication", "presentation skills"], "related": {}, "hours": 20, "exact": []},
-    {"id": "teamwork", "name": "Teamwork & Collaboration", "category": "soft", "aliases": ["teamwork", "team player", "collaboration", "cross-functional", "cross functional"], "related": {}, "hours": 10},
-    {"id": "problem_solving_soft", "name": "Analytical Thinking", "category": "soft", "aliases": ["analytical skills", "analytical thinking", "critical thinking", "logical reasoning", "attention to detail"], "related": {}, "hours": 20},
-    {"id": "ownership", "name": "Ownership & Initiative", "category": "soft", "aliases": ["self-starter", "self starter", "bias for action"], "related": {}, "hours": 10, "exact": []}
-  ]
+ "version": "0.1.0",
+ "note": "MGA seed skill taxonomy for India early-career tech roles. Each skill can later be linked to ESCO / Lightcast Open Skills IDs via external_ids. 'related' holds transfer similarity (0-1): how much knowing the related skill counts toward this one. 'hours' is a rough estimate of focused hours from zero to job-ready (level 3). 'exact' lists aliases that must match case-sensitively (short or ambiguous words). implies lists skills a candidate necessarily has when they have this one (MySQL implies SQL); used on the candidate side only.",
+ "skills": [
+  {
+   "id": "python",
+   "name": "Python",
+   "category": "language",
+   "aliases": [
+    "python",
+    "python3",
+    "python 3"
+   ],
+   "related": {
+    "java": 0.3,
+    "javascript": 0.3,
+    "r": 0.3
+   },
+   "hours": 60
+  },
+  {
+   "id": "java",
+   "name": "Java",
+   "category": "language",
+   "aliases": [
+    "java",
+    "core java",
+    "java 8",
+    "java 11",
+    "java 17",
+    "j2ee"
+   ],
+   "related": {
+    "kotlin": 0.6,
+    "csharp": 0.6,
+    "cpp": 0.4,
+    "python": 0.3
+   },
+   "hours": 80
+  },
+  {
+   "id": "cpp",
+   "name": "C++",
+   "category": "language",
+   "aliases": [
+    "c++",
+    "cpp",
+    "c plus plus",
+    "stl"
+   ],
+   "related": {
+    "c": 0.6,
+    "java": 0.4,
+    "csharp": 0.4,
+    "rust": 0.3
+   },
+   "hours": 90
+  },
+  {
+   "id": "c",
+   "name": "C",
+   "category": "language",
+   "aliases": [
+    "c programming",
+    "c language",
+    "ansi c",
+    "embedded c"
+   ],
+   "exact": [
+    "C"
+   ],
+   "related": {
+    "cpp": 0.6
+   },
+   "hours": 60
+  },
+  {
+   "id": "csharp",
+   "name": "C#",
+   "category": "language",
+   "aliases": [
+    "c#",
+    "csharp",
+    "c sharp"
+   ],
+   "related": {
+    "java": 0.6,
+    "dotnet": 0.5,
+    "cpp": 0.3
+   },
+   "hours": 70
+  },
+  {
+   "id": "javascript",
+   "name": "JavaScript",
+   "category": "language",
+   "aliases": [
+    "javascript",
+    "js",
+    "es6",
+    "ecmascript",
+    "vanilla js"
+   ],
+   "related": {
+    "typescript": 0.8,
+    "python": 0.3
+   },
+   "hours": 60
+  },
+  {
+   "id": "typescript",
+   "name": "TypeScript",
+   "category": "language",
+   "aliases": [
+    "typescript"
+   ],
+   "related": {
+    "javascript": 0.7,
+    "java": 0.2,
+    "csharp": 0.3
+   },
+   "hours": 25,
+   "exact": [
+    "TS"
+   ],
+   "implies": [
+    "javascript"
+   ]
+  },
+  {
+   "id": "go",
+   "name": "Go",
+   "category": "language",
+   "aliases": [
+    "golang",
+    "go lang"
+   ],
+   "exact": [
+    "Go"
+   ],
+   "related": {
+    "java": 0.3,
+    "cpp": 0.3,
+    "python": 0.2,
+    "rust": 0.3
+   },
+   "hours": 50
+  },
+  {
+   "id": "rust",
+   "name": "Rust",
+   "category": "language",
+   "aliases": [
+    "rustlang"
+   ],
+   "related": {
+    "cpp": 0.4,
+    "go": 0.3
+   },
+   "hours": 100,
+   "exact": [
+    "Rust"
+   ]
+  },
+  {
+   "id": "kotlin",
+   "name": "Kotlin",
+   "category": "language",
+   "aliases": [
+    "kotlin"
+   ],
+   "related": {
+    "java": 0.7,
+    "swift": 0.3
+   },
+   "hours": 40
+  },
+  {
+   "id": "swift",
+   "name": "Swift",
+   "category": "language",
+   "aliases": [
+    "swiftui"
+   ],
+   "related": {
+    "kotlin": 0.3
+   },
+   "hours": 60,
+   "exact": [
+    "Swift"
+   ]
+  },
+  {
+   "id": "r",
+   "name": "R",
+   "category": "language",
+   "aliases": [
+    "r programming",
+    "rstudio",
+    "r language"
+   ],
+   "exact": [
+    "R"
+   ],
+   "related": {
+    "python": 0.3
+   },
+   "hours": 50
+  },
+  {
+   "id": "sql",
+   "name": "SQL",
+   "category": "database",
+   "aliases": [
+    "sql",
+    "structured query language",
+    "t-sql",
+    "pl/sql",
+    "plsql"
+   ],
+   "related": {
+    "mysql": 0.8,
+    "postgresql": 0.8
+   },
+   "hours": 30
+  },
+  {
+   "id": "bash",
+   "name": "Shell Scripting",
+   "category": "devops",
+   "aliases": [
+    "bash",
+    "shell scripting",
+    "shell script",
+    "unix shell",
+    "zsh"
+   ],
+   "related": {
+    "linux": 0.6
+   },
+   "hours": 20
+  },
+  {
+   "id": "html",
+   "name": "HTML",
+   "category": "frontend",
+   "aliases": [
+    "html",
+    "html5"
+   ],
+   "related": {},
+   "hours": 10
+  },
+  {
+   "id": "css",
+   "name": "CSS",
+   "category": "frontend",
+   "aliases": [
+    "css",
+    "css3",
+    "scss",
+    "sass",
+    "flexbox",
+    "css grid"
+   ],
+   "related": {
+    "tailwind": 0.5
+   },
+   "hours": 25
+  },
+  {
+   "id": "react",
+   "name": "React",
+   "category": "frontend",
+   "aliases": [
+    "reactjs",
+    "react.js",
+    "react hooks"
+   ],
+   "related": {
+    "nextjs": 0.6,
+    "vue": 0.5,
+    "angular": 0.4,
+    "react_native": 0.5
+   },
+   "hours": 50,
+   "exact": [
+    "React"
+   ],
+   "implies": [
+    "javascript"
+   ]
+  },
+  {
+   "id": "nextjs",
+   "name": "Next.js",
+   "category": "frontend",
+   "aliases": [
+    "next.js",
+    "nextjs",
+    "next js"
+   ],
+   "related": {
+    "react": 0.6
+   },
+   "hours": 25,
+   "implies": [
+    "react",
+    "javascript"
+   ]
+  },
+  {
+   "id": "angular",
+   "name": "Angular",
+   "category": "frontend",
+   "aliases": [
+    "angular",
+    "angularjs",
+    "angular.js"
+   ],
+   "related": {
+    "react": 0.4,
+    "vue": 0.4,
+    "typescript": 0.2
+   },
+   "hours": 50,
+   "implies": [
+    "typescript"
+   ]
+  },
+  {
+   "id": "vue",
+   "name": "Vue.js",
+   "category": "frontend",
+   "aliases": [
+    "vue",
+    "vuejs",
+    "vue.js",
+    "nuxt"
+   ],
+   "related": {
+    "react": 0.5,
+    "angular": 0.4
+   },
+   "hours": 40,
+   "implies": [
+    "javascript"
+   ]
+  },
+  {
+   "id": "redux",
+   "name": "Redux",
+   "category": "frontend",
+   "aliases": [
+    "redux",
+    "redux toolkit",
+    "zustand",
+    "state management"
+   ],
+   "related": {
+    "react": 0.3
+   },
+   "hours": 12,
+   "implies": [
+    "react"
+   ]
+  },
+  {
+   "id": "tailwind",
+   "name": "Tailwind CSS",
+   "category": "frontend",
+   "aliases": [
+    "tailwind",
+    "tailwindcss",
+    "tailwind css"
+   ],
+   "related": {
+    "css": 0.6
+   },
+   "hours": 8,
+   "implies": [
+    "css"
+   ]
+  },
+  {
+   "id": "nodejs",
+   "name": "Node.js",
+   "category": "backend",
+   "aliases": [
+    "node.js",
+    "nodejs",
+    "node js"
+   ],
+   "related": {
+    "express": 0.6,
+    "javascript": 0.4
+   },
+   "hours": 40,
+   "exact": [
+    "Node"
+   ],
+   "implies": [
+    "javascript"
+   ]
+  },
+  {
+   "id": "express",
+   "name": "Express.js",
+   "category": "backend",
+   "aliases": [
+    "express.js",
+    "expressjs",
+    "nestjs"
+   ],
+   "related": {
+    "nodejs": 0.7,
+    "fastapi": 0.4,
+    "flask": 0.4
+   },
+   "hours": 20,
+   "exact": [
+    "Express"
+   ],
+   "implies": [
+    "nodejs",
+    "javascript"
+   ]
+  },
+  {
+   "id": "spring",
+   "name": "Spring Boot",
+   "category": "backend",
+   "aliases": [
+    "spring boot",
+    "springboot",
+    "spring mvc",
+    "spring framework",
+    "hibernate",
+    "jpa"
+   ],
+   "related": {
+    "java": 0.3,
+    "django": 0.3,
+    "express": 0.3
+   },
+   "hours": 70,
+   "exact": [
+    "Spring"
+   ],
+   "implies": [
+    "java"
+   ]
+  },
+  {
+   "id": "django",
+   "name": "Django",
+   "category": "backend",
+   "aliases": [
+    "django",
+    "django rest framework",
+    "drf"
+   ],
+   "related": {
+    "flask": 0.6,
+    "fastapi": 0.6,
+    "spring": 0.3
+   },
+   "hours": 45,
+   "implies": [
+    "python"
+   ]
+  },
+  {
+   "id": "flask",
+   "name": "Flask",
+   "category": "backend",
+   "aliases": [
+    "flask"
+   ],
+   "related": {
+    "fastapi": 0.7,
+    "django": 0.5,
+    "express": 0.5
+   },
+   "hours": 20,
+   "implies": [
+    "python"
+   ]
+  },
+  {
+   "id": "fastapi",
+   "name": "FastAPI",
+   "category": "backend",
+   "aliases": [
+    "fastapi",
+    "fast api"
+   ],
+   "related": {
+    "flask": 0.7,
+    "django": 0.5,
+    "express": 0.5
+   },
+   "hours": 20,
+   "implies": [
+    "python"
+   ]
+  },
+  {
+   "id": "dotnet",
+   "name": ".NET",
+   "category": "backend",
+   "aliases": [
+    ".net",
+    "dotnet",
+    "asp.net",
+    ".net core",
+    "asp.net core"
+   ],
+   "related": {
+    "csharp": 0.4,
+    "spring": 0.4
+   },
+   "hours": 70,
+   "implies": [
+    "csharp"
+   ]
+  },
+  {
+   "id": "rest_api",
+   "name": "REST APIs",
+   "category": "backend",
+   "aliases": [
+    "restful",
+    "rest api",
+    "rest apis",
+    "restful api",
+    "restful apis",
+    "api design",
+    "web services"
+   ],
+   "related": {
+    "graphql": 0.4,
+    "grpc": 0.4
+   },
+   "hours": 15,
+   "exact": [
+    "REST"
+   ]
+  },
+  {
+   "id": "graphql",
+   "name": "GraphQL",
+   "category": "backend",
+   "aliases": [
+    "graphql",
+    "apollo"
+   ],
+   "related": {
+    "rest_api": 0.5
+   },
+   "hours": 15
+  },
+  {
+   "id": "grpc",
+   "name": "gRPC",
+   "category": "backend",
+   "aliases": [
+    "grpc",
+    "protobuf",
+    "protocol buffers"
+   ],
+   "related": {
+    "rest_api": 0.5
+   },
+   "hours": 12
+  },
+  {
+   "id": "microservices",
+   "name": "Microservices",
+   "category": "backend",
+   "aliases": [
+    "microservices",
+    "microservice",
+    "microservice architecture",
+    "service oriented architecture",
+    "soa"
+   ],
+   "related": {
+    "system_design": 0.4,
+    "docker": 0.3
+   },
+   "hours": 40
+  },
+  {
+   "id": "kafka",
+   "name": "Apache Kafka",
+   "category": "backend",
+   "aliases": [
+    "kafka",
+    "apache kafka",
+    "rabbitmq",
+    "message queue",
+    "message queues",
+    "sqs",
+    "pub/sub"
+   ],
+   "related": {
+    "microservices": 0.3
+   },
+   "hours": 25
+  },
+  {
+   "id": "auth",
+   "name": "Authentication & Authorization",
+   "category": "security",
+   "aliases": [
+    "oauth",
+    "oauth2",
+    "jwt",
+    "authentication",
+    "sso",
+    "openid connect"
+   ],
+   "related": {
+    "rest_api": 0.2
+   },
+   "hours": 12,
+   "exact": []
+  },
+  {
+   "id": "mysql",
+   "name": "MySQL",
+   "category": "database",
+   "aliases": [
+    "mysql",
+    "mariadb"
+   ],
+   "related": {
+    "sql": 0.8,
+    "postgresql": 0.8
+   },
+   "hours": 20,
+   "implies": [
+    "sql"
+   ]
+  },
+  {
+   "id": "postgresql",
+   "name": "PostgreSQL",
+   "category": "database",
+   "aliases": [
+    "postgresql",
+    "postgres",
+    "psql"
+   ],
+   "related": {
+    "sql": 0.8,
+    "mysql": 0.8
+   },
+   "hours": 25,
+   "implies": [
+    "sql"
+   ]
+  },
+  {
+   "id": "mongodb",
+   "name": "MongoDB",
+   "category": "database",
+   "aliases": [
+    "mongodb",
+    "mongo",
+    "mongoose"
+   ],
+   "related": {
+    "nosql": 0.7,
+    "dynamodb": 0.4
+   },
+   "hours": 20
+  },
+  {
+   "id": "nosql",
+   "name": "NoSQL Databases",
+   "category": "database",
+   "aliases": [
+    "nosql",
+    "no-sql",
+    "cassandra",
+    "couchbase"
+   ],
+   "related": {
+    "mongodb": 0.7,
+    "dynamodb": 0.6,
+    "redis": 0.4
+   },
+   "hours": 20
+  },
+  {
+   "id": "dynamodb",
+   "name": "DynamoDB",
+   "category": "database",
+   "aliases": [
+    "dynamodb",
+    "dynamo db"
+   ],
+   "related": {
+    "nosql": 0.6,
+    "mongodb": 0.4,
+    "aws": 0.2
+   },
+   "hours": 12
+  },
+  {
+   "id": "redis",
+   "name": "Redis",
+   "category": "database",
+   "aliases": [
+    "redis",
+    "memcached"
+   ],
+   "related": {
+    "nosql": 0.3
+   },
+   "hours": 10,
+   "exact": []
+  },
+  {
+   "id": "elasticsearch",
+   "name": "Elasticsearch",
+   "category": "database",
+   "aliases": [
+    "elasticsearch",
+    "elastic search",
+    "opensearch",
+    "elk",
+    "solr"
+   ],
+   "related": {
+    "nosql": 0.3
+   },
+   "hours": 20
+  },
+  {
+   "id": "db_design",
+   "name": "Database Design",
+   "category": "database",
+   "aliases": [
+    "database design",
+    "data modeling",
+    "data modelling",
+    "normalization",
+    "schema design",
+    "er diagram",
+    "indexing"
+   ],
+   "related": {
+    "sql": 0.4,
+    "dbms": 0.6
+   },
+   "hours": 20,
+   "implies": [
+    "sql"
+   ]
+  },
+  {
+   "id": "aws",
+   "name": "AWS",
+   "category": "cloud",
+   "aliases": [
+    "aws",
+    "amazon web services",
+    "aws lambda",
+    "cloudformation"
+   ],
+   "related": {
+    "azure": 0.6,
+    "gcp": 0.6
+   },
+   "hours": 60,
+   "exact": [
+    "Lambda",
+    "S3",
+    "EC2"
+   ]
+  },
+  {
+   "id": "azure",
+   "name": "Microsoft Azure",
+   "category": "cloud",
+   "aliases": [
+    "azure",
+    "microsoft azure",
+    "azure devops",
+    "azure functions"
+   ],
+   "related": {
+    "aws": 0.6,
+    "gcp": 0.6
+   },
+   "hours": 60
+  },
+  {
+   "id": "gcp",
+   "name": "Google Cloud",
+   "category": "cloud",
+   "aliases": [
+    "gcp",
+    "google cloud",
+    "google cloud platform",
+    "bigquery",
+    "cloud run",
+    "firebase"
+   ],
+   "related": {
+    "aws": 0.6,
+    "azure": 0.6
+   },
+   "hours": 60
+  },
+  {
+   "id": "docker",
+   "name": "Docker",
+   "category": "devops",
+   "aliases": [
+    "docker",
+    "containers",
+    "containerization",
+    "dockerfile",
+    "docker compose",
+    "podman"
+   ],
+   "related": {
+    "kubernetes": 0.4
+   },
+   "hours": 20
+  },
+  {
+   "id": "kubernetes",
+   "name": "Kubernetes",
+   "category": "devops",
+   "aliases": [
+    "kubernetes",
+    "k8s",
+    "eks",
+    "aks",
+    "gke",
+    "openshift"
+   ],
+   "related": {
+    "docker": 0.4
+   },
+   "hours": 50,
+   "exact": [
+    "Helm"
+   ],
+   "implies": [
+    "docker"
+   ]
+  },
+  {
+   "id": "ci_cd",
+   "name": "CI/CD",
+   "category": "devops",
+   "aliases": [
+    "ci/cd",
+    "ci cd",
+    "cicd",
+    "continuous integration",
+    "continuous delivery",
+    "continuous deployment",
+    "jenkins",
+    "github actions",
+    "gitlab ci",
+    "circleci"
+   ],
+   "related": {
+    "git": 0.2,
+    "docker": 0.2
+   },
+   "hours": 20
+  },
+  {
+   "id": "terraform",
+   "name": "Terraform / IaC",
+   "category": "devops",
+   "aliases": [
+    "terraform",
+    "infrastructure as code",
+    "iac",
+    "ansible",
+    "pulumi",
+    "cloudformation templates"
+   ],
+   "related": {
+    "aws": 0.2,
+    "ci_cd": 0.2
+   },
+   "hours": 25
+  },
+  {
+   "id": "linux",
+   "name": "Linux",
+   "category": "devops",
+   "aliases": [
+    "linux",
+    "unix",
+    "ubuntu",
+    "centos",
+    "rhel",
+    "linux administration"
+   ],
+   "related": {
+    "bash": 0.5
+   },
+   "hours": 30
+  },
+  {
+   "id": "monitoring",
+   "name": "Monitoring & Observability",
+   "category": "devops",
+   "aliases": [
+    "monitoring",
+    "observability",
+    "prometheus",
+    "grafana",
+    "datadog",
+    "new relic",
+    "logging",
+    "splunk"
+   ],
+   "related": {
+    "linux": 0.2
+   },
+   "hours": 15
+  },
+  {
+   "id": "git",
+   "name": "Git",
+   "category": "tools",
+   "aliases": [
+    "git",
+    "gitlab",
+    "bitbucket",
+    "version control"
+   ],
+   "related": {},
+   "hours": 8,
+   "exact": [
+    "GitHub",
+    "Github",
+    "github"
+   ]
+  },
+  {
+   "id": "networking",
+   "name": "Computer Networks",
+   "category": "cs_fundamentals",
+   "aliases": [
+    "computer networks",
+    "tcp/ip",
+    "dns",
+    "osi model",
+    "computer networking"
+   ],
+   "related": {},
+   "hours": 30,
+   "exact": [
+    "HTTP"
+   ]
+  },
+  {
+   "id": "dsa",
+   "name": "Data Structures & Algorithms",
+   "category": "cs_fundamentals",
+   "aliases": [
+    "data structures",
+    "algorithms",
+    "dsa",
+    "data structures and algorithms",
+    "competitive programming",
+    "problem solving",
+    "leetcode",
+    "dynamic programming",
+    "graph algorithms",
+    "codeforces",
+    "codechef",
+    "icpc"
+   ],
+   "related": {},
+   "hours": 150
+  },
+  {
+   "id": "oop",
+   "name": "Object-Oriented Programming",
+   "category": "cs_fundamentals",
+   "aliases": [
+    "oop",
+    "oops",
+    "object oriented programming",
+    "object-oriented programming",
+    "object oriented design",
+    "design patterns",
+    "solid principles",
+    "low level design",
+    "lld",
+    "object-oriented design"
+   ],
+   "related": {
+    "java": 0.3,
+    "cpp": 0.3
+   },
+   "hours": 25
+  },
+  {
+   "id": "os",
+   "name": "Operating Systems",
+   "category": "cs_fundamentals",
+   "aliases": [
+    "operating systems",
+    "operating system",
+    "os concepts",
+    "multithreading",
+    "concurrency",
+    "process scheduling"
+   ],
+   "related": {
+    "linux": 0.3
+   },
+   "hours": 30
+  },
+  {
+   "id": "dbms",
+   "name": "DBMS Concepts",
+   "category": "cs_fundamentals",
+   "aliases": [
+    "dbms",
+    "database management systems",
+    "acid",
+    "transactions",
+    "rdbms"
+   ],
+   "related": {
+    "sql": 0.4,
+    "db_design": 0.5
+   },
+   "hours": 20
+  },
+  {
+   "id": "system_design",
+   "name": "System Design",
+   "category": "cs_fundamentals",
+   "aliases": [
+    "system design",
+    "high level design",
+    "hld",
+    "scalability",
+    "distributed systems",
+    "scalable systems",
+    "software architecture"
+   ],
+   "related": {
+    "microservices": 0.4
+   },
+   "hours": 60
+  },
+  {
+   "id": "excel",
+   "name": "Excel",
+   "category": "data",
+   "aliases": [
+    "excel",
+    "ms excel",
+    "microsoft excel",
+    "advanced excel",
+    "vlookup",
+    "pivot tables",
+    "google sheets",
+    "spreadsheets"
+   ],
+   "related": {},
+   "hours": 20
+  },
+  {
+   "id": "powerbi",
+   "name": "Power BI",
+   "category": "data",
+   "aliases": [
+    "power bi",
+    "powerbi",
+    "dax"
+   ],
+   "related": {
+    "tableau": 0.7
+   },
+   "hours": 25
+  },
+  {
+   "id": "tableau",
+   "name": "Tableau",
+   "category": "data",
+   "aliases": [
+    "tableau",
+    "looker",
+    "looker studio",
+    "data studio"
+   ],
+   "related": {
+    "powerbi": 0.7
+   },
+   "hours": 25
+  },
+  {
+   "id": "data_viz",
+   "name": "Data Visualization",
+   "category": "data",
+   "aliases": [
+    "data visualization",
+    "data visualisation",
+    "dashboards",
+    "dashboarding",
+    "matplotlib",
+    "seaborn",
+    "plotly"
+   ],
+   "related": {
+    "powerbi": 0.5,
+    "tableau": 0.5
+   },
+   "hours": 15
+  },
+  {
+   "id": "pandas",
+   "name": "Pandas & NumPy",
+   "category": "data",
+   "aliases": [
+    "pandas",
+    "numpy",
+    "dataframes",
+    "data wrangling",
+    "data cleaning"
+   ],
+   "related": {
+    "python": 0.2,
+    "sql": 0.2
+   },
+   "hours": 25,
+   "implies": [
+    "python"
+   ]
+  },
+  {
+   "id": "statistics",
+   "name": "Statistics",
+   "category": "data",
+   "aliases": [
+    "statistics",
+    "statistical analysis",
+    "probability",
+    "hypothesis testing",
+    "a/b testing",
+    "ab testing",
+    "regression analysis",
+    "inferential statistics"
+   ],
+   "related": {},
+   "hours": 50
+  },
+  {
+   "id": "spark",
+   "name": "Apache Spark",
+   "category": "data",
+   "aliases": [
+    "apache spark",
+    "pyspark",
+    "hadoop",
+    "databricks",
+    "big data"
+   ],
+   "related": {
+    "pandas": 0.3,
+    "sql": 0.3
+   },
+   "hours": 40,
+   "exact": [
+    "Hive",
+    "Spark"
+   ]
+  },
+  {
+   "id": "etl",
+   "name": "ETL & Data Pipelines",
+   "category": "data",
+   "aliases": [
+    "etl",
+    "elt",
+    "data pipelines",
+    "data pipeline",
+    "airflow",
+    "apache airflow",
+    "dbt",
+    "data warehousing",
+    "data warehouse",
+    "snowflake"
+   ],
+   "related": {
+    "sql": 0.3,
+    "spark": 0.3
+   },
+   "hours": 35
+  },
+  {
+   "id": "ml",
+   "name": "Machine Learning",
+   "category": "ml",
+   "aliases": [
+    "machine learning",
+    "scikit-learn",
+    "sklearn",
+    "supervised learning",
+    "unsupervised learning",
+    "xgboost",
+    "predictive modeling",
+    "predictive modelling"
+   ],
+   "related": {
+    "statistics": 0.3,
+    "deep_learning": 0.4
+   },
+   "hours": 100,
+   "exact": [
+    "ML"
+   ]
+  },
+  {
+   "id": "deep_learning",
+   "name": "Deep Learning",
+   "category": "ml",
+   "aliases": [
+    "deep learning",
+    "neural networks",
+    "neural network",
+    "cnn",
+    "rnn",
+    "transformers",
+    "tensorflow",
+    "keras",
+    "pytorch"
+   ],
+   "related": {
+    "ml": 0.4
+   },
+   "hours": 100,
+   "implies": [
+    "ml"
+   ]
+  },
+  {
+   "id": "nlp",
+   "name": "NLP",
+   "category": "ml",
+   "aliases": [
+    "nlp",
+    "natural language processing",
+    "text classification",
+    "named entity recognition",
+    "spacy",
+    "nltk"
+   ],
+   "related": {
+    "deep_learning": 0.4,
+    "llm": 0.5
+   },
+   "hours": 50
+  },
+  {
+   "id": "computer_vision",
+   "name": "Computer Vision",
+   "category": "ml",
+   "aliases": [
+    "computer vision",
+    "opencv",
+    "image processing",
+    "object detection",
+    "yolo",
+    "image classification"
+   ],
+   "related": {
+    "deep_learning": 0.4
+   },
+   "hours": 50
+  },
+  {
+   "id": "llm",
+   "name": "LLMs & Generative AI",
+   "category": "ml",
+   "aliases": [
+    "llm",
+    "llms",
+    "large language models",
+    "generative ai",
+    "genai",
+    "gen ai",
+    "prompt engineering",
+    "retrieval augmented generation",
+    "langchain",
+    "llamaindex",
+    "hugging face",
+    "huggingface",
+    "fine-tuning",
+    "ai agents",
+    "vector database",
+    "vector databases",
+    "embeddings"
+   ],
+   "related": {
+    "nlp": 0.5,
+    "deep_learning": 0.3,
+    "python": 0.1
+   },
+   "hours": 50,
+   "exact": [
+    "RAG"
+   ]
+  },
+  {
+   "id": "mlops",
+   "name": "MLOps",
+   "category": "ml",
+   "aliases": [
+    "mlops",
+    "ml ops",
+    "mlflow",
+    "kubeflow",
+    "model deployment",
+    "model serving",
+    "sagemaker",
+    "vertex ai"
+   ],
+   "related": {
+    "docker": 0.3,
+    "ci_cd": 0.3,
+    "ml": 0.3
+   },
+   "hours": 40,
+   "implies": [
+    "ml"
+   ]
+  },
+  {
+   "id": "manual_testing",
+   "name": "Software Testing",
+   "category": "testing",
+   "aliases": [
+    "manual testing",
+    "software testing",
+    "quality assurance",
+    "test cases",
+    "sdlc",
+    "stlc",
+    "bug tracking",
+    "regression testing"
+   ],
+   "related": {
+    "automation_testing": 0.4
+   },
+   "hours": 25,
+   "exact": [
+    "QA"
+   ]
+  },
+  {
+   "id": "automation_testing",
+   "name": "Test Automation",
+   "category": "testing",
+   "aliases": [
+    "selenium",
+    "test automation",
+    "automation testing",
+    "cypress",
+    "playwright",
+    "appium",
+    "testng"
+   ],
+   "related": {
+    "manual_testing": 0.4,
+    "unit_testing": 0.4
+   },
+   "hours": 35
+  },
+  {
+   "id": "unit_testing",
+   "name": "Unit Testing",
+   "category": "testing",
+   "aliases": [
+    "unit testing",
+    "unit tests",
+    "junit",
+    "pytest",
+    "jest",
+    "mocha",
+    "tdd",
+    "test driven development",
+    "mockito",
+    "component tests",
+    "component testing"
+   ],
+   "related": {
+    "automation_testing": 0.3
+   },
+   "hours": 12
+  },
+  {
+   "id": "android",
+   "name": "Android Development",
+   "category": "mobile",
+   "aliases": [
+    "android",
+    "android development",
+    "android studio",
+    "jetpack compose"
+   ],
+   "related": {
+    "kotlin": 0.3,
+    "flutter": 0.4,
+    "react_native": 0.4
+   },
+   "hours": 80
+  },
+  {
+   "id": "ios",
+   "name": "iOS Development",
+   "category": "mobile",
+   "aliases": [
+    "ios development",
+    "xcode",
+    "uikit"
+   ],
+   "related": {
+    "swift": 0.3,
+    "flutter": 0.4,
+    "react_native": 0.4
+   },
+   "hours": 80,
+   "exact": [
+    "iOS",
+    "IOS"
+   ]
+  },
+  {
+   "id": "flutter",
+   "name": "Flutter",
+   "category": "mobile",
+   "aliases": [
+    "flutter"
+   ],
+   "related": {
+    "react_native": 0.6,
+    "android": 0.3
+   },
+   "hours": 50,
+   "exact": [
+    "Dart"
+   ]
+  },
+  {
+   "id": "react_native",
+   "name": "React Native",
+   "category": "mobile",
+   "aliases": [
+    "react native",
+    "react-native"
+   ],
+   "related": {
+    "react": 0.6,
+    "flutter": 0.6
+   },
+   "hours": 40,
+   "exact": [
+    "Expo"
+   ],
+   "implies": [
+    "react",
+    "javascript"
+   ]
+  },
+  {
+   "id": "security",
+   "name": "Application Security",
+   "category": "security",
+   "aliases": [
+    "application security",
+    "cybersecurity",
+    "cyber security",
+    "owasp",
+    "penetration testing",
+    "vulnerability assessment",
+    "secure coding",
+    "network security"
+   ],
+   "related": {
+    "auth": 0.3,
+    "networking": 0.2
+   },
+   "hours": 60
+  },
+  {
+   "id": "agile",
+   "name": "Agile / Scrum",
+   "category": "process",
+   "aliases": [
+    "agile",
+    "scrum",
+    "kanban",
+    "sprint planning"
+   ],
+   "related": {},
+   "hours": 6,
+   "exact": [
+    "JIRA",
+    "Jira"
+   ]
+  },
+  {
+   "id": "communication",
+   "name": "Communication",
+   "category": "soft",
+   "aliases": [
+    "communication skills",
+    "verbal communication",
+    "written communication",
+    "presentation skills",
+    "communication"
+   ],
+   "related": {},
+   "hours": 20,
+   "exact": []
+  },
+  {
+   "id": "teamwork",
+   "name": "Teamwork & Collaboration",
+   "category": "soft",
+   "aliases": [
+    "teamwork",
+    "team player",
+    "collaboration",
+    "cross-functional",
+    "cross functional"
+   ],
+   "related": {},
+   "hours": 10
+  },
+  {
+   "id": "problem_solving_soft",
+   "name": "Analytical Thinking",
+   "category": "soft",
+   "aliases": [
+    "analytical skills",
+    "analytical thinking",
+    "critical thinking",
+    "logical reasoning",
+    "attention to detail"
+   ],
+   "related": {},
+   "hours": 20
+  },
+  {
+   "id": "ownership",
+   "name": "Ownership & Initiative",
+   "category": "soft",
+   "aliases": [
+    "self-starter",
+    "self starter",
+    "bias for action",
+    "take ownership",
+    "taking ownership"
+   ],
+   "related": {},
+   "hours": 10,
+   "exact": []
+  }
+ ]
 }

@@ -22,6 +22,9 @@ _AFTER = r"(?![A-Za-z0-9+#_&])"
 # Very short case-sensitive aliases ("Go", "C", "R") match only when they sit
 # next to list punctuation, e.g. "Python, Go, Rust" or "(Go)".
 _LIST_SEP = set(",/()|;:•·")
+_PREV_WORDS = {"in", "with", "using", "strong", "proficient", "proficiency"}
+_NEXT_WORDS = {"skills", "developer", "developers", "programming", "services", "service", "code", "language",
+               "backend", "microservices", "engineer", "engineers", "programs", "programmer"}
 
 
 @dataclass
@@ -96,7 +99,8 @@ class Taxonomy:
             sid = self._owner(alias)
             if sid is None:
                 continue
-            if len(alias) <= 2 and alias in self.skills[sid].exact and not self._in_list(text, m.start(1), m.end(1)):
+            if len(alias) <= 2 and alias in self.skills[sid].exact and not (
+                    self._in_list(text, m.start(1), m.end(1)) or self._in_prose(text, m.start(1), m.end(1))):
                 continue
             out.append(Match(sid, alias, m.start(1), m.end(1)))
         return out
@@ -106,6 +110,16 @@ class Taxonomy:
         before = text[max(0, start - 2):start].strip()
         after = text[end:end + 2].strip()
         return bool((before and before[-1] in _LIST_SEP) or (after and after[0] in _LIST_SEP | {"."}))
+
+    @staticmethod
+    def _in_prose(text: str, start: int, end: int) -> bool:
+        """'written in Go', 'strong Go skills': clear programming context, never at the start of a sentence."""
+        before = text[:start].rstrip()
+        if not before or before[-1] in ".!?:":
+            return False
+        prev = re.findall(r"[A-Za-z]+", before[-20:])
+        nxt = re.match(r"\s+([A-Za-z]+)", text[end:end + 24])
+        return bool((prev and prev[-1].lower() in _PREV_WORDS) or (nxt and nxt.group(1).lower() in _NEXT_WORDS))
 
     def related_to(self, skill_id: str) -> dict[str, float]:
         return self.skills[skill_id].related

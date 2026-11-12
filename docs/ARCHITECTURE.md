@@ -45,6 +45,10 @@ backend/app/
     prep.json          original prep content: DSA topics, subject topics, OA formats, questions, project templates
 ```
 
+## 0. Measuring accuracy
+
+`backend/eval/` holds hand-labeled synthetic postings and resumes. `python -m eval.run` reports extraction precision/recall, level error and gap-status agreement, and `tests/test_eval.py` blocks regressions against `eval/baseline.json`.
+
 ## 1. Taxonomy
 
 Each skill has:
@@ -55,7 +59,7 @@ Each skill has:
 - `implies`: MySQL ⇒ SQL, Spring Boot ⇒ Java
 - `hours`: zero to job-ready level 3
 
-Ambiguous short words (`Go`, `C`, `R`) only match in list context ("Python, Go, Rust").
+Ambiguous short words (`Go`, `C`, `R`) only match in list context ("Python, Go, Rust") or clear prose context ("written in Go", "strong C skills"), and never at the start of a sentence.
 
 Next: link each skill to ESCO / Lightcast Open Skills IDs through `external_ids`, and grow the taxonomy from the `unmapped` phrases Claude reports.
 
@@ -66,12 +70,15 @@ Next: link each skill to ESCO / Lightcast Open Skills IDs through `external_ids`
 - **Wording** can override the section: "is a plus", "preferred" → nice; "strong", "required" → must.
 - **Precedence:** an explicit must beats an explicit nice, which beats a must that only comes from a duties mention.
 - **Level cues:** "expert" 4, "strong / proficient / hands-on" 3.5, "experience with" 3, "familiar / basic / exposure" 2. "N+ years" raises the level.
-- **Alternatives:** skills in the same category joined by "or", "/", "one of" become one requirement ("MySQL or PostgreSQL"), with the weight split between them.
+- **Alternatives:** skills in the same category joined by "or", "/", "one of" become one requirement ("MySQL or PostgreSQL"), with the weight split between them. A "/" with no "or" word links only the two skills next to it ("MySQL/PostgreSQL"), not the whole line.
 - **Weights:** must 1.0, nice 0.4, × category factor (soft/process 0.5, tools 0.7), +10% per repeat mention.
 
 **Resume** (`extractor.extract_resume`):
 - **Evidence beats claims:** listed in skills = 2, used in a project, internship or job = 3, each extra project +0.5 (capped at 4).
 - A self-rating ("proficient") can lift a level by at most one step above the evidence.
+- A self-rating applies only to the skills in its own comma segment ("Python (advanced), SQL" rates Python, not SQL).
+- An inline heading ("Internship: SDE Intern, Acme") opens that section for the lines below it. "Learning" and online courses count as coursework.
+- In prose (summary) sentences, a use verb plus a project noun ("my capstone uses React") counts as project evidence (3). A use verb alone gives 2.5.
 - Implied skills are added (React ⇒ JavaScript).
 
 **Claude** (`llm.py`), when enabled, reads the same text with a strict rubric and returns structured JSON. Its names are normalized through the taxonomy:

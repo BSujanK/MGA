@@ -29,7 +29,7 @@ RESUME_SECTIONS = {
     "skills": re.compile(r"\b(technical skills|skills|tech stack|technologies|tools|core competencies|languages)\b", re.I),
     "experience": re.compile(r"\b(experience|employment|internships?|work history)\b", re.I),
     "projects": re.compile(r"\b(projects?|personal projects|academic projects)\b", re.I),
-    "certifications": re.compile(r"\b(certifications?|courses|coursework|training|licenses)\b", re.I),
+    "certifications": re.compile(r"\b(certifications?|courses|coursework|training|licenses|learning|self[\s-]study|online courses)\b", re.I),
     "education": re.compile(r"\b(education|academics?|qualifications?)\b", re.I),
     "achievements": re.compile(r"\b(achievements?|awards|hackathons?|competitions?|accomplishments)\b", re.I),
     "summary": re.compile(r"\b(summary|objective|profile|about me)\b", re.I),
@@ -45,6 +45,7 @@ LEVEL_CUES: list[tuple[re.Pattern, float]] = [
     (re.compile(r"\b(familiar\w*|basic|basics|exposure|understanding of|knowledge of|awareness|fundamentals)\b", re.I), 2.0),
 ]
 OR_CUE = re.compile(r"\b(or|either|one of|any of|any one of|such as)\b|/", re.I)
+OR_WORDS = re.compile(r"\b(or|either|one of|any of|any one of|such as)\b", re.I)
 YEARS = re.compile(r"(\d+(?:\.\d+)?)\s*\+?\s*(?:-|to)?\s*(?:\d+\s*)?(?:years?|yrs?)", re.I)
 
 RESUME_LEVEL_CUES: list[tuple[re.Pattern, float]] = [
@@ -181,6 +182,15 @@ def _alternative_groups(line: str, matches, tax: Taxonomy) -> dict[str, set[str]
     """
     if not OR_CUE.search(line):
         return {}
+    if not OR_WORDS.search(line):
+        # Only a slash: it joins the two skills right next to it ("MySQL/PostgreSQL"),
+        # not the whole line ("Kubernetes, Terraform, Prometheus/Grafana").
+        ordered = sorted(matches, key=lambda m: m.start)
+        linked = [(a, b) for a, b in zip(ordered, ordered[1:])
+                  if a.skill_id != b.skill_id and line[a.end:b.start].strip() == "/"]
+        matches = [m for pair in linked for m in pair]
+        if not matches:
+            return {}
     by_cat: dict[str, set[str]] = defaultdict(set)
     for m in matches:
         by_cat[tax.get(m.skill_id).category].add(m.skill_id)
@@ -208,6 +218,26 @@ SECTION_BASE = {
 }
 
 
+PROSE_USE = re.compile(r"\b(uses|used|using|with)\b", re.I)
+PROJECT_NOUN = re.compile(r"\b(project|capstone|app|application|system|website|platform|internship|thesis)\b", re.I)
+
+
+def _segment_claims(body: str, matches) -> dict[str, float]:
+    """A self-rating applies to the skills in its own comma segment: 'Python (advanced), SQL' rates only Python."""
+    out: dict[str, float] = {}
+    pos = 0
+    for seg in re.split(r"(,|;|\|)", body):
+        start, end = pos, pos + len(seg)
+        pos = end
+        lvl = _level_from(seg, RESUME_LEVEL_CUES)
+        if lvl is None:
+            continue
+        for m in matches:
+            if start <= m.start < end:
+                out[m.skill_id] = max(out.get(m.skill_id, 0.0), lvl)
+    return out
+
+
 def extract_resume(text: str, tax: Taxonomy) -> CandidateProfile:
     section = "summary"
     recs: dict[str, dict] = defaultdict(lambda: {"evidence": [], "claimed": None, "best": 0.0, "applied": 0, "sections": set()})
@@ -218,20 +248,25 @@ def extract_resume(text: str, tax: Taxonomy) -> CandidateProfile:
             continue
         inline, body = _inline_header(line, RESUME_SECTIONS)
         line_section = inline or section
+        if inline and inline != "skills":
+            # "Internship: SDE Intern, Acme" opens a section for the bullets below it.
+            section = inline
         matches = tax.find(body)
         if not matches:
             continue
         base = SECTION_BASE.get(line_section, 2.0)
         applied = bool(APPLIED.search(body))
-        if line_section in ("summary", "education") and applied:
-            base = 2.5
-        claimed = _level_from(body, RESUME_LEVEL_CUES) if line_section == "skills" else None
+        if line_section in ("summary", "education") and (applied or PROSE_USE.search(body)):
+            # Prose resumes: "My capstone uses React and Node.js" is project evidence.
+            base = 3.0 if PROJECT_NOUN.search(body) else 2.5
+        claims = _segment_claims(body, matches) if line_section == "skills" else {}
         for m in {m.skill_id: m for m in matches}.values():
             r = recs[m.skill_id]
             r["sections"].add(line_section)
             r["best"] = max(r["best"], base)
             if line_section in ("projects", "experience", "achievements"):
                 r["applied"] += 1
+            claimed = claims.get(m.skill_id)
             if claimed is not None:
                 r["claimed"] = max(r["claimed"] or 0, claimed)
             if len(r["evidence"]) < 3 and body not in [e.text for e in r["evidence"]]:
