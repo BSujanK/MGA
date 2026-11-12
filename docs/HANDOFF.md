@@ -39,18 +39,49 @@ Read this first in any new session, then `CLAUDE.md`, `docs/PRODUCT.md`, `docs/A
 - **Shared pieces:** the API client and types in `src/lib/` mirror `backend/app/models.py`. `components/JobPicker.tsx` is the shared pick-or-paste job selector.
 - **Framework notes:** Next 16 has breaking changes, so read `frontend/node_modules/next/dist/docs/` before using unfamiliar APIs. Tailwind v4 custom classes use `@utility` in `globals.css`, not `@apply` of other custom classes.
 
+## Phase 2 (v0.3): accounts, Postgres, live jobs, deploy (built)
+- **Stack decisions:**
+  - Postgres 16 with SQLAlchemy 2 and Alembic;
+  - a stateless FastAPI service, scaled by adding instances;
+  - backend-owned auth: email codes plus Google sign-in, with sessions in Postgres;
+  - Next.js proxies `/api` to the API, so cookies stay first-party;
+  - Docker images and compose; CI in `.github/workflows/ci.yml`;
+  - `docs/DEPLOY.md` for Vercel + Render/Railway + managed Postgres.
+- **Data:**
+  - Personal data (resume, answers, calendar notes, saved reports) is encrypted at rest.
+  - `/me/export` and `DELETE /me` cover everything, including login codes and audit links.
+- **Jobs:** `python -m app.ingest` pulls Greenhouse, Lever and Adzuna. Postings are stored pre-analyzed with an engine version. `/jobs/fit` ranks postings by readiness, and the jobs page shows the badges.
+- **Cron jobs:** `app.ingest` (every 6 h), `app.reminders` (daily calendar emails, India time), `app.maintenance` (daily purge).
+- **More features:** PDF resume export, 24 project templates, and 120 original self-check quiz questions (`/quiz`).
+- **Security:** a review found 10 issues, all fixed with regression tests in `tests/test_security.py`:
+  - fail-closed `MGA_ENV`;
+  - atomic code checks;
+  - proxy-safe IPs;
+  - body and field size caps;
+  - Claude only for signed-in users by default;
+  - URL validation.
+- **Not verified in this environment:**
+  - Docker images were never built (no Docker daemon);
+  - the CI workflow has not run on GitHub;
+  - live Greenhouse, Lever and Adzuna calls were blocked by the sandbox network, so they are tested with mock responses only;
+  - Google sign-in is tested only with a mocked token;
+  - no real email provider was used.
+
 ## Next tasks, in order
-1. **Accuracy:** get a held-out eval set written and labeled by other people (target ~100 pairs, two labelers), and run `python -m eval.run --llm` with a key to record rules+Claude numbers. Don't quote accuracy until then.
-2. **Phase 2 of the roadmap:** accounts (auth, profiles, saved reports, delete-my-data), then Postgres, then live job ingestion (Greenhouse/Lever board list for India tech companies, Adzuna). Move the localStorage stores onto accounts with an import step.
-3. **Gap % in the job list** ("jobs you're closest to"), once postings are pre-analyzed at ingestion.
-4. **Tuner follow-ups:**
-   - PDF export from the backend, so formatting doesn't depend on the browser;
-   - a "save tailored version" history per job;
-   - let interview findings update My skills with one click.
-5. **Prep follow-ups:**
-   - mark DSA topics done from a short self-check quiz (also feeds skill levels);
-   - more project templates (mobile, security, data science).
-6. Run `scripts/check_links.py` locally (outbound fetches may be blocked in cloud sessions) and fix dead links.
+1. **Deploy:** follow `docs/DEPLOY.md`. You need to:
+   - create Postgres, the API service and the website;
+   - set `MGA_ENV=production`, `MGA_DATA_KEY`, `RESEND_API_KEY`, `MGA_TRUST_PROXY=1` and `MGA_CORS_ORIGINS`;
+   - add the three cron jobs;
+   - verify a sending domain in Resend;
+   - optionally add a Google OAuth client ID.
+2. **Job boards:** fill `backend/app/data/boards.json` with Greenhouse/Lever tokens of India tech companies, verified on their careers pages. Register for Adzuna keys and show "Jobs by Adzuna" next to Adzuna results (UI not built yet).
+3. **Accuracy:** a held-out eval set labeled by other people (~100 pairs, two labelers), and `python -m eval.run --llm` with a key.
+4. **Frontend for new backend features:**
+   - a PDF button on the tuner (`/resume/export/pdf`);
+   - quizzes on the prep page that suggest a level, applied only if the user accepts, via My skills overrides;
+   - a reminder-email toggle on the account page (`/me/settings`).
+5. **Legal:** lawyer review of the privacy notice (`/privacy` is marked as a draft) and terms; re-consent when `TERMS_VERSION` changes (not built).
+6. **Scale later:** PgBouncer/Neon pooler when instances × workers × 15 nears the Postgres connection limit; a shared rate-limit store (Redis) if the per-instance throttles get too loose; Postgres full-text search for jobs past ~50k postings.
 
 ## How to run
 ```bash
@@ -61,4 +92,7 @@ cd frontend && npm install && npm run dev
 ```
 ```bash
 cd backend && python -m pytest -q && python -m eval.run
+```
+```bash
+cp .env.example .env && docker compose up --build   # full stack with Postgres
 ```
