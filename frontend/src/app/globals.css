@@ -1,39 +1,162 @@
 @import "tailwindcss";
 
-:root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+/*
+ * MGA design system. One typeface (Geist), six colours:
+ *   Whiteout  #F7F7F4  page background
+ *   Black Stone #141413 text, dark sections, primary buttons
+ *   Fusion    #D9D8D2  lines, quiet surfaces (the stone grey between the two)
+ *   Redline   #E0242B  missing skills, must-haves, destructive actions
+ *   Royal Blue #1F3FE0 links, focus, "strong", primary accent
+ *   Nitro Orange #FF5B1A highlights, "partial", the one thing to look at
+ * Change a hex here and the whole app follows.
+ */
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-whiteout: #f7f7f4;
+  --color-stone: #141413;
+  --color-stone-800: #252523;
+  --color-stone-700: #3a3a37;
+  --color-stone-600: #55554f;
+  --color-stone-500: #6e6e68;
+  --color-stone-400: #9b9a93;
+  --color-fusion: #d9d8d2;
+  --color-fusion-light: #e9e8e3;
+  --color-fusion-50: #f1f0ec;
+  --color-redline: #e0242b;
+  --color-redline-soft: #fde8e7;
+  --color-royal: #1f3fe0;
+  --color-royal-dark: #1730b4;
+  --color-royal-soft: #e6eafd;
+  --color-nitro: #ff5b1a;
+  --color-nitro-soft: #ffeadf;
+
+  /* Intentional type scale: big headlines, small supporting text. */
+  --text-display: clamp(3.25rem, 7.5vw, 6.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.045em;
+  --text-headline: clamp(2.25rem, 4.6vw, 3.75rem);
+  --text-headline--line-height: 1;
+  --text-headline--letter-spacing: -0.035em;
+  --text-title: clamp(1.5rem, 2.4vw, 2rem);
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.025em;
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.18em;
+
+  --radius-4xl: 2rem;
+  --shadow-float: 0 1px 2px rgb(20 20 19 / 0.04), 0 12px 32px -12px rgb(20 20 19 / 0.12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-whiteout);
+  color: var(--color-stone);
   font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
 }
 
-@utility card {
-  @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+::selection {
+  background: var(--color-nitro);
+  color: white;
 }
+
+:focus-visible {
+  outline: 2px solid var(--color-royal);
+  outline-offset: 2px;
+}
+
+/* ---------- type ---------- */
+
+@utility eyebrow {
+  @apply text-eyebrow font-semibold uppercase text-stone-500;
+}
+@utility display {
+  @apply text-display font-semibold text-stone;
+}
+@utility headline {
+  @apply text-headline font-semibold text-stone;
+}
+@utility title {
+  @apply text-title font-semibold text-stone;
+}
+@utility lede {
+  @apply text-[1.0625rem] leading-relaxed font-light text-stone-600;
+}
+@utility muted {
+  @apply text-[0.8125rem] leading-relaxed text-stone-500;
+}
+@utility numeral {
+  @apply font-semibold tabular-nums tracking-[-0.05em];
+}
+
+/* ---------- surfaces ---------- */
+
+@utility card {
+  @apply rounded-3xl bg-white ring-1 ring-fusion-light shadow-float;
+}
+@utility panel {
+  @apply rounded-3xl bg-fusion-50 ring-1 ring-fusion-light;
+}
+@utility surface-dark {
+  @apply rounded-4xl bg-stone text-whiteout;
+}
+
+/* ---------- controls ---------- */
+
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50;
+  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium tracking-[-0.01em] transition duration-200 disabled:cursor-not-allowed disabled:opacity-40;
 }
 @utility btn-primary {
-  @apply btn bg-indigo-600 text-white hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600;
+  @apply btn bg-stone text-whiteout hover:bg-stone-800 active:scale-[0.98];
+}
+@utility btn-accent {
+  @apply btn bg-royal text-white hover:bg-royal-dark active:scale-[0.98];
+}
+@utility btn-nitro {
+  @apply btn bg-nitro text-white hover:brightness-95 active:scale-[0.98];
 }
 @utility btn-ghost {
-  @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
+  @apply btn bg-white text-stone ring-1 ring-fusion hover:ring-stone-400 active:scale-[0.98];
+}
+@utility btn-quiet {
+  @apply btn px-3 text-stone-600 hover:bg-fusion-50 hover:text-stone;
+}
+@utility btn-danger {
+  @apply btn bg-redline text-white hover:brightness-95;
 }
 @utility input {
-  @apply w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200;
+  @apply w-full rounded-2xl border-0 bg-white px-4 py-3 text-[0.9375rem] text-stone ring-1 ring-fusion placeholder:text-stone-400 transition focus:ring-2 focus:ring-royal focus:outline-none;
 }
 @utility label {
-  @apply mb-1 block text-sm font-medium text-slate-700;
+  @apply mb-2 block text-[0.8125rem] font-medium text-stone-600;
+}
+@utility chip {
+  @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.6875rem] font-semibold tracking-[0.02em];
+}
+
+/* ---------- motion ---------- */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@utility rise {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
 @media print {
