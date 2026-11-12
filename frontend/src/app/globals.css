@@ -55,6 +55,7 @@
 }
 
 html {
+  overflow-x: clip; /* intentional crops and tilted cards may poke past the edge; never scroll sideways */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

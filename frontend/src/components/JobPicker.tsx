@@ -40,11 +40,11 @@ export function JobPicker({ value, onChange, onJobs }: {
 
   return (
     <div className="space-y-3">
-      <div className="flex rounded-lg bg-slate-100 p-0.5 text-sm" role="tablist" aria-label="How to choose the job">
+      <div className="flex rounded-full bg-fusion-50 p-1 text-sm ring-1 ring-fusion-light" role="tablist" aria-label="How to choose the job">
         {(["pick", "paste"] as const).map((m) => (
           <button
             key={m} type="button" role="tab" aria-selected={value.mode === m} onClick={() => onChange({ ...value, mode: m })}
-            className={`flex-1 rounded-md px-3 py-1 font-medium ${value.mode === m ? "bg-white text-slate-900 shadow-sm" : "text-slate-600"}`}
+            className={`flex-1 rounded-full px-4 py-1.5 font-medium transition ${value.mode === m ? "bg-white text-stone shadow-sm" : "text-stone-600 hover:text-stone"}`}
           >
             {m === "pick" ? "Pick a job" : "Paste a posting"}
           </button>
@@ -59,13 +59,13 @@ export function JobPicker({ value, onChange, onJobs }: {
               <option key={j.id} value={j.id}>{j.title} · {j.company} · {j.location}</option>
             ))}
           </select>
-          {error && <p className="mt-1 text-xs text-rose-700">{error}</p>}
+          {error && <p className="mt-1 text-xs text-redline">{error}</p>}
         </div>
       ) : (
         <div>
           <label htmlFor="job-text" className="label">Job description</label>
           <textarea
-            id="job-text" className="input h-36 text-xs" value={value.jobText}
+            id="job-text" className="input h-40 text-[0.9375rem] font-light leading-relaxed" value={value.jobText}
             onChange={(e) => onChange({ ...value, jobText: e.target.value })}
             placeholder="Paste the full posting: responsibilities, requirements, nice-to-haves."
           />

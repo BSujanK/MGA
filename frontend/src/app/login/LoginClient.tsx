@@ -123,12 +123,12 @@ export function LoginClient() {
   }
 
   const consent = (
-    <div className="space-y-3 rounded-xl border border-indigo-200 bg-indigo-50 p-4">
-      <p className="text-sm font-medium text-slate-900">Welcome! One last step to create your account.</p>
-      <label className="flex items-start gap-2 text-sm text-slate-700">
-        <input type="checkbox" className="mt-0.5 h-4 w-4" checked={agree} onChange={(e) => setAgree(e.target.checked)} required />
+    <div className="space-y-3 rounded-2xl bg-fusion-50 p-4 ring-1 ring-fusion-light">
+      <p className="text-[0.9375rem] font-semibold tracking-[-0.01em]">Welcome. One last step to create your account.</p>
+      <label className="flex items-start gap-3 text-[0.8125rem] leading-relaxed text-stone-600">
+        <input type="checkbox" className="mt-0.5 h-4 w-4 shrink-0 accent-[#1f3fe0]" checked={agree} onChange={(e) => setAgree(e.target.checked)} required />
         <span>
-          I agree to the Terms and the <Link href="/privacy" target="_blank" className="font-medium text-indigo-700 underline">Privacy notice</Link>,
+          I agree to the Terms and the <Link href="/privacy" target="_blank" className="font-medium text-royal underline underline-offset-2">Privacy notice</Link>,
           and to MGA storing my resume (encrypted) to analyse it.
         </span>
       </label>
@@ -136,51 +136,52 @@ export function LoginClient() {
   );
 
   return (
-    <div className="card space-y-5 p-6">
+    <div className="space-y-6">
       {pendingGoogle ? (
-        <form onSubmit={verify} className="space-y-4">
+        <form onSubmit={verify} className="space-y-5">
           {consent}
-          <button type="submit" className="btn-primary w-full" disabled={!agree || busy}>
+          <button type="submit" className="btn-primary w-full py-3.5 text-[0.9375rem]" disabled={!agree || busy}>
             {busy ? "Creating account…" : "Create account"}
           </button>
         </form>
       ) : !sent ? (
-        <form onSubmit={sendCode} className="space-y-4">
+        <form onSubmit={sendCode} className="space-y-5">
           <div>
             <label htmlFor="email" className="label">Email</label>
             <input
-              id="email" type="email" required autoComplete="email" className="input" placeholder="you@example.com"
+              id="email" type="email" required autoComplete="email" className="input py-3.5" placeholder="you@example.com"
               value={email} onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <button type="submit" className="btn-primary w-full" disabled={busy || !email.trim()}>
+          <button type="submit" className="btn-primary w-full py-3.5 text-[0.9375rem]" disabled={busy || !email.trim()}>
             {busy ? "Sending…" : "Send code"}
           </button>
         </form>
       ) : (
-        <form onSubmit={verify} className="space-y-4">
-          <p className="text-sm text-slate-600">
-            We sent a 6-digit code to <strong className="text-slate-900">{email}</strong>. It expires in 10 minutes.
+        <form onSubmit={verify} className="space-y-5">
+          <p className="muted">
+            We sent a 6-digit code to <strong className="font-semibold text-stone">{email}</strong>. It expires in 10 minutes.
           </p>
           {devCode && (
-            <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800" data-testid="dev-code">
-              Dev only (no email provider configured): your code is <code className="font-mono font-bold">{devCode}</code>
+            <p className="rounded-2xl bg-nitro-soft px-4 py-3 text-[0.8125rem] leading-relaxed text-[#c2410c]" data-testid="dev-code">
+              Dev only (no email provider configured): your code is <strong className="font-semibold tabular-nums tracking-[0.12em]">{devCode}</strong>
             </p>
           )}
           <div>
             <label htmlFor="code" className="label">6-digit code</label>
             <input
               id="code" inputMode="numeric" autoComplete="one-time-code" pattern="\d{6}" maxLength={6} required
-              className="input text-center font-mono text-lg tracking-[0.5em]"
+              className="input py-4 text-center text-[2.25rem] font-semibold leading-none tabular-nums tracking-[0.4em] indent-[0.4em] placeholder:font-extralight placeholder:text-fusion"
+              placeholder="000000"
               value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
             />
           </div>
           {needConsent && consent}
-          <button type="submit" className="btn-primary w-full" disabled={busy || code.length !== 6 || (needConsent && !agree)}>
+          <button type="submit" className="btn-primary w-full py-3.5 text-[0.9375rem]" disabled={busy || code.length !== 6 || (needConsent && !agree)}>
             {busy ? "Checking…" : needConsent ? "Create account" : "Verify and sign in"}
           </button>
           <button
-            type="button" className="btn-ghost w-full"
+            type="button" className="btn-quiet w-full"
             onClick={() => { setSent(false); setCode(""); setNeedConsent(false); setAgree(false); setError(null); setDevCode(null); }}
           >
             Use a different email
@@ -191,14 +192,14 @@ export function LoginClient() {
       {googleId && !pendingGoogle && (
         <>
           <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" onLoad={() => setGsiLoaded(true)} onReady={() => setGsiLoaded(true)} />
-          <div className="flex items-center gap-3 text-xs text-slate-500">
-            <span className="h-px flex-1 bg-slate-200" /> or <span className="h-px flex-1 bg-slate-200" />
+          <div className="flex items-center gap-3 text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-stone-500">
+            <span className="h-px flex-1 bg-fusion" /> or <span className="h-px flex-1 bg-fusion" />
           </div>
           <div ref={googleRef} className="flex justify-center" />
         </>
       )}
-      <p className="text-xs text-slate-500">
-        By signing in you accept the <Link href="/privacy" className="underline">Privacy notice</Link>. Nothing is shared with employers.
+      <p className="muted border-t border-fusion-light pt-5">
+        By signing in you accept the <Link href="/privacy" className="font-medium text-stone-700 underline underline-offset-2 hover:text-royal">Privacy notice</Link>. Nothing is shared with employers.
       </p>
     </div>
   );

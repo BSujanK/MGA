@@ -38,26 +38,26 @@ export function ResumeInput({ compact = false, onSaved }: { compact?: boolean; o
   }
 
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <label htmlFor="resume" className="label mb-0">
-          Your resume {profile.fileName && !dirty ? <span className="font-normal text-slate-500">· from {profile.fileName}</span> : null}
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <label htmlFor="resume" className="eyebrow">
+          Your resume {profile.fileName && !dirty ? <span className="font-normal text-stone-500">· from {profile.fileName}</span> : null}
         </label>
         <div className="flex items-center gap-2">
           <input
             ref={fileRef} type="file" accept=".pdf,.docx,.txt,.md" className="hidden" id="resume-file"
             onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])}
           />
-          <button type="button" className="btn-ghost" onClick={() => fileRef.current?.click()} disabled={busy}>
+          <button type="button" className="btn-ghost px-4 py-2" onClick={() => fileRef.current?.click()} disabled={busy}>
             Upload PDF / DOCX
           </button>
-          <button type="button" className="btn-ghost" onClick={() => loadSample(setDraft)} disabled={busy}>
+          <button type="button" className="btn-quiet" onClick={() => loadSample(setDraft)} disabled={busy}>
             Use sample
           </button>
         </div>
       </div>
       <textarea
-        id="resume" className={`input font-mono text-xs leading-relaxed ${compact ? "h-40" : "h-72"}`}
+        id="resume" className={`input resize-y rounded-3xl bg-whiteout px-5 py-4 text-[0.9375rem] font-light leading-relaxed tracking-[-0.005em] ring-0 focus:bg-white focus:ring-2 ${compact ? "h-52" : "h-80"}`}
         placeholder="Paste your resume text here, or upload a file. Include skills, projects, internships and certifications."
         value={text} onChange={(e) => setDraft(e.target.value)}
       />

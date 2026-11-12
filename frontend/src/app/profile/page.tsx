@@ -1,14 +1,14 @@
 import { ProfileClient } from "./ProfileClient";
+import { PageHeader } from "@/components/ui";
 
 export const metadata = { title: "My skills · MGA" };
 
 export default function ProfilePage() {
   return (
-    <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-slate-900">My skills</h1>
-        <p className="text-slate-600">What we read from your resume. Correct anything we got wrong. Your corrections are used in every report.</p>
-      </header>
+    <div className="space-y-16">
+      <PageHeader eyebrow="Your profile" title="My skills." accent="Corrected by you.">
+        What we read from your resume. Correct anything we got wrong. Your corrections are used in every report.
+      </PageHeader>
       <ProfileClient />
     </div>
   );

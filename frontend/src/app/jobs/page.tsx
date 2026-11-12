@@ -1,14 +1,14 @@
 import { JobsClient } from "./JobsClient";
+import { PageHeader } from "@/components/ui";
 
 export const metadata = { title: "Jobs · MGA" };
 
 export default function JobsPage() {
   return (
-    <div className="space-y-6">
-      <header>
-        <h1 className="text-2xl font-bold text-slate-900">Jobs</h1>
-        <p className="text-slate-600">Open roles for early-career tech candidates. Check your fit before you apply.</p>
-      </header>
+    <div className="space-y-16">
+      <PageHeader eyebrow="Open roles · early-career tech" title="Jobs." accent="Closest first.">
+        Open roles for early-career tech candidates. See how ready you already are, then check your fit before you apply.
+      </PageHeader>
       <JobsClient />
     </div>
   );
