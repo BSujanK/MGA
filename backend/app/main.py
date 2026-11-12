@@ -187,6 +187,17 @@ def resume_export_docx(body: ExportRequest) -> Response:
                     headers={"Content-Disposition": f'attachment; filename="{name}"'})
 
 
+@app.post("/resume/export/pdf")
+def resume_export_pdf(body: ExportRequest) -> Response:
+    """ATS-friendly PDF: one column, real selectable text, text bullets, no tables or images."""
+    data = export.resume_pdf(body.header, body.sections)
+    name = re.sub(r"[^A-Za-z0-9._-]+", "_", body.filename or "resume").strip("_.") or "resume"
+    if not name.lower().endswith(".pdf"):
+        name += ".pdf"
+    return Response(content=data, media_type=export.PDF_MIME,
+                    headers={"Content-Disposition": f'attachment; filename="{name}"'})
+
+
 # ---------- prep kit ----------
 
 @app.post("/prep", response_model=PrepKit)
