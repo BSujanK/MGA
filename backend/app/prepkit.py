@@ -42,10 +42,11 @@ def prep_kit(req: PrepRequest) -> PrepKit:
         raise ValueError("Provide job_text or job_id")
     use = service._use_llm(req.use_llm)
     if req.resume_text or req.overrides:
-        report = service.gap_report(req.resume_text, job_text=job_text, overrides=req.overrides, use_llm=use,
+        report = service.gap_report(req.resume_text, job_text=None if req.job_id else job_text, job_id=req.job_id,
+                                    overrides=req.overrides, use_llm=use,
                                     include_resources=False)
     else:  # no resume yet: plan as a beginner
-        report = _empty_report(job_text, use)
+        report = _empty_report(job_text, req.job_id, use)
     report.job.title = report.job.title or title
     report.job.company = report.job.company or company
     tax = service.tax()
@@ -76,8 +77,8 @@ def prep_kit(req: PrepRequest) -> PrepKit:
     )
 
 
-def _empty_report(job_text: str, use: bool):
+def _empty_report(job_text: str, job_id: str | None, use: bool):
     from .engine.gap import compute_gap
     from .models import CandidateProfile
-    job = service.analyze_job(job_text, use_llm=use)
+    job = service.resolve_job(None if job_id else job_text, job_id, use)
     return compute_gap(job, CandidateProfile(skills=[]), service.tax())

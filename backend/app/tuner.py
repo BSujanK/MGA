@@ -332,17 +332,7 @@ def _add_keywords(sections: list[ResumeSection], job: JobProfile, evidence: dict
 def tailor(req: TailorRequest) -> TailoredResume:
     tax = service.tax()
     use = service._use_llm(req.use_llm)
-    title = company = None
-    job_text = req.job_text
-    if req.job_id:
-        from .jobs.store import get_store
-        posting = get_store().get(req.job_id)
-        if posting is None:
-            raise KeyError(req.job_id)
-        job_text, title, company = posting.description, posting.title, posting.company
-    if not job_text:
-        raise ValueError("Provide job_text or job_id")
-    job = service.analyze_job(job_text, use_llm=use, title=title, company=company)
+    job = service.resolve_job(req.job_text, req.job_id, use)
 
     header, sections = rd.parse_resume(req.resume_text)
     answers = _answer_section(req.turns)

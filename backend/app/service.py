@@ -135,18 +135,25 @@ def _attach_resources(gaps) -> None:
             g.resources = recommend(g.skill_id, g.effective_level)
 
 
+def resolve_job(job_text: str | None, job_id: str | None, use_llm: bool | None = None) -> JobProfile:
+    """A stored posting (pre-analyzed by rules; re-read by Claude when enabled) or pasted text."""
+    if job_id:
+        store = get_store()
+        posting = store.get(job_id)
+        if posting is None:
+            raise KeyError(job_id)
+        if not _use_llm(use_llm):
+            return store.profile(job_id)
+        return analyze_job(posting.description, use_llm=use_llm, title=posting.title, company=posting.company)
+    if not job_text:
+        raise ValueError("Provide job_text or job_id")
+    return analyze_job(job_text, use_llm=use_llm)
+
+
 def gap_report(resume_text: str | None, job_text: str | None = None, job_id: str | None = None,
                overrides: list[SkillOverride] | None = None, use_llm: bool | None = None,
                include_resources: bool = True) -> GapReport:
-    title = company = None
-    if job_id:
-        posting = get_store().get(job_id)
-        if posting is None:
-            raise KeyError(job_id)
-        job_text, title, company = posting.description, posting.title, posting.company
-    if not job_text:
-        raise ValueError("Provide job_text or job_id")
-    job = analyze_job(job_text, use_llm=use_llm, title=title, company=company)
+    job = resolve_job(job_text, job_id, use_llm)
     cand = analyze_resume(resume_text, use_llm=use_llm, overrides=overrides)
     report = compute_gap(job, cand, tax())
     if include_resources:
@@ -154,18 +161,19 @@ def gap_report(resume_text: str | None, job_text: str | None = None, job_id: str
     return report
 
 
-@lru_cache(maxsize=64)
-def _market_profiles(role: str, location: str | None) -> tuple[JobProfile, ...]:
-    # Market aggregation uses the rule extractor: it is deterministic and
-    # cheap enough to run over thousands of postings. AI-enriched profiles
-    # will be computed once at ingestion time and stored (see docs/ROADMAP.md).
-    postings = get_store().search(role=role, location=location)
-    return tuple(extractor.extract_job(p.description, tax(), title=p.title, company=p.company) for p in postings)
+@lru_cache(maxsize=128)
+def _market_profiles(role: str, location: str | None, version: tuple[int, str]) -> tuple[JobProfile, ...]:
+    # Market aggregation uses the stored rule-based profiles: deterministic and
+    # computed once per posting at ingestion. `version` changes when postings do.
+    store = get_store()
+    ids = [p.id for p in store.search(role=role, location=location, limit=None)]
+    by_id = store.profiles(ids)
+    return tuple(by_id[i] for i in ids if i in by_id)
 
 
 def market_report(role: str, location: str | None = None, resume_text: str | None = None,
                   overrides: list[SkillOverride] | None = None, use_llm: bool | None = None, top: int = 25) -> MarketReport:
-    profiles = list(_market_profiles(role, location))
+    profiles = list(_market_profiles(role, location, get_store().version()))
     cand = analyze_resume(resume_text, use_llm=use_llm, overrides=overrides) if (resume_text or overrides) else None
     report = build_report(role, location, profiles, tax(), candidate=cand, top=top)
     _attach_resources(report.candidate_gaps)

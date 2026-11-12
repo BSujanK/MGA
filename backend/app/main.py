@@ -9,6 +9,9 @@ from fastapi import FastAPI, File, Form, HTTPException, Query, Response, UploadF
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import export, llm, parsing, prepkit, service, tuner
+from .config import settings
+from .routes import auth as auth_routes
+from .routes import me as me_routes
 from .engine.learning import recommend
 from .jobs import sources
 from .jobs.store import get_store
@@ -22,18 +25,22 @@ app = FastAPI(
     version="0.1.0",
     description="Skill-by-skill gap analysis between candidates, job postings and the job market.",
 )
+settings().check()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("MGA_CORS_ORIGINS", "http://localhost:3000").split(","),
+    allow_origins=[o.strip() for o in os.getenv("MGA_CORS_ORIGINS", "http://localhost:3000").split(",") if o.strip()],
+    allow_credentials=True,  # session cookie; origins are an explicit allowlist, never "*"
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(auth_routes.router)
+app.include_router(me_routes.router)
 
 
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok", "llm_enabled": llm.enabled(), "model": llm.MODEL if llm.enabled() else None,
-            "skills": len(service.tax().skills), "jobs": len(get_store().all())}
+            "skills": len(service.tax().skills), "jobs": get_store().count()}
 
 
 @app.get("/skills")
@@ -95,7 +102,7 @@ def market(body: MarketRequest) -> MarketReport:
 @app.get("/jobs", response_model=list[JobPosting])
 def jobs(role: Optional[str] = None, location: Optional[str] = None, q: Optional[str] = None,
          limit: int = Query(50, ge=1, le=200)) -> list[JobPosting]:
-    return get_store().search(role=role, location=location, q=q)[:limit]
+    return get_store().search(role=role, location=location, q=q, limit=limit)
 
 
 @app.get("/jobs/{job_id}", response_model=JobPosting)
@@ -115,8 +122,7 @@ def import_jobs(source: str = Query(pattern="^(greenhouse|lever)$"), board: str 
         raise HTTPException(502, f"Could not fetch {source} board '{board}': {e}")
     store = get_store()
     for j in fetched:
-        store.add(j)
-    service._market_profiles.cache_clear()
+        store.add(j, board=board)
     return fetched
 
 
